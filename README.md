@@ -19,4 +19,5 @@ echo -e "\nnewapp" >> mozilla-central/.hgignore
 export MOZCONFIG=~/newapp-cleandir/gh-newapp/newapp-sym.mozconfig
 cd mozilla-central
 ./mach configure
+./mach build # this doesn't work yet
 ```
