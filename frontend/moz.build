@@ -9,5 +9,5 @@ JAR_MANIFESTS += [
 ]
 
 JS_PREFERENCE_FILES += [
-  "preferences.js"
+  "app-preferences.js"
 ]
