@@ -1,0 +1,10 @@
+
+newapp.jar:
+% content newapp content/
+  content/newapp.xhtml                (content/newapp.xhtml)
+  content/main.js                     (content/main.js)
+
+branding.jar:
+% locale branding en-US branding/en-US/
+  locale/branding/brand.dtd        (branding/en-US/brand.dtd)
+  locale/branding/brand.properties (branding/en-US/brand.properties)
