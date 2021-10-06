@@ -86,8 +86,8 @@ set_defconf("NEWAPPLICATION_VERSION_DISPLAY", newapp_version.version_display)
 # this appears to be unused
 set_define("MOZ_SEPARATE_MANIFEST_FOR_THEME_OVERRIDES", True)
 
-# no idea what this means - mail and suite have it
-# imply_option("MOZ_PLACES", True)
+# this is required to define mozilla::components::History::GetServiceHelper in objdir/xpcom/components/Components.h
+imply_option("MOZ_PLACES", True)
 
 # This allows us to build the toolkit, including Spidermonkey.
 include("../toolkit/moz.configure")
