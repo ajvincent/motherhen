@@ -14,7 +14,7 @@ mkdir newapp-cleandir
 cd newapp-cleandir
 hg clone https://hg.mozilla.org/mozilla-central/
 git clone git@github.com:ajvincent/mozilla-newapp.git gh-newapp
-ln -s -r gh-newapp mozilla-central/newapp # creates a link to reference the newapp
+ln -s -r gh-newapp/boilerplate mozilla-central/newapp # creates a link to reference the newapp
 echo -e "\nnewapp" >> mozilla-central/.hgignore
 export MOZCONFIG=~/newapp-cleandir/gh-newapp/newapp-sym.mozconfig
 cd mozilla-central
