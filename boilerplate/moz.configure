@@ -26,7 +26,7 @@ set_config("MOZ_BUNDLED_FONTS", bundled_fonts)
 add_old_configure_assignment("MOZ_BUNDLED_FONTS", bundled_fonts)
 
 # comm_paths - Describe?  Extract to a common imported file?
-@depends(check_build_environment, "--help")
+@depends(build_environment, "--help")
 def comm_paths(build_env, _):
     topsrcdir = build_env.topsrcdir
     topobjdir = build_env.topobjdir
@@ -58,7 +58,7 @@ set_defconf("commreltopsrcdir", comm_paths.commreltopsrcdir)
 set_defconf("commtopobjdir", comm_paths.commtopobjdir)
 
 
-@depends(check_build_environment, build_project)
+@depends(build_environment, build_project)
 @imports(_from="os.path", _import="exists")
 @imports(_from="__builtin__", _import="open")
 
