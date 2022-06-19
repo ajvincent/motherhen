@@ -3,9 +3,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# Exit if an error occurs within the script
-set -e
-
 action=$1
 
 last_patch=`exec ls -1 ./patches | sed 's/-.*//g' | sort -n | tail -1`
@@ -21,7 +18,8 @@ then
     for file in $root_pwd/patches/*.patch
     do
         echo "  $file..."
-        patch -p1 < $file
+        # --forward is used to skip the patch if it has already been applied
+        patch -p1 --forward < $file
     done
 
     cd $root_pwd
