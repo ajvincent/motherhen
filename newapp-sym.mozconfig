@@ -5,6 +5,9 @@
 # Options for client.mk.
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../newapp-sym
 
+# Enables sccache to speed up builds
+ac_add_options --with-ccache=sccache
+
 # Options for 'configure' (same as command-line options).
 ac_add_options --enable-tests
 ac_add_options --disable-debug
