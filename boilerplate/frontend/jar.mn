@@ -1,7 +1,7 @@
 
 newapp.jar:
-% content newapp content/
-  content/newapp.xhtml                (content/newapp.xhtml)
+% content newapp %content/ contentaccessible=yes
+  content/main.xhtml                (content/main.xhtml)
   content/main.js                     (content/main.js)
 
 branding.jar:

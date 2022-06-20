@@ -9,14 +9,17 @@
       width="300"
       height="300"
 >
-
-<body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/javascript" src="chrome://myapp/content/main.js"/>
-
+<head>
+  <script>
+    Services.scriptloader.loadSubScript("chrome://myapp/content/main.js");
+  </script>
+</head>
+<html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <description>Hello World</description>
   <separator/>
-  <button label="More >>" oncommand="showMore();"/>
+  <button id="show-more" label="More >>" oncommand="showMore()" />
+  <button id="open-toolbox" label="Open toolbox" oncommand="openToolbox" />
   <separator/>
   <description id="more-text" hidden="true">This is a simple XULRunner application. XUL is simple to use and quite powerful and can even be used on mobile devices.</description>
-</body>
+</html:body>
 </html>
