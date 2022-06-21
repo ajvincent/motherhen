@@ -6,18 +6,52 @@ As such, you should expect to do a few string replacements.  Run create-applicat
 
 This project is very much a work in progress.  **DO NOT USE YET!!**
 
-## Temporary
+## Building
 
-```/bin/bash
-pushd ~
+First, create a folder to house your application for development:
+```bash
 mkdir newapp-cleandir
 cd newapp-cleandir
+```
+
+Then clone the firefox source code, either via `git clone` or `hg clone`:
+```bash
 hg clone https://hg.mozilla.org/mozilla-central/
-git clone git@github.com:ajvincent/mozilla-newapp.git gh-newapp
-ln -s -r gh-newapp/boilerplate mozilla-central/newapp # creates a link to reference the newapp
-echo -e "\nnewapp" >> mozilla-central/.hgignore
-export MOZCONFIG=~/newapp-cleandir/gh-newapp/newapp-sym.mozconfig
+# Alternatively (might be faster):
+git clone --depth 1 https://github.com/mozilla/gecko-dev mozilla-central
+```
+
+Clone this repository:
+```bash
+git clone https://github.com/ajvincent/motherhen gh-newapp
+```
+
+Keep track of the location of `mozilla-central`:
+```bash
+echo $PWD/mozilla-central > gh-newapp/.moz-central
+```
+
+Now, we need to add our app to the gecko source code:
+```bash
+ln -s gh-newapp/boilerplate mozilla-central/newapp
+ln -s gh-newapp/newapp-sym.mozconfig mozilla-central/.mozconfig
+```
+
+Apply custom patches:
+```bash
+cd gh-newapp
+./patches.sh import
+cd ..
+```
+
+Configure and build your application:
+```bash
 cd mozilla-central
 ./mach configure
-./mach build # this doesn't work yet
+./mach build
+```
+
+Then run it:
+```bash
+./mach run
 ```
