@@ -11,15 +11,22 @@
 >
 <head>
   <script>
-    Services.scriptloader.loadSubScript("chrome://myapp/content/main.js");
+    const { Services } = ChromeUtils.import(
+      "resource://gre/modules/Services.jsm"
+    );
+
+    Services.scriptloader.loadSubScript(
+      "chrome://newapp/content/main.js",
+      this
+    );
   </script>
 </head>
+
 <html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <description>Hello World</description>
   <separator/>
   <button id="show-more" label="More >>" oncommand="showMore()" />
-  <button id="open-toolbox" label="Open toolbox" oncommand="openToolbox" />
   <separator/>
-  <description id="more-text" hidden="true">This is a simple XULRunner application. XUL is simple to use and quite powerful and can even be used on mobile devices.</description>
+  <description id="more-text" hidden="true">This is a simple gecko example. It has support for lots of things that browsers have, from html to (some parts of) webextensions</description>
 </html:body>
 </html>
