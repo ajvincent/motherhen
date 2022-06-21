@@ -37,7 +37,7 @@ then
     cd ..
     git add ${@:2}
     git commit
-    git format-patch --minimal --start-number $next_patch -1 -o ./gecko-template/config/patches
+    git format-patch --start-number $next_patch -1 -o $root_pwd/patches
     cd $root_pwd
 else
     echo "Usage: $0 import|export"
