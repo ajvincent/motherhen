@@ -6,3 +6,6 @@ test/checkouts/mozilla-central
 
 # an object directory for the compiled Mozilla code
 test/newapp-sym
+
+# A config file pointing to the location of mozilla-central
+.moz-central

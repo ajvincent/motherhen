@@ -5,6 +5,16 @@
 
 action=$1
 
+# Make sure the user has specified the location of mozilla-central in their 
+# environment. Some people (i.e. trickypr) prefer to clone it into other places 
+if [ ! -f .moz-central ]
+then
+    echo "Please make sure you specify the location of your checkout of `mozilla-central`"
+    echo "inside of the `.moz-central` file."
+    exit 1
+fi
+
+mozilla_centeral_repo=$(cat .moz-central)
 last_patch=`exec ls -1 ./patches | sed 's/-.*//g' | sort -n | tail -1`
 next_patch=`expr 1 + $last_patch`
 root_pwd=$PWD
@@ -14,7 +24,7 @@ then
     echo "Importing:"
     echo
     
-    cd ..
+    cd $mozilla_centeral_repo
     for file in $root_pwd/patches/*.patch
     do
         echo "  $file..."
@@ -34,7 +44,7 @@ then
     echo "Exporting: ${@:2}"
     echo
     
-    cd ..
+    cd $mozilla_centeral_repo
     git add ${@:2}
     git commit
     git format-patch --start-number $next_patch -1 -o $root_pwd/patches
