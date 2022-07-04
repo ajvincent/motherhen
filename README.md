@@ -33,6 +33,7 @@ echo $PWD/mozilla-central > gh-newapp/.moz-central
 
 Now, we need to add our app to the gecko source code:
 ```bash
+# On linux add -r to each of the following commands
 ln -s gh-newapp/boilerplate mozilla-central/newapp
 ln -s gh-newapp/newapp-sym.mozconfig mozilla-central/.mozconfig
 ```
