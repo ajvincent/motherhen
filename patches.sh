@@ -3,6 +3,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+set -e
+set -o pipefail
+
 action=$1
 
 # Make sure the user has specified the location of mozilla-central in their 
@@ -19,7 +22,7 @@ last_patch=`exec ls -1 ./patches | sed 's/-.*//g' | sort -n | tail -1`
 next_patch=`expr 1 + $last_patch`
 root_pwd=$PWD
 
-if [ $action = "import" ]
+if [ "$action" = "import" ]
 then
     echo "Importing:"
     echo
@@ -29,11 +32,12 @@ then
     do
         echo "  $file..."
         # --forward is used to skip the patch if it has already been applied
-        patch -p1 --forward < $file
+        # || true is used to ignore the error if the patch has already been applied
+        patch -p1 --forward < $file || true
     done
 
     cd $root_pwd
-elif [ $action = "export" ]
+elif [ "$action" = "export" ]
 then
     if [ -x "$2" ]
     then
