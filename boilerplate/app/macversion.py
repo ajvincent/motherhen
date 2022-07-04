@@ -32,8 +32,9 @@ if not options.version:
 define, MOZ_BUILDID, buildid = (io.open(options.buildid, "r",
                                         encoding="utf-8").read().split())
 
-# extract only the major version (i.e. "14" from "14.0b1")
-majorVersion = re.match(r"^(\d+)[^\d].*", options.version).group(1)
+# extract only the major version (e.g. "14" from "14.0b1" or "12" from "12")
+majorVersion = re.match(r"^(\d+)([^\d].*)?", options.version).group(1)
+
 # last two digits of the year
 twodigityear = buildid[2:4]
 month = buildid[4:6]
