@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<html id="main"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns="http://www.w3.org/1999/xhtml"
+      title="MyApp"
+      width="300"
+      height="300"
+>
+<head>
+  <script>
+    const { Services } = ChromeUtils.import(
+      "resource://gre/modules/Services.jsm"
+    );
+
+    Services.scriptloader.loadSubScript(
+      "chrome://newapp/content/main.js",
+      this
+    );
+  </script>
+</head>
+
+<html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <description>Hello World</description>
+  <separator/>
+  <button id="show-more" label="More >>" oncommand="showMore()" />
+  <separator/>
+  <description id="more-text" hidden="true">This is a simple gecko example. It has support for lots of things that browsers have, from html to (some parts of) webextensions</description>
+</html:body>
+</html>

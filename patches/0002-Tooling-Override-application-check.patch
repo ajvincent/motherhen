@@ -1,0 +1,28 @@
+From 28741e61a8521ce871359fce14c3783385ebdea7 Mon Sep 17 00:00:00 2001
+From: trickypr <trickypr@icloud.com>
+Date: Thu, 9 Jun 2022 16:04:12 +1000
+Subject: [PATCH] Tooling: Override application check
+
+By default mach will only allow the usage of `./mach run` if you are compiling firefox or thunderbird. This patch overrides the error
+---
+ python/mozbuild/mozbuild/base.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/python/mozbuild/mozbuild/base.py b/python/mozbuild/mozbuild/base.py
+index f90f14ce11f7..6c51a9690e2b 100644
+--- a/python/mozbuild/mozbuild/base.py
++++ b/python/mozbuild/mozbuild/base.py
+@@ -1033,7 +1033,9 @@ class MachCommandConditions(object):
+         """Must have a build."""
+         return MachCommandConditions.is_firefox_or_android(
+             cls
+-        ) or MachCommandConditions.is_thunderbird(cls)
++        ) or MachCommandConditions.is_thunderbird(cls
++        ) or True # Quark - Force the run method to work
++        # TODO: Better solution for this
+ 
+     @staticmethod
+     def has_build_or_shell(cls):
+-- 
+2.36.1
+

@@ -2,8 +2,15 @@
 # See http://www.mozilla.org/build/ for build instructions.
 #
 
+ac_add_options --with-app-basename="New App"
+ac_add_options --with-app-name=new-app
+export MOZ_APP_DISPLAYNAME="NewApp"
+
 # Options for client.mk.
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../newapp-sym
+
+# Enables sccache to speed up builds
+ac_add_options --with-ccache=sccache
 
 # Options for 'configure' (same as command-line options).
 ac_add_options --enable-tests
