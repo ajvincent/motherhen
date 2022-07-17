@@ -6,12 +6,5 @@
 include('/toolkit/toolkit.mozbuild')
 
 DIRS += [
-  "/newapp"
+    "/newapp"
 ]
-
-#if CONFIG["MOZ_EXTENSIONS"]:
-#    DIRS += ["/%s/extensions" % CONFIG["mozreltopsrcdir"]]
-
-#DIRS += [
-#    '/%s' % CONFIG['MOZ_BRANDING_DIRECTORY'],
-#]
