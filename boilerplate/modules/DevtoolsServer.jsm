@@ -27,8 +27,8 @@ var EXPORTED_SYMBOLS = ["DevtoolsServer"];
  */
 class DevtoolsServer {
   /**
-   * @param {?number} port The port you want to open the devtools on.
-   * @param {?boolean} silent If true, instructions will not be logged to the console.
+   * @param {number} [port] The port you want to open the devtools on.
+   * @param {boolean} [silent] If true, instructions will not be logged to the console.
    */
   constructor(port, silent) {
     this.defaultPort = port;
