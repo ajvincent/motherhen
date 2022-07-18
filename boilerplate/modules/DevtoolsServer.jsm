@@ -27,6 +27,19 @@ let singletonInstance;
  * 4. Click 'Connect' in the left sidebar
  * 5. Click on the entry in the left sidebar
  * 6. Click 'Open in Browser Toolbox'
+ *
+ * ## Usage
+ * ```js
+ * const { DevtoolsServer } = ChromeUtils.import("resource://app/modules/DevtoolsServer.jsm");
+ *
+ * const devtools = DevtoolsServer.get();
+ * devtools.start();
+ *
+ * const port = devtools.port;
+ * devtools.logInstructions();
+ *
+ * devtools.start(); // Will warn and do nothing
+ * ```
  */
 class DevtoolsServer {
   /**
