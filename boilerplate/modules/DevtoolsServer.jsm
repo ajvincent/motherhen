@@ -64,8 +64,12 @@ class DevtoolsServer {
     const socketOptions = {
       portOrPath: serverPort,
     };
-    this.listener = new SocketListener(this.devToolsServer, socketOptions);
-    this.listener.open();
+
+    /**
+     * @protected
+     */
+    this._listener = new SocketListener(this.devToolsServer, socketOptions);
+    this._listener.open();
 
     if (!this.silent) {
       dump(`Devtools opened on port ${this.port}`);
@@ -94,10 +98,10 @@ class DevtoolsServer {
    * @return {?number} The port the devtools server is listening on.
    */
   get port() {
-    if (!this.listener) {
+    if (!this._listener) {
       return;
     }
 
-    return this.listener.port;
+    return this._listener.port;
   }
 }
