@@ -8,7 +8,7 @@ const { useDistinctSystemPrincipalLoader } = ChromeUtils.import(
   "resource://devtools/shared/loader/Loader.jsm"
 );
 
-var EXPORTED_SYMBOLS = ["DevtoolsServer"];
+const EXPORTED_SYMBOLS = ["DevtoolsServer"];
 
 let singletonInstance;
 
