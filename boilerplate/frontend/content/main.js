@@ -3,7 +3,7 @@ const { XPCOMUtils } = ChromeUtils.importESModule(
 );
 
 XPCOMUtils.defineLazyModuleGetters(this, {
-  DevtoolsServer: "resource:///modules/DevtoolsServer.jsm",
+  DevtoolsServer: "resource://app/modules/DevtoolsServer.jsm",
 });
 
 function showMore() {
