@@ -11,7 +11,7 @@ function showMore() {
 }
 
 function startDevtools() {
-  const devtools = new DevtoolsServer();
+  const devtools = DevtoolsServer.get();
   devtools.start();
 
   const instructions = document.getElementById("devtools-instructions");

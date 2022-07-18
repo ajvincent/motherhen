@@ -10,8 +10,11 @@ const { useDistinctSystemPrincipalLoader } = ChromeUtils.import(
 
 var EXPORTED_SYMBOLS = ["DevtoolsServer"];
 
+let singletonInstance;
+
 /**
  * Opens a devtool server that can be inspected using Firefox's devtools.
+ * Construct using {@link DevtoolsServer.get}
  *
  * The port can be set either by passing it in to the function or setting the
  * appropriate preference value. If there is no port value provided, Gecko will
@@ -29,12 +32,45 @@ class DevtoolsServer {
   /**
    * @param {number} [port] The port you want to open the devtools on.
    * @param {boolean} [silent] If true, instructions will not be logged to the console.
+   *
+   * @private
    */
   constructor(port, silent) {
+    if (singletonInstance) {
+      throw new Error(
+        "DevtoolsServer is a singleton. Do not call the constructor directly, instead call DevtoolsServer.get"
+      );
+    }
+
     this.defaultPort = port;
     this.silent = silent || false;
 
-    this.loader = useDistinctSystemPrincipalLoader(this);
+    /**
+     * @protected
+     */
+    this._loader = useDistinctSystemPrincipalLoader(this);
+
+    singletonInstance = this;
+  }
+
+  /**
+   * @param {number} [port] The port you want to open the devtools on.
+   * @param {boolean} [silent] If true, instructions will not be logged to the console.
+   *
+   * @returns {DevtoolsServer}
+   */
+  static get(port, silent) {
+    if (singletonInstance && (port || typeof silent !== "undefined")) {
+      console.warn(
+        "Devtools have already been initialized. Your new settings will not be applied"
+      );
+    }
+
+    if (!singletonInstance) {
+      new DevtoolsServer(port, silent);
+    }
+
+    return singletonInstance;
   }
 
   /**
@@ -42,14 +78,19 @@ class DevtoolsServer {
    * @returns {DevtoolsServer}
    */
   start() {
-    const { DevToolsServer } = this.loader.require(
+    if (this._listener) {
+      console.warn("Devtools server already started");
+      return this;
+    }
+
+    const { DevToolsServer: MozillaDevtoolsServer } = this._loader.require(
       "devtools/server/devtools-server"
     );
-    const { SocketListener } = this.loader.require(
+    const { SocketListener } = this._loader.require(
       "devtools/shared/security/socket"
     );
 
-    this.devToolsServer = DevToolsServer;
+    this.devToolsServer = MozillaDevtoolsServer;
 
     this.devToolsServer.init();
     // We mainly need a root actor and target actors for opening a toolbox, even
