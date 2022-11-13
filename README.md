@@ -16,9 +16,9 @@ cd newapp-cleandir
 
 Then clone the firefox source code, either via `git clone` or `hg clone`:
 ```bash
-hg clone https://hg.mozilla.org/mozilla-central/
-# Alternatively (might be faster):
 git clone --depth 1 https://github.com/mozilla/gecko-dev mozilla-central
+# or
+# hg clone https://hg.mozilla.org/mozilla-central/
 ```
 
 Clone this repository:
@@ -33,9 +33,11 @@ echo $PWD/mozilla-central > gh-newapp/.moz-central
 
 Now, we need to add our app to the gecko source code:
 ```bash
+pushd mozilla-central
 # On linux add -r to each of the following commands
-ln -s gh-newapp/boilerplate mozilla-central/newapp
-ln -s gh-newapp/newapp-sym.mozconfig mozilla-central/.mozconfig
+ln -s ../gh-newapp/boilerplate newapp
+ln -s ../gh-newapp/newapp-sym.mozconfig .mozconfig
+popd
 ```
 
 Apply custom patches:
