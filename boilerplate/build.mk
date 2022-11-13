@@ -32,6 +32,6 @@ wget-en-US:
 merge-% post-merge-% installers-% langpack-% chrome-%:
 	$(MAKE) -C newapp/locales $@
 
-ifdef ENABLE_TESTS
-include $(commtopsrcdir)/mail/testsuite-targets.mk
-endif
+#ifdef ENABLE_TESTS
+#include newapp/testsuite-targets.mk
+#endif
