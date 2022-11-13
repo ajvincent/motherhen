@@ -37,6 +37,8 @@ then
     done
 
     cd $root_pwd
+    echo "Import completed!!"
+
 elif [ "$action" = "export" ]
 then
     if [ -x "$2" ]
