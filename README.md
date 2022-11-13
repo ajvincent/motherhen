@@ -39,6 +39,7 @@ cd ..
 
 # Configure and build your application:
 cd mozilla-central
+./mach configure # This will fail the first time, because of a bug with generating Python's virtual environment:  lib64 doesn't show up when it should
 ./mach configure
 ./mach build
 
