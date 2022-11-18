@@ -44,4 +44,7 @@ cd mozilla-central
 
 #Then run it:
 ./mach run
+
+# Generate a tarball or installer in your objdir's dist subdirectory
+./mach package
 ```
