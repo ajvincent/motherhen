@@ -8,53 +8,43 @@ This project is very much a work in progress.  **DO NOT USE YET!!**
 
 ## Building
 
-First, create a folder to house your application for development:
 ```bash
+#!/bin/bash
+# First, create a folder to house your application for development:
 mkdir newapp-cleandir
 cd newapp-cleandir
-```
 
-Then clone the firefox source code, either via `git clone` or `hg clone`:
-```bash
+# Then clone the firefox source code, either via `git clone` or `hg clone`:
 git clone --depth 1 https://github.com/mozilla/gecko-dev mozilla-central
 # or
 # hg clone https://hg.mozilla.org/mozilla-central/
-```
 
-Clone this repository:
-```bash
+# Clone this repository:
 git clone https://github.com/ajvincent/motherhen gh-newapp
-```
 
-Keep track of the location of `mozilla-central`:
-```bash
+# Keep track of the location of `mozilla-central`:
 echo $PWD/mozilla-central > gh-newapp/.moz-central
-```
 
-Now, we need to add our app to the gecko source code:
-```bash
+# Now, we need to add our app to the gecko source code:
 pushd mozilla-central
 # On linux add -r to each of the following commands
 ln -s ../gh-newapp/boilerplate newapp
 ln -s ../gh-newapp/newapp-sym.mozconfig .mozconfig
 popd
-```
 
-Apply custom patches:
-```bash
+# Apply custom patches:
 cd gh-newapp
 ./patches.sh import
 cd ..
-```
 
-Configure and build your application:
-```bash
+# Configure and build your application:
 cd mozilla-central
 ./mach configure
 ./mach build
-```
 
-Then run it:
-```bash
+#Then run it:
 ./mach run
+
+# Generate a tarball or installer in your objdir's dist subdirectory
+./mach package
 ```
