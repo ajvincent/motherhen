@@ -3,3 +3,8 @@ test/checkouts
 
 # an object directory for the compiled Mozilla code
 test/objdir
+
+node_modules
+
+build/**.mjs.map
+build/**.d.mts
