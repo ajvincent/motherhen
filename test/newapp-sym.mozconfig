@@ -3,7 +3,7 @@
 #
 
 # Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../../newapp-sym
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../objdir
 
 # Options for 'configure' (same as command-line options).
 ac_add_options --enable-tests

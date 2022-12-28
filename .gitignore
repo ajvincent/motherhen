@@ -1,11 +1,5 @@
-# a perpetually clean checkout of mozilla-central
-test/checkouts/mozilla-clean
-
-# a copy of mozilla-clean that we can throw away at any time, holding the hatchedegg subdirectory
-test/checkouts/mozilla-central
+# a temporary directory for all checkouts
+test/checkouts
 
 # an object directory for the compiled Mozilla code
-test/newapp-sym
-
-# A config file pointing to the location of mozilla-central
-.moz-central
+test/objdir
