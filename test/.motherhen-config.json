@@ -2,13 +2,13 @@
   "default": {
     "vanilla": {
       "path": "./checkouts/mozilla-fresh",
-      "tag": "esr102",
+      "tag": "central",
       "vcs": "hg"
     },
     "integration": {
       "path": "./checkouts/mozilla-hatchedEgg",
       "mozconfig": "./newapp-sym.mozconfig",
-      "projectDir": "hatchedEgg"
+      "projectDir": "newapp"
     }
   }
 }

@@ -1,10 +1,15 @@
 import fs from "fs/promises";
 import path from "path";
 import url from "url";
-const basePath = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../.."));
+const projectRoot = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../.."));
+/**
+ * Get the configuration from the command-line target and an optional
+ * MOTHERHEN_CONFIG environment variable.
+ * @returns a configuration with absolute paths.
+ */
 export default async function getConfiguration() {
     const target = process.argv[2] ?? "default";
-    const pathToConfig = path.join(basePath, process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json");
+    const pathToConfig = path.join(projectRoot, process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json");
     const configJSON = JSON.parse(await fs.readFile(pathToConfig, { encoding: "utf-8" }));
     const config = configJSON[target];
     if (!isConfiguration(config))
@@ -14,6 +19,7 @@ export default async function getConfiguration() {
     normalize(config.integration, "mozconfig", pathToConfig);
     return config;
 }
+/** Validate a configuration value. */
 function isConfiguration(unknownValue) {
     if (typeof unknownValue !== "object")
         return false;
@@ -36,9 +42,16 @@ function isConfiguration(unknownValue) {
         return false;
     return true;
 }
+/**
+ * Convert a relative path in a configuration to an absolute path.
+ *
+ * @typeParam Key - the key we're checking for.
+ * @param base - the object to modify.
+ * @param key - the property name of the object.
+ * @param pathToConfig - an absolute path to the configuration.
+ * @internal
+ */
 function normalize(base, key, pathToConfig) {
-    let value = Reflect.get(base, key);
-    value = path.normalize(path.resolve(pathToConfig, "..", value));
-    Reflect.set(base, key, value);
+    base[key] = path.normalize(path.resolve(pathToConfig, "..", base[key]));
 }
 //# sourceMappingURL=Configuration.mjs.map

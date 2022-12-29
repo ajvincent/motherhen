@@ -32,7 +32,7 @@ imply_option("--enable-default-browser-agent", False)
 
 
 # "Bundled fonts" - describe
-@depends(target_is_windows, target_is_linux)
+@depends(target_is_windows, target_is_unix)
 def bundled_fonts(is_windows, is_linux):
     if is_windows or is_linux:
         return True

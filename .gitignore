@@ -8,3 +8,6 @@ node_modules
 
 build/**/*.mjs.map
 build/**/*.d.mts
+
+# A directory for mozilla-unified to live in as a repository with no patches.
+.cleanroom
