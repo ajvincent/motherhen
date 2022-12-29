@@ -20,7 +20,10 @@ export type MotherhenConfig = {
 export type Configuration = Readonly<{
   /** Metadata for the clean repository. */
   "vanilla": Readonly<{
-    /** Where the unpatched mozilla-unified repository should live on the local filesystem. */
+    /**
+     * Where the unpatched mozilla-unified repository should live on the local filesystem.
+     * If the configuration omits this, this defaults to `${projectRoot}/.cleanroom/mozilla-unified` .
+     */
     "path": string;
 
     /** The tag to apply to the mozilla-unified repository. */
@@ -46,6 +49,12 @@ export type Configuration = Readonly<{
   }>;
 }>;
 
+type ConfigurationWithoutVanillaPath = Readonly<{
+  "integration": Configuration["integration"],
+
+  "vanilla": Omit<Configuration["vanilla"], "path"> & Partial<Pick<Configuration["vanilla"], "path">>
+}>;
+
 /**
  * Get the configuration from the command-line target and an optional
  * MOTHERHEN_CONFIG environment variable.
@@ -65,11 +74,27 @@ async function getConfiguration() : Promise<Configuration>
     { encoding: "utf-8" }
   )) as { [key: string] : unknown };
 
-  const config = configJSON[target];
-  if (!isConfiguration(config))
+  const partialConfig = configJSON[target];
+  if (!isConfiguration(partialConfig))
     throw new Error("no configuration found");
 
-  normalize<"path">(config.vanilla, "path", pathToConfig);
+  const config: Configuration = {
+    vanilla: {
+      ...partialConfig.vanilla,
+      path: partialConfig.vanilla.path ?? path.resolve(
+        projectRoot, ".cleanroom/mozilla-unified"
+      )
+    },
+    integration: {
+      ...partialConfig.integration
+    }
+  };
+
+  normalize<"path">(
+    config.vanilla as Required<Configuration["vanilla"]>,
+    "path",
+    pathToConfig
+  );
   normalize<"path">(config.integration, "path", pathToConfig);
   normalize<"mozconfig">(config.integration, "mozconfig", pathToConfig);
 
@@ -79,7 +104,7 @@ async function getConfiguration() : Promise<Configuration>
 /** Validate a configuration value. */
 function isConfiguration(
   unknownValue: unknown
-) : unknownValue is Configuration
+) : unknownValue is ConfigurationWithoutVanillaPath
 {
   if (typeof unknownValue !== "object")
     return false;
@@ -87,7 +112,8 @@ function isConfiguration(
   const value = unknownValue as Configuration;
   if (typeof value.vanilla !== "object")
     return false;
-  if (typeof value.vanilla.path !== "string")
+  const vanillaPathType = typeof value.vanilla.path;
+  if ((vanillaPathType !== "string") && (vanillaPathType !== "undefined"))
     return false;
   if (typeof value.vanilla.tag !== "string")
     return false;

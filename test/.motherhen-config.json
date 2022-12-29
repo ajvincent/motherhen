@@ -1,7 +1,6 @@
 {
   "default": {
     "vanilla": {
-      "path": "./checkouts/mozilla-fresh",
       "tag": "central",
       "vcs": "hg"
     },

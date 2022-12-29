@@ -11,9 +11,18 @@ export default async function getConfiguration() {
     const target = process.argv[2] ?? "default";
     const pathToConfig = path.join(projectRoot, process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json");
     const configJSON = JSON.parse(await fs.readFile(pathToConfig, { encoding: "utf-8" }));
-    const config = configJSON[target];
-    if (!isConfiguration(config))
+    const partialConfig = configJSON[target];
+    if (!isConfiguration(partialConfig))
         throw new Error("no configuration found");
+    const config = {
+        vanilla: {
+            ...partialConfig.vanilla,
+            path: partialConfig.vanilla.path ?? path.resolve(projectRoot, ".cleanroom/mozilla-unified")
+        },
+        integration: {
+            ...partialConfig.integration
+        }
+    };
     normalize(config.vanilla, "path", pathToConfig);
     normalize(config.integration, "path", pathToConfig);
     normalize(config.integration, "mozconfig", pathToConfig);
@@ -26,7 +35,8 @@ function isConfiguration(unknownValue) {
     const value = unknownValue;
     if (typeof value.vanilla !== "object")
         return false;
-    if (typeof value.vanilla.path !== "string")
+    const vanillaPathType = typeof value.vanilla.path;
+    if ((vanillaPathType !== "string") && (vanillaPathType !== "undefined"))
         return false;
     if (typeof value.vanilla.tag !== "string")
         return false;
