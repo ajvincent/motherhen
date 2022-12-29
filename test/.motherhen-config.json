@@ -6,8 +6,9 @@
       "vcs": "hg"
     },
     "integration": {
-      "path": "./checkouts/mozilla-central",
-      "mozconfig": "test/newapp-sym.mozconfig"
+      "path": "./checkouts/mozilla-hatchedEgg",
+      "mozconfig": "./newapp-sym.mozconfig",
+      "projectDir": "hatchedEgg"
     }
   }
 }

@@ -6,5 +6,5 @@ test/objdir
 
 node_modules
 
-build/**.mjs.map
-build/**.d.mts
+build/**/*.mjs.map
+build/**/*.d.mts
