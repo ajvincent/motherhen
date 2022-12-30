@@ -40,7 +40,7 @@ const config = await getConfiguration();
 }
 console.log(`
 Congratulations!  You should now have a working integration repository at ${config.integration.path} .
-I created this from ${config.vanilla.path}, from the configuration at ${process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json"}.
+I created this from ${config.vanilla.path}, from the configuration at ${process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json"} .
 If this configuration isn't what you wanted, try re-running this command with the MOTHERHEN_CONFIG
 environment variable pointing to your configuration.  Please see ./build/tools/Configuration.mts
 for the configuration format.
