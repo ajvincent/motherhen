@@ -51,9 +51,11 @@ const config = await getConfiguration();
 
 console.log(`
 Congratulations!  You should now have a working integration repository at ${config.integration.path} .
-I created this from ${config.vanilla.path}, from the configuration at ${
+I created this from ${config.vanilla.path} .
+I used the configuration at ${
   process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json"
 } .
+
 If this configuration isn't what you wanted, try re-running this command with the MOTHERHEN_CONFIG
 environment variable pointing to your configuration.  Please see ./build/tools/Configuration.mts
 for the configuration format.
@@ -64,7 +66,7 @@ I've applied a few small patches, but I haven't committed them yet.  I think it'
 to manage this for now.
 
 Your project-specific code lives in the ${config.integration.projectDir} subdirectory, and is set up
-to use the .mozconfig file you placed at "${config.integration.mozconfig}" .
+to use the .mozconfig file you placed at ${config.integration.mozconfig} .
 
 For now, I recommend running your mach operations directly in the repository.  In the future, this
 project will support commands such as "npm run build ${
