@@ -2,6 +2,8 @@ import fs from "fs/promises";
 import path from "path";
 import url from "url";
 
+import type { CommandSettings } from "../../motherhen.mjs";
+
 const projectRoot = path.normalize(path.join(
   url.fileURLToPath(import.meta.url), "../../.."
 ));
@@ -52,31 +54,39 @@ export type Configuration = Readonly<{
 type ConfigurationWithoutVanillaPath = Readonly<{
   "integration": Configuration["integration"],
 
-  "vanilla": Omit<Configuration["vanilla"], "path"> & Partial<Pick<Configuration["vanilla"], "path">>
+  "vanilla":
+    Omit<Configuration["vanilla"], "path"> &
+    Partial<Pick<Configuration["vanilla"], "path">>
 }>;
 
 /**
- * Get the configuration from the command-line target and an optional
- * MOTHERHEN_CONFIG environment variable.
+ * Get the configuration.
+ * @param settings - the command-line settings from motherhen.mts.
+ *
  * @returns a configuration with absolute paths.
  */
-export default
-async function getConfiguration() : Promise<Configuration>
+async function getConfiguration(
+  settings: CommandSettings
+) : Promise<Configuration>
 {
-  const target = process.argv[2] ?? "default";
-  const pathToConfig = path.join(
-    projectRoot,
-    process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json"
-  );
+  const { project, relativePathToConfig } = settings;
+  const pathToConfig = path.join( projectRoot, relativePathToConfig );
 
-  const configJSON = JSON.parse(await fs.readFile(
-    pathToConfig,
-    { encoding: "utf-8" }
-  )) as { [key: string] : unknown };
+  let configJSON : { [key: string] : unknown };
+  try {
+    configJSON = JSON.parse(await fs.readFile(
+      pathToConfig,
+      { encoding: "utf-8" }
+    )) as { [key: string] : unknown };
+  }
+  catch (ex) {
+    console.error(`I couldn't find a JSON file at ${pathToConfig}!`);
+    throw ex;
+  }
 
-  const partialConfig = configJSON[target];
+  const partialConfig = configJSON[project];
   if (!isConfiguration(partialConfig))
-    throw new Error("no configuration found");
+    throw new Error(`no configuration found for project "${project}"`);
 
   const config: Configuration = {
     vanilla: {
@@ -151,3 +161,5 @@ function normalize<Key extends string>(
     pathToConfig, "..", base[key]
   ));
 }
+
+export default getConfiguration;

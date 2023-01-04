@@ -6,8 +6,11 @@ test/objdir
 
 node_modules
 
-build/**/*.mjs.map
-build/**/*.d.mts
+commands/**/*.mjs.map
+commands/**/*.d.mts
+
+motherhen.d.mts
+motherhen.mjs.map
 
 # A directory for mozilla-unified to live in as a repository with no patches.
 .cleanroom

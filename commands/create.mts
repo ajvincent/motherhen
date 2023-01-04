@@ -1,18 +1,21 @@
 #!/usr/bin/env node
 
-// #region preamble
-import getConfiguration, {type Configuration } from "./tools/Configuration.mjs";
+import { type Configuration } from "./tools/Configuration.mjs";
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.mjs";
 import fileExists from "./tools/fileExists.mjs";
 
-const config = await getConfiguration();
-
-// #endregion preamble
-
-// Vanilla checkout
+/**
+ *
+ * @param pathToConfig - the path to the configuration file.
+ * @param target - the name of the projectwithin the configuration file.
+ */
+export default
+async function createProject(
+  config: Configuration
+) : Promise<void>
 {
-  if (!(await fileExists(config.vanilla.path, true)))
-  {
+  // Vanilla checkout
+  if (!(await fileExists(config.vanilla.path, true))) {
     console.log("Vanilla checkout not found... cloning");
     console.group();
     try {
@@ -28,12 +31,11 @@ const config = await getConfiguration();
   }
 
   // Assertion: we must have the directory now.
-  if (!(await fileExists(config.vanilla.path, true)))
+  if (!(await fileExists(config.vanilla.path, true))) {
     throw new Error("The vanilla checkout must exist now!");
-}
+  }
 
-// Integration repository
-{
+  // Integration repository
   if (!(await fileExists(config.integration.path))) {
     console.log("Integration repository not found...");
     console.group();
@@ -47,9 +49,8 @@ const config = await getConfiguration();
       console.groupEnd();
     }
   }
-}
 
-console.log(`
+  console.log(`
 Congratulations!  You should now have a working integration repository at ${config.integration.path} .
 I created this from ${config.vanilla.path} .
 I used the configuration at ${
@@ -57,7 +58,7 @@ I used the configuration at ${
 } .
 
 If this configuration isn't what you wanted, try re-running this command with the MOTHERHEN_CONFIG
-environment variable pointing to your configuration.  Please see ./build/tools/Configuration.mts
+environment variable pointing to your configuration.  Please see ./commands/tools/Configuration.mts
 for the configuration format.
 
 I've updated your repository to the ${config.vanilla.tag} tag, using ${config.vanilla.vcs} .
@@ -69,15 +70,17 @@ Your project-specific code lives in the ${config.integration.projectDir} subdire
 to use the .mozconfig file you placed at ${config.integration.mozconfig} .
 
 For now, I recommend running your mach operations directly in the repository.  In the future, this
-project will support commands such as "npm run build ${
+project will support commands such as "motherhen.mjs build ${
   process.argv[2] ?? "default"
-}" or "npm run start ${
+}" or "motherhen.mjs run ${
   process.argv[2] ?? "default"
 }"
 to call upon mach for your project.
 
 Thank you!
-`.trim());
+`.trim()
+  );
+}
 
 async function cloneVanillaGit(
   vanilla: Configuration["vanilla"]

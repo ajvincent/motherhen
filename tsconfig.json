@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
     "lib": ["es2022", "dom"],
-    "module": "es2022",
+    "module": "esnext",
     "target": "es2022",
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
+    "resolveJsonModule": true,
   },
 
   "include": [
-    "build"
+    "commands",
+    "./motherhen.mts"
   ],
 
   "extends": "@tsconfig/node18/tsconfig.json"

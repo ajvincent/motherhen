@@ -9,12 +9,11 @@
     "test": "test"
   },
   "scripts": {
-    "create": "build/create.mjs",
-    "create:debug": "node --inspect-brk build/create.mjs",
     "eslint": "eslint --max-warnings=0 build",
+    "start": "./motherhen.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:clean": "rm -rf test/checkouts",
-    "test:create": "MOTHERHEN_CONFIG=./test/.motherhen-config.json build/create.mjs default",
+    "test:create": "./motherhen.mjs create --config=./test/.motherhen-config.json --project=default",
     "tsc": "tsc"
   },
   "repository": {
@@ -31,6 +30,7 @@
   },
   "homepage": "https://github.com/ajvincent/motherhen#readme",
   "dependencies": {
+    "commander": "^9.4.1",
     "ini": "^3.0.1",
     "node-fetch": "^3.3.0",
     "typescript": "^4.9.4",

@@ -11,8 +11,8 @@
   ],
 
   "ignorePatterns": [
-    "build/**/*.mjs",
-    "build/**/*.d.mts"
+    "commands/**/*.mjs",
+    "commands/**/*.d.mts"
   ],
 
   "parser": "@typescript-eslint/parser",

@@ -3,17 +3,25 @@ import path from "path";
 import url from "url";
 const projectRoot = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../.."));
 /**
- * Get the configuration from the command-line target and an optional
- * MOTHERHEN_CONFIG environment variable.
+ * Get the configuration.
+ * @param settings - the command-line settings from motherhen.mts.
+ *
  * @returns a configuration with absolute paths.
  */
-export default async function getConfiguration() {
-    const target = process.argv[2] ?? "default";
-    const pathToConfig = path.join(projectRoot, process.env["MOTHERHEN_CONFIG"] ?? ".motherhen-config.json");
-    const configJSON = JSON.parse(await fs.readFile(pathToConfig, { encoding: "utf-8" }));
-    const partialConfig = configJSON[target];
+async function getConfiguration(settings) {
+    const { project, relativePathToConfig } = settings;
+    const pathToConfig = path.join(projectRoot, relativePathToConfig);
+    let configJSON;
+    try {
+        configJSON = JSON.parse(await fs.readFile(pathToConfig, { encoding: "utf-8" }));
+    }
+    catch (ex) {
+        console.error(`I couldn't find a JSON file at ${pathToConfig}!`);
+        throw ex;
+    }
+    const partialConfig = configJSON[project];
     if (!isConfiguration(partialConfig))
-        throw new Error("no configuration found");
+        throw new Error(`no configuration found for project "${project}"`);
     const config = {
         vanilla: {
             ...partialConfig.vanilla,
@@ -64,4 +72,5 @@ function isConfiguration(unknownValue) {
 function normalize(base, key, pathToConfig) {
     base[key] = path.normalize(path.resolve(pathToConfig, "..", base[key]));
 }
+export default getConfiguration;
 //# sourceMappingURL=Configuration.mjs.map
