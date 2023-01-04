@@ -56,7 +56,7 @@ to manage this for now.
         : ""}
 To run mach commands:
 
-motherhen.mjs mach --config=${settings.relativePathToConfig} --project=${settings.project};
+motherhen.mjs mach --config=${settings.relativePathToConfig} --project=${settings.project} (command)
 
 Good luck!!
 `.trim());
