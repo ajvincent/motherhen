@@ -45,16 +45,16 @@ function bindCommand(commandName, description) {
             project: options.project
         };
         const configuration = await getConfiguration(settings);
-        const command = await getCommandModule(commandName);
+        const command = await getCommandDefault(commandName);
         await command(configuration);
     });
 }
 /**
- *
+ * Get the default export from a command module.
  * @param commandName - the command, also matching `./build/${commandName}.mjs`.
- * @returns the function to run a command, with the Configuration as a parameter.
+ * @returns the default export.
  */
-async function getCommandModule(commandName) {
+async function getCommandDefault(commandName) {
     const module = await import(path.resolve(url.fileURLToPath(import.meta.url), "../commands", commandName + ".mjs"));
     return module.default;
 }
