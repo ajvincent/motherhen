@@ -14,6 +14,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:clean": "rm -rf test/checkouts",
     "test:create": "./motherhen.mjs create --config=./test/.motherhen-config.json --project=default",
+    "test:configure": "./motherhen.mjs mach configure --config=./test/.motherhen-config.json --project=default",
+    "test:build": "./motherhen.mjs mach build --config=./test/.motherhen-config.json --project=default",
+    "test:run": "./motherhen.mjs mach run --config=./test/.motherhen-config.json --project=default",
+    "test:package": "./motherhen.mjs mach package --config=./test/.motherhen-config.json --project=default",
+    "test:where": "./motherhen.mjs where --config=./test/.motherhen-config.json --project=default",
     "tsc": "tsc"
   },
   "repository": {

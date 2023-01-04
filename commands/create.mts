@@ -72,15 +72,11 @@ I've applied a few small patches, but I haven't committed them yet.  I think it'
 to manage this for now.
 `
 : ""}
-For now, I recommend running your mach operations directly in the repository.  In the future, this
-project will support commands such as "motherhen.mjs build ${
-  settings.project
-}" or "motherhen.mjs run ${
-  settings.project
-}"
-to call upon mach for your project.
+To run mach commands:
 
-Thank you!
+motherhen.mjs mach --config=${settings.relativePathToConfig} --project=${settings.project};
+
+Good luck!!
 `.trim()
   );
 }

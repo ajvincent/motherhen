@@ -5,7 +5,7 @@ import url from "url";
 import which from "which";
 import ini from "ini";
 import wget from "wget-improved";
-import execAsync from "./execAsync.mjs";
+import { execAsync } from "./childProcessAsync.mjs";
 import fileExists from "./fileExists.mjs";
 const projectRoot = path.resolve(url.fileURLToPath(import.meta.url), "../../..");
 const hg = await which("hg");

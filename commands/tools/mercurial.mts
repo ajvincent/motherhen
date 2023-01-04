@@ -8,7 +8,7 @@ import ini from "ini";
 import wget from "wget-improved";
 
 import { type Configuration } from "./Configuration.mjs";
-import execAsync from "./execAsync.mjs";
+import { execAsync } from "./childProcessAsync.mjs";
 import fileExists from "./fileExists.mjs";
 
 const projectRoot = path.resolve(url.fileURLToPath(import.meta.url), "../../..");

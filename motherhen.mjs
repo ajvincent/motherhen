@@ -25,6 +25,7 @@ program
     .version(version);
 bindCommand("create", "Create a Mozilla repository.");
 bindCommand("where", "Show where the Mozilla repository should be.");
+bindCommand("mach", `Invoke mach in the Mozilla repository.`);
 //#endregion main program
 await program.parseAsync();
 //#region command-handling functions
@@ -38,7 +39,8 @@ function bindCommand(commandName, description) {
     program
         .command(commandName)
         .description(description)
-        .action(async () => {
+        .action(async (garbage, parsedCommand) => {
+        void (garbage);
         const options = program.opts();
         const settings = {
             relativePathToConfig: options.config,
@@ -46,7 +48,7 @@ function bindCommand(commandName, description) {
         };
         const configuration = await getConfiguration(settings);
         const command = await getCommandDefault(commandName);
-        await command(configuration, settings);
+        await command(configuration, settings, parsedCommand.args);
     });
 }
 /**

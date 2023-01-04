@@ -28,6 +28,7 @@ export type CommandSettings = {
 type CommandModule = (
   config: Configuration,
   settings: CommandSettings,
+  userArgs: string[],
 ) => Promise<void>;
 // #endregion preamble
 
@@ -56,6 +57,7 @@ program
 
 bindCommand("create", "Create a Mozilla repository.");
 bindCommand("where",  "Show where the Mozilla repository should be.");
+bindCommand("mach",   `Invoke mach in the Mozilla repository.`);
 
 //#endregion main program
 
@@ -76,7 +78,9 @@ function bindCommand(
   program
     .command(commandName)
     .description(description)
-    .action(async () => {
+    .action(async (garbage, parsedCommand : { args: string[] })  => {
+      void(garbage);
+
       const options = program.opts();
       const settings: CommandSettings = {
         relativePathToConfig: options.config as string,
@@ -85,7 +89,7 @@ function bindCommand(
 
       const configuration = await getConfiguration(settings);
       const command = await getCommandDefault<CommandModule>(commandName);
-      await command(configuration, settings);
+      await command(configuration, settings, parsedCommand.args);
     });
 }
 
