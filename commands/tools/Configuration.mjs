@@ -16,7 +16,7 @@ async function getConfiguration(settings) {
         configJSON = JSON.parse(await fs.readFile(pathToConfig, { encoding: "utf-8" }));
     }
     catch (ex) {
-        console.error(`I couldn't find a JSON file at ${pathToConfig}!`);
+        console.error(`I couldn't find a JSON file at ${pathToConfig}!  (Did you forget the --config option?)`);
         throw ex;
     }
     const partialConfig = configJSON[project];

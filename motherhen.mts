@@ -51,9 +51,9 @@ program
   )
   .version(version);
 
-program
-  .command("create")
-  .action(bindCommand("create"));
+bindCommand("create", "Create a Mozilla repository.");
+bindCommand("where",  "Show where the Mozilla repository should be.");
+
 //#endregion main program
 
 await program.parseAsync();
@@ -65,20 +65,23 @@ await program.parseAsync();
  * @returns - a function to run on the given command.
  */
 function bindCommand(
-  commandName: string
-) : () => Promise<void>
+  commandName: string, description: string
+) : void
 {
-  return async () => {
-    const options = program.opts();
-    const settings: CommandSettings = {
-      relativePathToConfig: options.config as string,
-      project: options.project as string
-    };
+  program
+    .command(commandName)
+    .description(description)
+    .action(async () => {
+      const options = program.opts();
+      const settings: CommandSettings = {
+        relativePathToConfig: options.config as string,
+        project: options.project as string
+      };
 
-    const configuration = await getConfiguration(settings);
-    const command = await getCommandModule(commandName);
-    await command(configuration);
-  }
+      const configuration = await getConfiguration(settings);
+      const command = await getCommandModule(commandName);
+      await command(configuration);
+    });
 }
 
 /**

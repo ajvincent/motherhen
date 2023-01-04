@@ -80,7 +80,7 @@ async function getConfiguration(
     )) as { [key: string] : unknown };
   }
   catch (ex) {
-    console.error(`I couldn't find a JSON file at ${pathToConfig}!`);
+    console.error(`I couldn't find a JSON file at ${pathToConfig}!  (Did you forget the --config option?)`);
     throw ex;
   }
 

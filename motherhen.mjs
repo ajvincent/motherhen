@@ -23,9 +23,8 @@ program
     .option("--config [config]", "The relative path to the Motherhen configuration.", ".motherhen-config.json")
     .option("--project [project]", "The project to use from the Motherhen configuration.", "default")
     .version(version);
-program
-    .command("create")
-    .action(bindCommand("create"));
+bindCommand("create", "Create a Mozilla repository.");
+bindCommand("where", "Show where the Mozilla repository should be.");
 //#endregion main program
 await program.parseAsync();
 //#region command-handling functions
@@ -34,8 +33,11 @@ await program.parseAsync();
  * @param commandName - the command name to invoke.
  * @returns - a function to run on the given command.
  */
-function bindCommand(commandName) {
-    return async () => {
+function bindCommand(commandName, description) {
+    program
+        .command(commandName)
+        .description(description)
+        .action(async () => {
         const options = program.opts();
         const settings = {
             relativePathToConfig: options.config,
@@ -44,7 +46,7 @@ function bindCommand(commandName) {
         const configuration = await getConfiguration(settings);
         const command = await getCommandModule(commandName);
         await command(configuration);
-    };
+    });
 }
 /**
  *
