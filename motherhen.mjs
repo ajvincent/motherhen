@@ -31,6 +31,7 @@ await program.parseAsync();
 /**
  * Get a function to execute a given command for command-line arguments.
  * @param commandName - the command name to invoke.
+ * @param description - the description for the command.
  * @returns - a function to run on the given command.
  */
 function bindCommand(commandName, description) {
