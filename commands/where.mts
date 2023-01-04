@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { type Configuration } from "./tools/Configuration.mjs";
 
 /**

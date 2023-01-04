@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * @param config - the configuration to use.
  */

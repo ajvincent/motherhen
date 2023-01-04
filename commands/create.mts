@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { type Configuration } from "./tools/Configuration.mjs";
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.mjs";
 import fileExists from "./tools/fileExists.mjs";

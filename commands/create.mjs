@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.mjs";
 import fileExists from "./tools/fileExists.mjs";
 import whereIsMyProject from "./where.mjs";
