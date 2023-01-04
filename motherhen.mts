@@ -25,7 +25,10 @@ export type CommandSettings = {
   project: string
 };
 
-type CommandModule = (config: Configuration) => Promise<void>;
+type CommandModule = (
+  config: Configuration,
+  settings: CommandSettings,
+) => Promise<void>;
 // #endregion preamble
 
 //#region main program
@@ -82,7 +85,7 @@ function bindCommand(
 
       const configuration = await getConfiguration(settings);
       const command = await getCommandDefault<CommandModule>(commandName);
-      await command(configuration);
+      await command(configuration, settings);
     });
 }
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 /**
- *
- * @param pathToConfig - the path to the configuration file.
- * @param target - the name of the projectwithin the configuration file.
+ * @param config - the configuration to use.
  */
 export default async function whereIsMyProject(config) {
     console.log(`

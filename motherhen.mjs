@@ -46,7 +46,7 @@ function bindCommand(commandName, description) {
         };
         const configuration = await getConfiguration(settings);
         const command = await getCommandDefault(commandName);
-        await command(configuration);
+        await command(configuration, settings);
     });
 }
 /**
