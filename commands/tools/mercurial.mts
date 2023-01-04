@@ -5,6 +5,7 @@ import url from "url";
 
 import which from "which";
 import ini from "ini";
+import wget from "wget-improved";
 
 import { type Configuration } from "./Configuration.mjs";
 import execAsync from "./execAsync.mjs";
@@ -90,25 +91,25 @@ async function cloneUnified(
     }
   };
 
-  const response = await fetch(
-    "https://hg.cdn.mozilla.net/bundles.json"
-  );
-  const data = await response.json() as BundleData;
-
-  const relativePathToBundle = data["mozilla-unified"]["zstd-max"].path;
   const localPathToBundle = path.normalize(path.resolve(
-    basePath, path.basename(relativePathToBundle)
+    basePath, "mozilla-unified-bundle.hg"
   ));
 
   {
-    const wget = await which("wget");
+    const response = await fetch(
+      "https://hg.cdn.mozilla.net/bundles.json"
+    );
+    const data = await response.json() as BundleData;
+  
+    const relativePathToBundle = data["mozilla-unified"]["zstd-max"].path;
     const urlToBundle = "https://hg.cdn.mozilla.net/" + relativePathToBundle;
 
     console.log("Fetching bundle...");
-    await execAsync(
-      wget,
-      [ "-O", localPathToBundle, "-q", urlToBundle ]
-    );
+    await new Promise((resolve, reject) => {
+      const download = wget.download(urlToBundle, localPathToBundle);
+      download.once("error", reject);
+      download.once("end", resolve);
+    });
   }
 
   console.log("Initializing hg repository...")

@@ -4,6 +4,7 @@ import path from "path";
 import url from "url";
 import which from "which";
 import ini from "ini";
+import wget from "wget-improved";
 import execAsync from "./execAsync.mjs";
 import fileExists from "./fileExists.mjs";
 const projectRoot = path.resolve(url.fileURLToPath(import.meta.url), "../../..");
@@ -54,15 +55,18 @@ export async function createIntegrationHg(config) {
  * @returns the location of the hg bundle file for later cleanup.
  */
 async function cloneUnified(vanilla, basePath) {
-    const response = await fetch("https://hg.cdn.mozilla.net/bundles.json");
-    const data = await response.json();
-    const relativePathToBundle = data["mozilla-unified"]["zstd-max"].path;
-    const localPathToBundle = path.normalize(path.resolve(basePath, path.basename(relativePathToBundle)));
+    const localPathToBundle = path.normalize(path.resolve(basePath, "mozilla-unified-bundle.hg"));
     {
-        const wget = await which("wget");
+        const response = await fetch("https://hg.cdn.mozilla.net/bundles.json");
+        const data = await response.json();
+        const relativePathToBundle = data["mozilla-unified"]["zstd-max"].path;
         const urlToBundle = "https://hg.cdn.mozilla.net/" + relativePathToBundle;
         console.log("Fetching bundle...");
-        await execAsync(wget, ["-O", localPathToBundle, "-q", urlToBundle]);
+        await new Promise((resolve, reject) => {
+            const download = wget.download(urlToBundle, localPathToBundle);
+            download.once("error", reject);
+            download.once("end", resolve);
+        });
     }
     console.log("Initializing hg repository...");
     await execAsync(hg, ["init", path.basename(vanilla.path)], { cwd: basePath });
