@@ -2,8 +2,9 @@ import path from "path";
 import inquirer from "./inquirer-registration.mjs";
 import pickFileToCreate from "./pickFileToCreate.mjs";
 import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.mjs";
+import { shouldReplaceHatchedEgg } from "./replaceHatchedEgg.mjs";
 import projectRoot from "../tools/projectRoot.mjs";
-const cleanroom = path.join(projectRoot, ".cleanroom");
+const cleanroom = path.join(projectRoot, ".cleanroom/mozilla-unified");
 /**
  * @param pathToConfig - the Motherhen configuration file path.
  * @param integration - the integration repository configuration.
@@ -21,8 +22,11 @@ export default async function fillIntegration(pathToConfig, pathToVanilla, integ
         uncreatedDirs = await updateIntegrationPath(pathToConfig, pathToVanilla ?? cleanroom, integration, uncreatedDirs.slice());
     }
     await maybeUpdateMozconfig(integration);
-    await getProjectDirFromMozconfig(integration);
-    return uncreatedDirs;
+    const projectDir = await getProjectDirFromMozconfig(integration);
+    const replaceHatchedEggName = (projectDir === "hatchedegg") ?
+        await shouldReplaceHatchedEgg(integration, pathToVanilla ?? cleanroom) :
+        false;
+    return { uncreatedDirs, replaceHatchedEggName };
 }
 function writeStagePreamble() {
     console.log(`

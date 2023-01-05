@@ -43,6 +43,7 @@
     "inquirer-file-tree-selection-prompt": "^2.0.5",
     "inquirer-interrupted-prompt": "^2.0.1",
     "memfs": "^3.4.12",
+    "replace-in-file": "^6.3.5",
     "unionfs": "^4.4.0",
     "wget-improved": "^3.3.1",
     "which": "^3.0.0"

@@ -17,7 +17,7 @@ import type {
   WritableConfigurationType,
 } from "./setupWizard/shared-types.mjs";
 
-import writeConfigurationFile from "./setupWizard/writeConfiguration.mjs";
+import writeConfiguration from "./setupWizard/writeConfiguration.mjs";
 
 // #endregion preamble
 
@@ -66,13 +66,15 @@ export default async function setupMotherhen() : Promise<void>
       uncreatedDirs
     );
 
-    uncreatedDirs = await fillIntegration(
+    const integrationResults = await fillIntegration(
       pathToFile,
       config.vanilla.path,
       config.integration,
       uncreatedDirs
     );
+    ({ uncreatedDirs } = integrationResults);
     void(uncreatedDirs);
+    const fullPathToMozconfig = config.integration.mozconfig;
 
     // What changes should we make to .gitignore?
     const updateGitIgnore = !exists && await maybeUpdateGitIgnore(pathToFile);
@@ -84,12 +86,14 @@ export default async function setupMotherhen() : Promise<void>
     }
 
     // Update the real file system.
-    writePromise = () : Promise<void> => writeConfigurationFile(
+    writePromise = () : Promise<void> => writeConfiguration(
       pathToFile,
       exists,
       output,
       key,
-      updateGitIgnore
+      updateGitIgnore,
+      integrationResults.replaceHatchedEggName,
+      fullPathToMozconfig,
     );
   }
   catch (error) {

@@ -42,7 +42,7 @@ async function getKeyNameAndConfig(
         type: "list",
         name: "displayKey",
         message: "Which configuration would you like to edit?",
-        choices: keys,
+        choices: displayKeys,
       }
     ]);
 

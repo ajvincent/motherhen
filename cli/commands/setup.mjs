@@ -8,7 +8,7 @@ import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.mjs";
 import { InterruptedPrompt } from "./setupWizard/inquirer-registration.mjs";
 import { maybeUpdateGitIgnore, } from "./setupWizard/updateGitIgnore.mjs";
 import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
-import writeConfigurationFile from "./setupWizard/writeConfiguration.mjs";
+import writeConfiguration from "./setupWizard/writeConfiguration.mjs";
 // #endregion preamble
 /**
  * This function drives the set-up of a Motherhen configuration file.
@@ -43,8 +43,10 @@ export default async function setupMotherhen() {
         output[key] = config;
         // Fill out the configuration's fields.
         uncreatedDirs = await fillVanilla(pathToFile, config.vanilla, uncreatedDirs);
-        uncreatedDirs = await fillIntegration(pathToFile, config.vanilla.path, config.integration, uncreatedDirs);
+        const integrationResults = await fillIntegration(pathToFile, config.vanilla.path, config.integration, uncreatedDirs);
+        ({ uncreatedDirs } = integrationResults);
         void (uncreatedDirs);
+        const fullPathToMozconfig = config.integration.mozconfig;
         // What changes should we make to .gitignore?
         const updateGitIgnore = !exists && await maybeUpdateGitIgnore(pathToFile);
         // Does everything look right?
@@ -53,7 +55,7 @@ export default async function setupMotherhen() {
             throw InterruptedPrompt.EVENT_INTERRUPTED;
         }
         // Update the real file system.
-        writePromise = () => writeConfigurationFile(pathToFile, exists, output, key, updateGitIgnore);
+        writePromise = () => writeConfiguration(pathToFile, exists, output, key, updateGitIgnore, integrationResults.replaceHatchedEggName, fullPathToMozconfig);
     }
     catch (error) {
         if (error === InterruptedPrompt.EVENT_INTERRUPTED) {

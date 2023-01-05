@@ -3,12 +3,20 @@ import path from "path";
 import inquirer from "./inquirer-registration.mjs";
 import pickFileToCreate from "./pickFileToCreate.mjs";
 import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.mjs";
+import {
+  shouldReplaceHatchedEgg
+} from "./replaceHatchedEgg.mjs";
 import type {
   WritableConfigurationType,
 } from "./shared-types.mjs";
 
 import projectRoot from "../tools/projectRoot.mjs";
-const cleanroom = path.join(projectRoot, ".cleanroom");
+const cleanroom = path.join(projectRoot, ".cleanroom/mozilla-unified");
+
+type FillIntegrationResults = {
+  uncreatedDirs: string[],
+  replaceHatchedEggName: false | string;
+}
 
 /**
  * @param pathToConfig - the Motherhen configuration file path.
@@ -22,7 +30,7 @@ async function fillIntegration(
   pathToVanilla: string | undefined,
   integration: WritableConfigurationType["integration"],
   uncreatedDirs: string[],
-) : Promise<string[]>
+) : Promise<FillIntegrationResults>
 {
   writeStagePreamble();
   console.log(`Your current integration configuration is:\n${JSON.stringify(integration, null, 2)}\n`);
@@ -42,9 +50,12 @@ async function fillIntegration(
   }
 
   await maybeUpdateMozconfig(integration);
-  await getProjectDirFromMozconfig(integration);
+  const projectDir = await getProjectDirFromMozconfig(integration);
+  const replaceHatchedEggName = (projectDir === "hatchedegg") ?
+    await shouldReplaceHatchedEgg(integration, pathToVanilla ?? cleanroom) :
+    false;
 
-  return uncreatedDirs;
+  return { uncreatedDirs, replaceHatchedEggName };
 }
 
 function writeStagePreamble() : void
