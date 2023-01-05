@@ -6,15 +6,11 @@ test/objdir
 
 node_modules
 
-commands/**/*.mjs.map
-commands/**/*.d.mts
-
-motherhen.d.mts
-motherhen.mjs.map
+cli/**/*.mjs.map
+cli/**/*.d.mts
 
 # A directory for mozilla-unified to live in as a repository with no patches.
 .cleanroom
 
 # the default location to configure a project
 .motherhen-config.json
-

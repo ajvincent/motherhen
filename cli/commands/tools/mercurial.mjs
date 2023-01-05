@@ -1,13 +1,12 @@
 // #region preamble
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
 import which from "which";
 import ini from "ini";
 import wget from "wget-improved";
 import { execAsync } from "./childProcessAsync.mjs";
 import fileExists from "./fileExists.mjs";
-const projectRoot = path.resolve(url.fileURLToPath(import.meta.url), "../../..");
+import projectRoot from "./projectRoot.mjs";
 const hg = await which("hg");
 // #endregion preamble
 // #region Exported functions

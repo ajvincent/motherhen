@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
-const projectRoot = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../.."));
+import projectRoot from "./projectRoot.mjs";
 /**
  * Get the configuration.
  * @param settings - the command-line settings from motherhen.mts.

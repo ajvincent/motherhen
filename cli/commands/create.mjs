@@ -44,7 +44,7 @@ export default async function createProject(config, settings) {
 Congratulations!  You should now have a working integration repository.
 
 If this configuration isn't what you wanted, try re-running this command with the --config option
-pointing to your configuration.  Please see ./commands/tools/Configuration.mts
+pointing to your configuration.  Please see ./typescript-cli/commands/tools/Configuration.mts
 for the configuration format.
 ${didSomething ?
         `
@@ -56,7 +56,7 @@ to manage this for now.
         : ""}
 To run mach commands:
 
-./motherhen.mjs mach --config=${settings.relativePathToConfig} --project=${settings.project} (command)
+npm run mach --config=${settings.relativePathToConfig} --project=${settings.project} (command)
 
 Good luck!!
 `.trim());

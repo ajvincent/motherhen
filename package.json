@@ -9,17 +9,18 @@
     "test": "test"
   },
   "scripts": {
-    "eslint": "eslint --max-warnings=0 commands motherhen.mts",
-    "setup": "./motherhen.mjs setup",
-    "start": "./motherhen.mjs",
+    "eslint": "eslint --max-warnings=0 typescript-cli",
+    "mach": "./cli/motherhen.mjs mach",
+    "setup": "./cli/motherhen.mjs setup",
+    "start": "./cli/motherhen.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:clean": "rm -rf test/checkouts",
-    "test:create": "./motherhen.mjs create --config=./test/.motherhen-config.json --project=default",
-    "test:configure": "./motherhen.mjs mach configure --config=./test/.motherhen-config.json --project=default",
-    "test:build": "./motherhen.mjs mach build --config=./test/.motherhen-config.json --project=default",
-    "test:run": "./motherhen.mjs mach run --config=./test/.motherhen-config.json --project=default",
-    "test:package": "./motherhen.mjs mach package --config=./test/.motherhen-config.json --project=default",
-    "test:where": "./motherhen.mjs where --config=./test/.motherhen-config.json --project=default",
+    "test:create": "./cli/motherhen.mjs create --config=./test/.motherhen-config.json --project=default",
+    "test:configure": "./cli/motherhen.mjs mach configure --config=./test/.motherhen-config.json --project=default",
+    "test:build": "./cli/motherhen.mjs mach build --config=./test/.motherhen-config.json --project=default",
+    "test:run": "./cli/motherhen.mjs mach run --config=./test/.motherhen-config.json --project=default",
+    "test:package": "./cli/motherhen.mjs mach package --config=./test/.motherhen-config.json --project=default",
+    "test:where": "./cli/motherhen.mjs where --config=./test/.motherhen-config.json --project=default",
     "tsc": "tsc"
   },
   "repository": {

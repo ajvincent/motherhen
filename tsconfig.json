@@ -7,11 +7,11 @@
     "sourceMap": true,
     "declaration": true,
     "resolveJsonModule": true,
+    "outDir": "cli"
   },
 
   "include": [
-    "commands",
-    "./motherhen.mts"
+    "typescript-cli"
   ],
 
   "extends": "@tsconfig/node18/tsconfig.json"

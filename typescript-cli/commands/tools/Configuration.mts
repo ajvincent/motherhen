@@ -1,12 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
 
 import type { CommandSettings } from "../../motherhen.mjs";
-
-const projectRoot = path.normalize(path.join(
-  url.fileURLToPath(import.meta.url), "../../.."
-));
+import projectRoot from "./projectRoot.mjs";
 
 /**
  * Use this type to define .motherhen-config.json in the root directory.

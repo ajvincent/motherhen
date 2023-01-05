@@ -12,7 +12,6 @@
 //#region preamble
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
 
 import { Command } from 'commander';
 
@@ -21,6 +20,7 @@ import getConfiguration, {
 } from "./commands/tools/Configuration.mjs";
 
 import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
+import projectRoot from "./commands/tools/projectRoot.mjs";
 
 export type CommandSettings = {
   relativePathToConfig: string,
@@ -36,7 +36,7 @@ type CommandModule = (
 
 //#region main program
 const { version } = JSON.parse(await fs.readFile(
-  path.join(url.fileURLToPath(import.meta.url), "../package.json"),
+  path.join(projectRoot, "package.json"),
   { encoding: "utf-8" }
 )) as { version: string };
 
@@ -63,7 +63,7 @@ program
   .action(async () => {
     const setupMotherhen = await getModuleDefault<
       () => Promise<void>
-    >(path.join(process.cwd(), "./commands/setup.mjs"));
+    >(path.join(projectRoot, "cli/commands/setup.mjs"));
     await setupMotherhen();
   });
 
@@ -112,10 +112,8 @@ function bindCommand(
  */
 async function getCommandDefault<T>(commandName: string) : Promise<T>
 {
-  return getModuleDefault<T>(path.resolve(
-    url.fileURLToPath(import.meta.url),
-    "../commands",
-    commandName + ".mjs"
+  return getModuleDefault<T>(path.join(
+    projectRoot, "cli/commands", commandName + ".mjs"
   ));
 }
 // #endregion command-handling functions

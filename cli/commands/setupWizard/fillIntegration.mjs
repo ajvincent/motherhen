@@ -1,10 +1,9 @@
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
 import fileExists from "../tools/fileExists.mjs";
 import inquirer from "./inquirer-registration.mjs";
 import pickFileToCreate from "./pickFileToCreate.mjs";
-const projectRoot = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../.."));
+import projectRoot from "../tools/projectRoot.mjs";
 const cleanroom = path.join(projectRoot, ".cleanroom");
 /**
  * @param pathToConfig - the Motherhen configuration file path.

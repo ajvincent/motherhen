@@ -1,6 +1,5 @@
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
 
 import fileExists from "../tools/fileExists.mjs";
 
@@ -10,9 +9,7 @@ import type {
   WritableConfigurationType,
 } from "./shared-types.mjs";
 
-const projectRoot = path.normalize(path.join(
-  url.fileURLToPath(import.meta.url), "../../.."
-));
+import projectRoot from "../tools/projectRoot.mjs";
 const cleanroom = path.join(projectRoot, ".cleanroom");
 
 /**
