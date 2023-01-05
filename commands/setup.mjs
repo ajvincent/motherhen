@@ -1,10 +1,12 @@
 // #region preamble
 import buildBlank from "./setupWizard/blankConfig.mjs";
+import fillVanilla from "./setupWizard/fillVanilla.mjs";
+import fillIntegration from "./setupWizard/fillIntegration.mjs";
 import getEditableJSON from "./setupWizard/getEditableJSON.mjs";
 import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.mjs";
 import { InterruptedPrompt } from "./setupWizard/inquirer-registration.mjs";
 import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
-import { fillVanilla, fillIntegration, maybeUpdateGitIgnore, confirmChoice, writeConfigurationFile, } from "./setupWizard/placeholders.mjs";
+import { maybeUpdateGitIgnore, confirmChoice, writeConfigurationFile, } from "./setupWizard/placeholders.mjs";
 // #endregion preamble
 /**
  * This function drives the set-up of a Motherhen configuration file.
@@ -36,8 +38,9 @@ export default async function setupMotherhen() {
         }
         output[key] = config;
         // Fill out the configuration's fields.
-        ({ uncreatedDirs } = await fillVanilla(config.vanilla, uncreatedDirs));
-        ({ uncreatedDirs } = await fillIntegration(config.integration, uncreatedDirs));
+        uncreatedDirs = await fillVanilla(pathToFile, config.vanilla, uncreatedDirs);
+        uncreatedDirs = await fillIntegration(pathToFile, config.vanilla.path, config.integration, uncreatedDirs);
+        void (uncreatedDirs);
         // What changes should we make to .gitignore?
         const updateGitIgnore = await maybeUpdateGitIgnore(pathToFile);
         // Does everything look right?

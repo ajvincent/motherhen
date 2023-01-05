@@ -1,15 +1,5 @@
 import fs from "fs/promises";
 import path from "path";
-export async function fillVanilla(vanilla, uncreatedDirs) {
-    void (vanilla);
-    void (uncreatedDirs);
-    return Promise.reject("not yet implemented");
-}
-export async function fillIntegration(integration, uncreatedDirs) {
-    void (integration);
-    void (uncreatedDirs);
-    return Promise.reject("not yet implemented");
-}
 export async function maybeUpdateGitIgnore(pathToFile) {
     void (pathToFile);
     await Promise.reject("not yet implemented");

@@ -16,17 +16,12 @@ let root = process.cwd();
 /**
  * Pick a file to create, in two stages: an existing directory, and a path within that directory.
  *
- * @param findExistingMessage - a message for the existingDirectory question.
- * @param findFinalFileMessage - a message for the pathToFile question.
- * @param pathToStartDirectory - the starting point for the directory selection.
- * @param defaultPathToFile - a default path from the existing directory.
- * @param uncreatedDirs - an array of directories we haven't created yet.
- * @param pathToFileValidation - an additional validation step.
  * @returns pathToFile - where the file should be on the file system.
  * @returns uncreatedDirs - directories to create on the real file system.
  */
-async function pickFileToCreate(findExistingMessage, findFinalFileMessage, pathToStartDirectory, defaultPathToFile, uncreatedDirs = [], pathToFileValidation = AcceptFileValidation) {
-    uncreatedDirs = uncreatedDirs.slice();
+async function pickFileToCreate(params) {
+    const { findExistingMessage, findFinalFileMessage, pathToStartDirectory, defaultPathToFile, uncreatedDirs: dirs = [], pathToFileValidation = AcceptFileValidation, pathToDirValidation = AcceptFileValidation, } = params;
+    const uncreatedDirs = dirs.slice();
     uncreatedDirs.sort();
     const { existingDirectory, pathToFile } = await inquirer.prompt([
         {
@@ -36,6 +31,7 @@ async function pickFileToCreate(findExistingMessage, findFinalFileMessage, pathT
             onlyShowDir: true,
             default: pathToStartDirectory,
             root,
+            validate: pathToDirValidation,
         },
         {
             type: "input",
@@ -44,8 +40,8 @@ async function pickFileToCreate(findExistingMessage, findFinalFileMessage, pathT
             default: defaultPathToFile,
             validate(pathToFile, answers) {
                 const { existingDirectory } = answers;
-                const fullPath = path.normalize(path.join(existingDirectory, pathToFile));
-                if (!fullPath.startsWith(existingDirectory))
+                const fullPath = path.normalize(path.resolve(existingDirectory, pathToFile));
+                if (!(fullPath + path.sep).startsWith(existingDirectory))
                     return "You must choose a path within the existing directory.";
                 return pathToFileValidation(pathToFile);
             }
@@ -61,7 +57,7 @@ async function pickFileToCreate(findExistingMessage, findFinalFileMessage, pathT
     }
     uncreatedDirs.sort();
     return {
-        pathToFile,
+        pathToFile: path.normalize(path.resolve(existingDirectory, pathToFile)),
         uncreatedDirs
     };
 }

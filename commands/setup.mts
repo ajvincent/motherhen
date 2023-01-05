@@ -1,6 +1,8 @@
 // #region preamble
 
 import buildBlank from "./setupWizard/blankConfig.mjs";
+import fillVanilla from "./setupWizard/fillVanilla.mjs";
+import fillIntegration from "./setupWizard/fillIntegration.mjs";
 import getEditableJSON from "./setupWizard/getEditableJSON.mjs";
 import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.mjs";
 import {
@@ -12,8 +14,6 @@ import type {
 } from "./setupWizard/shared-types.mjs";
 
 import {
-  fillVanilla,
-  fillIntegration,
   maybeUpdateGitIgnore,
   confirmChoice,
   writeConfigurationFile,
@@ -58,8 +58,19 @@ export default async function setupMotherhen() : Promise<void>
     output[key] = config;
 
     // Fill out the configuration's fields.
-    ({ uncreatedDirs } = await fillVanilla(config.vanilla, uncreatedDirs));
-    ({ uncreatedDirs } = await fillIntegration(config.integration, uncreatedDirs));
+    uncreatedDirs = await fillVanilla(
+      pathToFile,
+      config.vanilla,
+      uncreatedDirs
+    );
+
+    uncreatedDirs = await fillIntegration(
+      pathToFile,
+      config.vanilla.path,
+      config.integration,
+      uncreatedDirs
+    );
+    void(uncreatedDirs);
 
     // What changes should we make to .gitignore?
     const updateGitIgnore = await maybeUpdateGitIgnore(pathToFile);
@@ -71,7 +82,12 @@ export default async function setupMotherhen() : Promise<void>
     }
 
     // Update the real file system.
-    writePromise = writeConfigurationFile(pathToFile, exists, output, updateGitIgnore);
+    writePromise = writeConfigurationFile(
+      pathToFile,
+      exists,
+      output,
+      updateGitIgnore
+    );
   }
   catch (error) {
     if (error === InterruptedPrompt.EVENT_INTERRUPTED) {

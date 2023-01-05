@@ -13,6 +13,11 @@ of this process.  Instead, I'll ask you to provide an existing directory, and
 then a relative path from this directory to the configuration file, even if
 intermediate directories do not exist.
 `.trim());
-    return pickFileToCreate("Please choose an existing directory which will contain (as an ancestor) your configuration file.", "Please enter a relative path from this directory to the Motherhen configuration file.", process.cwd(), ".motherhen-config.json");
+    return pickFileToCreate({
+        findExistingMessage: "Please choose an existing directory which will contain (as an ancestor) your configuration file.",
+        findFinalFileMessage: "Please enter a relative path from this directory to the Motherhen configuration file.",
+        pathToStartDirectory: process.cwd(),
+        defaultPathToFile: ".motherhen-config.json",
+    });
 }
 //# sourceMappingURL=pickConfigLocation.mjs.map
