@@ -153,11 +153,11 @@ async function updateTag(
       type: "input",
       name: "tag",
       message: "What repository tag should I use?",
-      default: vanilla.tag,
+      default: vanilla.tag || "release",
       validate(tag: string) : true | string
       {
         if (tag.trim() === "")
-          return `You cannot use an empty string.  I recommend "central", "release", "esr" or "beta".`;
+          return `You cannot use an empty string.  I recommend "central", "release", "beta", or one of the "esr" bookmarks.`;
         return true;
       }
     },

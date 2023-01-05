@@ -9,7 +9,7 @@ import projectRoot from "./projectRoot.mjs";
  */
 async function getConfiguration(settings) {
     const { project, relativePathToConfig } = settings;
-    const pathToConfig = path.join(projectRoot, relativePathToConfig);
+    const pathToConfig = path.resolve(projectRoot, relativePathToConfig);
     let configJSON;
     try {
         configJSON = JSON.parse(await fs.readFile(pathToConfig, { encoding: "utf-8" }));

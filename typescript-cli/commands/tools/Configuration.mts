@@ -60,7 +60,7 @@ async function getConfiguration(
 ) : Promise<Configuration>
 {
   const { project, relativePathToConfig } = settings;
-  const pathToConfig = path.join( projectRoot, relativePathToConfig );
+  const pathToConfig = path.resolve( projectRoot, relativePathToConfig );
 
   let configJSON : { [key: string] : unknown };
   try {

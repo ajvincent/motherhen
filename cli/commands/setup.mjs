@@ -1,12 +1,14 @@
 // #region preamble
 import buildBlank from "./setupWizard/blankConfig.mjs";
+import confirmSettings from "./setupWizard/confirmSettings.mjs";
 import fillVanilla from "./setupWizard/fillVanilla.mjs";
 import fillIntegration from "./setupWizard/fillIntegration.mjs";
 import getEditableJSON from "./setupWizard/getEditableJSON.mjs";
 import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.mjs";
 import { InterruptedPrompt } from "./setupWizard/inquirer-registration.mjs";
+import { maybeUpdateGitIgnore, } from "./setupWizard/updateGitIgnore.mjs";
 import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
-import { maybeUpdateGitIgnore, confirmChoice, writeConfigurationFile, } from "./setupWizard/placeholders.mjs";
+import writeConfigurationFile from "./setupWizard/writeConfiguration.mjs";
 // #endregion preamble
 /**
  * This function drives the set-up of a Motherhen configuration file.
@@ -17,7 +19,9 @@ import { maybeUpdateGitIgnore, confirmChoice, writeConfigurationFile, } from "./
  * to Inquirer.
  */
 export default async function setupMotherhen() {
-    let writePromise;
+    let writePromise = () => {
+        throw new Error("assertion failure: we shouldn't reach this");
+    };
     try {
         writeIntroduction();
         // Where are we going to write the configuration file?
@@ -42,14 +46,14 @@ export default async function setupMotherhen() {
         uncreatedDirs = await fillIntegration(pathToFile, config.vanilla.path, config.integration, uncreatedDirs);
         void (uncreatedDirs);
         // What changes should we make to .gitignore?
-        const updateGitIgnore = await maybeUpdateGitIgnore(pathToFile);
+        const updateGitIgnore = !exists && await maybeUpdateGitIgnore(pathToFile);
         // Does everything look right?
-        const proceed = await confirmChoice(output, key);
+        const proceed = await confirmSettings(pathToFile, output, key);
         if (!proceed) {
-            return;
+            throw InterruptedPrompt.EVENT_INTERRUPTED;
         }
         // Update the real file system.
-        writePromise = writeConfigurationFile(pathToFile, exists, output, updateGitIgnore);
+        writePromise = () => writeConfigurationFile(pathToFile, exists, output, key, updateGitIgnore);
     }
     catch (error) {
         if (error === InterruptedPrompt.EVENT_INTERRUPTED) {
@@ -58,7 +62,7 @@ export default async function setupMotherhen() {
         }
         throw error;
     }
-    await writePromise;
+    await writePromise();
 }
 function writeIntroduction() {
     console.log(`

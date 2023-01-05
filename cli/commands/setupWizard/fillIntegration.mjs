@@ -1,6 +1,5 @@
 import fs from "fs/promises";
 import path from "path";
-import fileExists from "../tools/fileExists.mjs";
 import inquirer from "./inquirer-registration.mjs";
 import pickFileToCreate from "./pickFileToCreate.mjs";
 import projectRoot from "../tools/projectRoot.mjs";
@@ -22,7 +21,11 @@ export default async function fillIntegration(pathToConfig, pathToVanilla, integ
         uncreatedDirs = await updateIntegrationPath(pathToConfig, pathToVanilla ?? cleanroom, integration, uncreatedDirs.slice());
     }
     await maybeUpdateMozconfig(integration);
-    await maybeUpdateProjectDir(integration, pathToVanilla ?? path.join(cleanroom, "mozilla-unified"));
+    await updateProjectDirFromMozconfig(integration);
+    /*
+    await maybeUpdateProjectDir(
+      integration, pathToVanilla ?? path.join(cleanroom, "mozilla-unified"));
+    */
     return uncreatedDirs;
 }
 function writeStagePreamble() {
@@ -96,43 +99,17 @@ async function maybeUpdateMozconfig(integration) {
     });
     integration.mozconfig = pathToMozconfig;
 }
-/**
- * Update the project directory setting as the user wishes.
- * @param integration - the current integration configuration.
- * @param pathToCleanRepo - where the cleanroom repository lives.
- */
-async function maybeUpdateProjectDir(integration, pathToCleanRepo) {
-    if (integration.projectDir) {
-        const { shouldUpdateProjectDir } = await inquirer.prompt({
-            name: "shouldUpdateProjectDir",
-            type: "confirm",
-            message: "Do you want to update the project directory?",
-            default: false,
-        });
-        if (!shouldUpdateProjectDir) {
-            return;
-        }
+async function updateProjectDirFromMozconfig(integration) {
+    const mozconfig = await fs.readFile(integration.mozconfig, { encoding: "utf-8" });
+    const match = /--enable-project=(.*)\b/gm.exec(mozconfig);
+    if (!match) {
+        console.error(`I couldn't find an --enable-project line in your mozconfig!  This tells Mozilla where to find your project directory.
+
+See https://firefox-source-docs.mozilla.org/setup/configuring_build_options.html for details.
+`);
+        throw new Error("No project found for mozconfig at " + integration.mozconfig);
     }
-    console.log("You must select a project directory name.  It must not be a current child of the upstream Mozilla repository's root!");
-    let exclusions;
-    if (await fileExists(pathToCleanRepo, true)) {
-        const items = await fs.readdir(pathToCleanRepo);
-        exclusions = new Set(items);
-        console.log(`Here is the list of excluded entries:`, items.join(", "));
-    }
-    else
-        exclusions = new Set;
-    const { projectDir } = await inquirer.prompt({
-        name: "projectDir",
-        type: "input",
-        message: "Please enter a directory name to add as the project directory.",
-        validate(projectDir) {
-            if (exclusions.has(projectDir))
-                return "You cannot choose a directory which already exists as a child of the Mozilla root!";
-            return true;
-        }
-    });
-    integration.projectDir = projectDir;
+    integration.projectDir = match[1];
 }
 function hasAncestor(dirPath, ancestorPath) {
     while (dirPath.length >= ancestorPath.length) {

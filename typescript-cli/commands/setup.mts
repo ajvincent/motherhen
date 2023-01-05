@@ -1,6 +1,7 @@
 // #region preamble
 
 import buildBlank from "./setupWizard/blankConfig.mjs";
+import confirmSettings from "./setupWizard/confirmSettings.mjs";
 import fillVanilla from "./setupWizard/fillVanilla.mjs";
 import fillIntegration from "./setupWizard/fillIntegration.mjs";
 import getEditableJSON from "./setupWizard/getEditableJSON.mjs";
@@ -8,16 +9,15 @@ import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.mjs";
 import {
   InterruptedPrompt
 } from "./setupWizard/inquirer-registration.mjs";
+import {
+  maybeUpdateGitIgnore,
+} from "./setupWizard/updateGitIgnore.mjs";
 import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
 import type {
   WritableConfigurationType,
 } from "./setupWizard/shared-types.mjs";
 
-import {
-  maybeUpdateGitIgnore,
-  confirmChoice,
-  writeConfigurationFile,
-} from "./setupWizard/placeholders.mjs";
+import writeConfigurationFile from "./setupWizard/writeConfiguration.mjs";
 
 // #endregion preamble
 
@@ -31,7 +31,9 @@ import {
  */
 export default async function setupMotherhen() : Promise<void>
 {
-  let writePromise: Promise<void>;
+  let writePromise: () => Promise<void> = () => {
+    throw new Error("assertion failure: we shouldn't reach this")
+  };
 
   try {
     writeIntroduction();
@@ -73,19 +75,20 @@ export default async function setupMotherhen() : Promise<void>
     void(uncreatedDirs);
 
     // What changes should we make to .gitignore?
-    const updateGitIgnore = await maybeUpdateGitIgnore(pathToFile);
+    const updateGitIgnore = !exists && await maybeUpdateGitIgnore(pathToFile);
 
     // Does everything look right?
-    const proceed = await confirmChoice(output, key);
+    const proceed = await confirmSettings(pathToFile, output, key);
     if (!proceed) {
-      return;
+      throw InterruptedPrompt.EVENT_INTERRUPTED;
     }
 
     // Update the real file system.
-    writePromise = writeConfigurationFile(
+    writePromise = () : Promise<void> => writeConfigurationFile(
       pathToFile,
       exists,
       output,
+      key,
       updateGitIgnore
     );
   }
@@ -98,7 +101,7 @@ export default async function setupMotherhen() : Promise<void>
     throw error;
   }
 
-  await writePromise;
+  await writePromise();
 }
 
 function writeIntroduction() : void
