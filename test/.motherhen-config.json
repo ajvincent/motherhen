@@ -1,8 +1,7 @@
 {
   "default": {
     "vanilla": {
-      "tag": "central",
-      "vcs": "hg"
+      "tag": "central"
     },
     "integration": {
       "path": "./checkouts/mozilla-hatchedEgg",

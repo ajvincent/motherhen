@@ -26,12 +26,6 @@ export type Configuration = Readonly<{
 
     /** The tag to apply to the mozilla-unified repository. */
     "tag": string;
-
-    /**
-     * How we should check out the code, if we need to.
-     * Currently only "hg" is supported.
-     */
-    "vcs": "git" | "hg";
   }>;
 
   /** Metadata for the integration repository, where we combine the Motherhen project with Mozilla code. */
@@ -126,8 +120,6 @@ export function isConfiguration(
   if (typeof value.vanilla.tag !== "string")
     return false;
   if (value.vanilla.tag === "")
-    return false;
-  if ((value.vanilla.vcs !== "git") && (value.vanilla.vcs !== "hg"))
     return false;
 
   if (typeof value.integration !== "object")

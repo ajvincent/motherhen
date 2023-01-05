@@ -8,7 +8,6 @@ export default function buildBlank() : WritableConfigurationType
   return {
     vanilla: {
       tag: "",
-      vcs: "hg",
     },
 
     integration: {

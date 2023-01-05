@@ -3,7 +3,6 @@ export default function buildBlank() {
     return {
         vanilla: {
             tag: "",
-            vcs: "hg",
         },
         integration: {
             path: "",

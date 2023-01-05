@@ -10,7 +10,6 @@ export type WritableConfigurationType = {
   "vanilla": {
     "path"?: string;
     "tag": string;
-    "vcs": "git" | "hg";
   };
 
   "integration": {

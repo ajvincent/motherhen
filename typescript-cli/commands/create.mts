@@ -22,10 +22,7 @@ async function createProject(
     console.log("Vanilla checkout not found... cloning");
     console.group();
     try {
-      await (config.vanilla.vcs === "hg" ?
-        cloneVanillaHg(config.vanilla) :
-        cloneVanillaGit(config.vanilla)
-      );
+      await cloneVanillaHg(config.vanilla);
       didSomething = true;
     }
 
@@ -44,11 +41,7 @@ async function createProject(
     console.log("Integration repository not found...");
     console.group();
     try {
-      await (config.vanilla.vcs === "hg" ?
-        createIntegrationHg(config) :
-        createIntegrationGit(config)
-      );
-
+      await createIntegrationHg(config);
       didSomething = true;
     }
     finally {
@@ -66,7 +59,7 @@ pointing to your configuration.  Please see ./typescript-cli/commands/tools/Conf
 for the configuration format.
 ${didSomething ?
 `
-I've updated your repository to the ${config.vanilla.tag} tag, using ${config.vanilla.vcs} .
+I've updated your repository to the ${config.vanilla.tag} tag.
 
 I've applied a few small patches, but I haven't committed them yet.  I think it's up to you to decide how
 to manage this for now.
@@ -79,20 +72,4 @@ npm run mach --config=${settings.relativePathToConfig} --project=${settings.proj
 Good luck!!
 `.trim()
   );
-}
-
-async function cloneVanillaGit(
-  vanilla: Configuration["vanilla"]
-) : Promise<void>
-{
-  void(vanilla);
-  return Promise.reject(new Error("not yet implemented"));
-}
-
-async function createIntegrationGit(
-  config: Configuration
-) : Promise<void>
-{
-  void(config);
-  return Promise.reject(new Error("not yet implemented"));
 }

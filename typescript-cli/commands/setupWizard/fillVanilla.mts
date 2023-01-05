@@ -36,7 +36,7 @@ async function fillVanilla(
     );
   }
 
-  await updateTagAndVCS(vanilla);
+  await updateTag(vanilla);
   return uncreatedDirs;
 }
 
@@ -138,16 +138,15 @@ async function updateVanillaPath(
 }
 
 /**
- * Update the tag and vcs properties of the configuration.
+ * Update the tag property of the configuration.
  * @param vanilla - the current vanilla configuration.
  */
-async function updateTagAndVCS(
+async function updateTag(
   vanilla: WritableConfigurationType["vanilla"]
 ) : Promise<void>
 {
-  const { tag, vcs } = await inquirer.prompt<{
+  const { tag } = await inquirer.prompt<{
     tag: string,
-    vcs: "git" | "hg",
   }>
   ([
     {
@@ -162,21 +161,7 @@ async function updateTagAndVCS(
         return true;
       }
     },
-
-    {
-      type: "list",
-      name: "vcs",
-      message: "What version-control system should I use to clone the vanilla repository?",
-      default: "hg",
-      choices: [
-        /*
-        "git",
-        */
-        "hg",
-      ],
-    }
   ]);
 
   vanilla.tag = tag.trim();
-  vanilla.vcs = vcs;
 }

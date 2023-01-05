@@ -20,7 +20,7 @@ export default async function fillVanilla(pathToConfig, vanilla, uncreatedDirs) 
     if (shouldUpdateVanillaPath) {
         uncreatedDirs = await updateVanillaPath(pathToConfig, vanilla, uncreatedDirs);
     }
-    await updateTagAndVCS(vanilla);
+    await updateTag(vanilla);
     return uncreatedDirs;
 }
 function writeStagePreamble() {
@@ -96,11 +96,11 @@ async function updateVanillaPath(pathToConfig, vanilla, dirs) {
     return uncreatedDirs;
 }
 /**
- * Update the tag and vcs properties of the configuration.
+ * Update the tag property of the configuration.
  * @param vanilla - the current vanilla configuration.
  */
-async function updateTagAndVCS(vanilla) {
-    const { tag, vcs } = await inquirer.prompt([
+async function updateTag(vanilla) {
+    const { tag } = await inquirer.prompt([
         {
             type: "input",
             name: "tag",
@@ -112,20 +112,7 @@ async function updateTagAndVCS(vanilla) {
                 return true;
             }
         },
-        {
-            type: "list",
-            name: "vcs",
-            message: "What version-control system should I use to clone the vanilla repository?",
-            default: "hg",
-            choices: [
-                /*
-                "git",
-                */
-                "hg",
-            ],
-        }
     ]);
     vanilla.tag = tag.trim();
-    vanilla.vcs = vcs;
 }
 //# sourceMappingURL=fillVanilla.mjs.map

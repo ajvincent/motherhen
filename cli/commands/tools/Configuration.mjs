@@ -51,8 +51,6 @@ export function isConfiguration(unknownValue) {
         return false;
     if (value.vanilla.tag === "")
         return false;
-    if ((value.vanilla.vcs !== "git") && (value.vanilla.vcs !== "hg"))
-        return false;
     if (typeof value.integration !== "object")
         return false;
     if (typeof value.integration.path !== "string")

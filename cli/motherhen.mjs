@@ -10,14 +10,13 @@
 //#region preamble
 import fs from "fs/promises";
 import path from "path";
-import url from "url";
 import { Command } from 'commander';
 import getConfiguration from "./commands/tools/Configuration.mjs";
 import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
 import projectRoot from "./commands/tools/projectRoot.mjs";
 // #endregion preamble
 //#region main program
-const { version } = JSON.parse(await fs.readFile(path.join(url.fileURLToPath(import.meta.url), "../../package.json"), { encoding: "utf-8" }));
+const { version } = JSON.parse(await fs.readFile(path.join(projectRoot, "package.json"), { encoding: "utf-8" }));
 const program = new Command();
 program
     .name("Motherhen")
