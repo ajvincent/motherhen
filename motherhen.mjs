@@ -13,6 +13,7 @@ import path from "path";
 import url from "url";
 import { Command } from 'commander';
 import getConfiguration from "./commands/tools/Configuration.mjs";
+import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
 // #endregion preamble
 //#region main program
 const { version } = JSON.parse(await fs.readFile(path.join(url.fileURLToPath(import.meta.url), "../package.json"), { encoding: "utf-8" }));
@@ -23,6 +24,13 @@ program
     .option("--config [config]", "The relative path to the Motherhen configuration.", ".motherhen-config.json")
     .option("--project [project]", "The project to use from the Motherhen configuration.", "default")
     .version(version);
+program
+    .command("setup")
+    .description("Create or edit an existing Motherhen configuration.")
+    .action(async () => {
+    const setupMotherhen = await getModuleDefault(path.join(process.cwd(), "./commands/setup.mjs"));
+    await setupMotherhen();
+});
 bindCommand("create", "Create a Mozilla repository.");
 bindCommand("where", "Show where the Mozilla repository should be.");
 bindCommand("mach", `Invoke mach in the Mozilla repository.`);
@@ -57,8 +65,7 @@ function bindCommand(commandName, description) {
  * @returns the default export.
  */
 async function getCommandDefault(commandName) {
-    const module = await import(path.resolve(url.fileURLToPath(import.meta.url), "../commands", commandName + ".mjs"));
-    return module.default;
+    return getModuleDefault(path.resolve(url.fileURLToPath(import.meta.url), "../commands", commandName + ".mjs"));
 }
 // #endregion command-handling functions
 //# sourceMappingURL=motherhen.mjs.map

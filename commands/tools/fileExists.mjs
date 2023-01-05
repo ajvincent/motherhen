@@ -1,8 +1,8 @@
 import fs from "fs/promises";
-export default async function fileExists(pathToFile, isDirectory) {
+export default async function fileExists(pathToFile, isDirectory, filesystem) {
     let found = false;
     try {
-        const stats = await fs.stat(pathToFile);
+        const stats = await (filesystem ?? fs).stat(pathToFile);
         if (isDirectory === undefined)
             found = true;
         else if (isDirectory)

@@ -14,3 +14,7 @@ motherhen.mjs.map
 
 # A directory for mozilla-unified to live in as a repository with no patches.
 .cleanroom
+
+# the default location to configure a project
+.motherhen-config.json
+

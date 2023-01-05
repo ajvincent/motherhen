@@ -37,7 +37,7 @@ async function getConfiguration(settings) {
     return config;
 }
 /** Validate a configuration value. */
-function isConfiguration(unknownValue) {
+export function isConfiguration(unknownValue) {
     if (typeof unknownValue !== "object")
         return false;
     const value = unknownValue;
@@ -46,7 +46,11 @@ function isConfiguration(unknownValue) {
     const vanillaPathType = typeof value.vanilla.path;
     if ((vanillaPathType !== "string") && (vanillaPathType !== "undefined"))
         return false;
+    if (value.vanilla.path === "")
+        return false;
     if (typeof value.vanilla.tag !== "string")
+        return false;
+    if (value.vanilla.tag === "")
         return false;
     if ((value.vanilla.vcs !== "git") && (value.vanilla.vcs !== "hg"))
         return false;
@@ -54,9 +58,15 @@ function isConfiguration(unknownValue) {
         return false;
     if (typeof value.integration.path !== "string")
         return false;
+    if (value.integration.path === "")
+        return false;
     if (typeof value.integration.mozconfig !== "string")
         return false;
+    if (value.integration.mozconfig === "")
+        return false;
     if (typeof value.integration.projectDir !== "string")
+        return false;
+    if (value.integration.projectDir === "")
         return false;
     return true;
 }

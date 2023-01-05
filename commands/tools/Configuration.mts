@@ -112,7 +112,7 @@ async function getConfiguration(
 }
 
 /** Validate a configuration value. */
-function isConfiguration(
+export function isConfiguration(
   unknownValue: unknown
 ) : unknownValue is ConfigurationWithoutVanillaPath
 {
@@ -125,7 +125,11 @@ function isConfiguration(
   const vanillaPathType = typeof value.vanilla.path;
   if ((vanillaPathType !== "string") && (vanillaPathType !== "undefined"))
     return false;
+  if (value.vanilla.path === "")
+    return false;
   if (typeof value.vanilla.tag !== "string")
+    return false;
+  if (value.vanilla.tag === "")
     return false;
   if ((value.vanilla.vcs !== "git") && (value.vanilla.vcs !== "hg"))
     return false;
@@ -134,9 +138,15 @@ function isConfiguration(
     return false;
   if (typeof value.integration.path !== "string")
     return false;
+  if (value.integration.path === "")
+    return false;
   if (typeof value.integration.mozconfig !== "string")
     return false;
+  if (value.integration.mozconfig === "")
+    return false;
   if (typeof value.integration.projectDir !== "string")
+    return false;
+  if (value.integration.projectDir === "")
     return false;
 
   return true;

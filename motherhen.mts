@@ -20,6 +20,8 @@ import getConfiguration, {
   type Configuration,
 } from "./commands/tools/Configuration.mjs";
 
+import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
+
 export type CommandSettings = {
   relativePathToConfig: string,
   project: string
@@ -54,6 +56,16 @@ program
     "default"
   )
   .version(version);
+
+program
+  .command("setup")
+  .description("Create or edit an existing Motherhen configuration.")
+  .action(async () => {
+    const setupMotherhen = await getModuleDefault<
+      () => Promise<void>
+    >(path.join(process.cwd(), "./commands/setup.mjs"));
+    await setupMotherhen();
+  });
 
 bindCommand("create", "Create a Mozilla repository.");
 bindCommand("where",  "Show where the Mozilla repository should be.");
@@ -100,14 +112,10 @@ function bindCommand(
  */
 async function getCommandDefault<T>(commandName: string) : Promise<T>
 {
-  type DefaultModule = { default: T };
-
-  const module = await import(path.resolve(
+  return getModuleDefault<T>(path.resolve(
     url.fileURLToPath(import.meta.url),
     "../commands",
     commandName + ".mjs"
-  )) as DefaultModule;
-
-  return module.default;
+  ));
 }
 // #endregion command-handling functions
