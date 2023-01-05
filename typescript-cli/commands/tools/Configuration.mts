@@ -35,9 +35,6 @@ export type Configuration = Readonly<{
 
     /** The MOZCONFIG file. */
     "mozconfig": string;
-
-    /** Where the Motherhen project lives. */
-    "projectDir": string;
   }>;
 }>;
 
@@ -131,10 +128,6 @@ export function isConfiguration(
   if (typeof value.integration.mozconfig !== "string")
     return false;
   if (value.integration.mozconfig === "")
-    return false;
-  if (typeof value.integration.projectDir !== "string")
-    return false;
-  if (value.integration.projectDir === "")
     return false;
 
   return true;

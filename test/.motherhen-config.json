@@ -5,8 +5,7 @@
     },
     "integration": {
       "path": "./checkouts/mozilla-hatchedEgg",
-      "mozconfig": "./newapp-sym.mozconfig",
-      "projectDir": "newapp"
+      "mozconfig": "./newapp-sym.mozconfig"
     }
   }
 }

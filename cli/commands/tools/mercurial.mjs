@@ -7,6 +7,7 @@ import wget from "wget-improved";
 import { execAsync } from "./childProcessAsync.mjs";
 import fileExists from "./fileExists.mjs";
 import projectRoot from "./projectRoot.mjs";
+import getProjectDirFromMozconfig from "./projectDirFromMozconfig.mjs";
 const hg = await which("hg");
 // #endregion preamble
 // #region Exported functions
@@ -34,16 +35,17 @@ export async function cloneVanillaHg(vanilla) {
  */
 export async function createIntegrationHg(config) {
     await pullAndUpdate(config.vanilla);
+    const projectDir = await getProjectDirFromMozconfig(config.integration);
     await fs.mkdir(config.integration.path, { recursive: true });
     console.log("Checking for the non-existence of the project directory in the vanilla repository");
     {
-        const mustNotExist = path.join(config.vanilla.path, config.integration.projectDir);
+        const mustNotExist = path.join(config.vanilla.path, projectDir);
         if (await fileExists(mustNotExist))
             throw new Error(`Directory must not exist: ${mustNotExist}`);
     }
-    await addSymbolicLinks(config.integration);
+    await addSymbolicLinks(config.integration, projectDir);
     await copyVanilla(config.vanilla, config.integration);
-    await applyProject(config.integration);
+    await applyProject(config.integration, projectDir);
 }
 // #endregion Exported functions.
 // #region task functions
@@ -92,12 +94,11 @@ async function pullAndUpdate(vanilla) {
  * Add symbolic links for the source directory and .mozconfig files.
  * @param integration - the "integration" repository metadata.
  */
-async function addSymbolicLinks(integration) {
+async function addSymbolicLinks(integration, projectDir) {
     console.log(`Adding symbolic links to this Motherhen project`);
-    const projectDir = path.join(integration.path, integration.projectDir);
     const sourceDir = path.resolve(projectRoot, "source");
     const pathToSource = path.relative(integration.path, sourceDir);
-    await fs.symlink(pathToSource, projectDir, "dir");
+    await fs.symlink(pathToSource, path.join(integration.path, projectDir), "dir");
     const mozconfigTarget = path.join(integration.path, ".mozconfig");
     const mozconfigSource = path.relative(path.dirname(mozconfigTarget), integration.mozconfig);
     await fs.symlink(mozconfigSource, mozconfigTarget, "file");
@@ -120,12 +121,12 @@ async function copyVanilla(vanilla, integration) {
  * Apply Motherhen patches and ignore the project in the integration repository.
  * @param integration - the "integration" repository metadata.
  */
-async function applyProject(integration) {
+async function applyProject(integration, projectDir) {
     const patch = await which("patch");
     console.log("Adding this Motherhen project to the integration repository's .hgignore");
     await fs.appendFile(path.join(integration.path, ".hgignore"), "\n\n" + `
 # Motherhen project
-${integration.projectDir}
+${projectDir}
     `.trim() + "\n", { encoding: "utf-8" });
     console.log("Applying custom patches");
     const patchDir = path.join(projectRoot, "patches");

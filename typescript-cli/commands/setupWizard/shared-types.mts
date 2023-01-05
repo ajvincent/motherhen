@@ -14,8 +14,7 @@ export type WritableConfigurationType = {
 
   "integration": {
     "path": string;
-    "mozconfig": string;
-    "projectDir": string;
+    "mozconfig": string
   };
 };
 

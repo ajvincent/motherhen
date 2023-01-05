@@ -7,7 +7,6 @@ export default function buildBlank() {
         integration: {
             path: "",
             mozconfig: "",
-            projectDir: "",
         }
     };
 }

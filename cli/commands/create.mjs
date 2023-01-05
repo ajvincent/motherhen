@@ -52,7 +52,7 @@ to manage this for now.
         : ""}
 To run mach commands:
 
-npm run mach --config=${settings.relativePathToConfig} --project=${settings.project} (command)
+./cli/motherhen.mjs mach --config=${settings.relativePathToConfig}${settings.project !== "default" ? ` --project=${settings.project}` : ""} (command)
 
 Good luck!!
 `.trim());

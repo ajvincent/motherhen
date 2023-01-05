@@ -61,10 +61,6 @@ export function isConfiguration(unknownValue) {
         return false;
     if (value.integration.mozconfig === "")
         return false;
-    if (typeof value.integration.projectDir !== "string")
-        return false;
-    if (value.integration.projectDir === "")
-        return false;
     return true;
 }
 /**

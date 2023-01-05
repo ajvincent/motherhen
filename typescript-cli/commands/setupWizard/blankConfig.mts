@@ -13,7 +13,6 @@ export default function buildBlank() : WritableConfigurationType
     integration: {
       path: "",
       mozconfig: "",
-      projectDir: "",
     }
   };
 }

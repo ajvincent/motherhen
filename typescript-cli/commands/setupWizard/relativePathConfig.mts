@@ -26,7 +26,6 @@ export default function relativePathConfig(
   const integration: WritableConfigurationType["integration"] = {
     path: path.relative(pathToProject, absConfig.integration.path),
     mozconfig: path.relative(pathToProject, absConfig.integration.mozconfig),
-    projectDir: absConfig.integration.projectDir
   };
 
   return { vanilla, integration };

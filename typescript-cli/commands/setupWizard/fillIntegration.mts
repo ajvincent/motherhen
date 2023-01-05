@@ -1,8 +1,8 @@
-import fs from "fs/promises";
 import path from "path";
 
 import inquirer from "./inquirer-registration.mjs";
 import pickFileToCreate from "./pickFileToCreate.mjs";
+import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.mjs";
 import type {
   WritableConfigurationType,
 } from "./shared-types.mjs";
@@ -42,13 +42,7 @@ async function fillIntegration(
   }
 
   await maybeUpdateMozconfig(integration);
-
-  await updateProjectDirFromMozconfig(integration);
-
-  /*
-  await maybeUpdateProjectDir(
-    integration, pathToVanilla ?? path.join(cleanroom, "mozilla-unified"));
-  */
+  await getProjectDirFromMozconfig(integration);
 
   return uncreatedDirs;
 }
@@ -158,29 +152,6 @@ async function maybeUpdateMozconfig(
   );
 
   integration.mozconfig = pathToMozconfig;
-}
-
-async function updateProjectDirFromMozconfig(
-  integration: WritableConfigurationType["integration"],
-) : Promise<void>
-{
-  const mozconfig = await fs.readFile(
-    integration.mozconfig,
-    { encoding: "utf-8" }
-  );
-
-  const match = /--enable-project=(.*)\b/gm.exec(mozconfig);
-  if (!match) {
-    console.error(
-`I couldn't find an --enable-project line in your mozconfig!  This tells Mozilla where to find your project directory.
-
-See https://firefox-source-docs.mozilla.org/setup/configuring_build_options.html for details.
-`
-    );
-    throw new Error("No project found for mozconfig at " + integration.mozconfig);
-  }
-
-  integration.projectDir = match[1];
 }
 
 function hasAncestor(

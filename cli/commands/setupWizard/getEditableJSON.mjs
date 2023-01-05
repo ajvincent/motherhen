@@ -6,7 +6,7 @@ import buildBlank from "./blankConfig.mjs";
 import inquirer from "./inquirer-registration.mjs";
 /**
  * Get an editable configuration, and report whether we should overwrite it.
- * @param pathToFile - where the configuration file could live.
+ * @param pathToFile - absolute path to where the configuration file could live.
  * @returns exists - true if the file already exists.
  * @returns output - the parsed JSON configuration.
  */
