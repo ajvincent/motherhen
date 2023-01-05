@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+PROJECT_DIR = hatchedegg
+
 dist_dest   = $(DIST)/$(MOZ_MACBUNDLE_NAME)
 
 AB_CD = $(MOZ_UI_LOCALE)
@@ -29,7 +31,7 @@ CXX += -march=pentiumpro
 endif
 
 # TODO: Add this to a script that can change the application name
-objdir = $(topobjdir)/newapp/app
+objdir = $(topobjdir)/$(PROJECT_DIR)/app
 
 include $(moztopsrcdir)/config/rules.mk
 

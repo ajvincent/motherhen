@@ -6,5 +6,5 @@
 include('/toolkit/toolkit.mozbuild')
 
 DIRS += [
-    "/newapp"
+    "/hatchedegg"
 ]

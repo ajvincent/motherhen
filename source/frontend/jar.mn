@@ -1,7 +1,7 @@
 #filter substitution
 
-newapp.jar:
-% content newapp %content/ contentaccessible=yes
+hatchedegg.jar:
+% content hatchedegg %content/ contentaccessible=yes
   content/main.xhtml                  (content/main.xhtml)
   content/main.js                     (content/main.js)
 

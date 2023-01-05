@@ -1,7 +1,7 @@
-# a temporary directory for all checkouts
+# a temporary directory for test-build checkouts
 test/checkouts
 
-# an object directory for the compiled Mozilla code
+# an object directory for test-compiled Mozilla code
 test/objdir
 
 node_modules

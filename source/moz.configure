@@ -20,7 +20,7 @@ set_define("MOZ_NEWAPP", True)
 #
 # - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/update/common/commonupdatedir.cpp#580
 # - https://searchfox.org/comm-central/source/mozilla/toolkit/mozapps/defaultagent/Policy.cpp#33
-imply_option("MOZ_APP_BASENAME", "NewApplication")
+imply_option("MOZ_APP_BASENAME", "hatchedegg")
 
 # What does this mean?  It's causing mozbuild/configure to die:
 # mozbuild.configure.ConfigureError: `--enable-default-browser-agent`, emitted from `/home/ajvincent/debugging/mozilla-coroner/mozilla-central/comm/newapp/moz.configure` line 16, is unknown.

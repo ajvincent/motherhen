@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+PROJECT_DIR = hatchedegg
+
 STANDALONE_MAKEFILE := 1
 # DIST_SUBDIR := mail  # Not sure why TB is not using this
 
@@ -18,7 +20,7 @@ ifdef MOZ_ARTIFACT_BUILDS
 MOZ_PKG_FATAL_WARNINGS =
 endif
 
-#DEFINES += -DPKG_LOCALE_MANIFEST=newapp/installer/locale-manifest.in
+#DEFINES += -DPKG_LOCALE_MANIFEST=$(PROJECT_DIR)/installer/locale-manifest.in
 #MOZ_CHROME_LOCALE_ENTRIES=@RESPATH@/chrome/
 
 MOZ_PKG_DUPEFLAGS = \
@@ -27,7 +29,7 @@ MOZ_PKG_DUPEFLAGS = \
 
 #MOZ_NONLOCALIZED_PKG_LIST = \
 #	xpcom \
-#	newapp \
+#	$(PROJECT_DIR) \
 #	$(NULL)
 
 MOZ_LOCALIZED_PKG_LIST = $(AB_CD)
@@ -175,7 +177,7 @@ endif
 
 # XXX ajvincent disabled for now, as I don't have a complete picture, or if we even need this
 #libs::
-#	$(MAKE) -C newapp/locales langpack
+#	$(MAKE) -C $(PROJECT_DIR)/locales langpack
 
 ifeq (WINNT,$(OS_ARCH))
 PKGCOMP_FIND_OPTS =

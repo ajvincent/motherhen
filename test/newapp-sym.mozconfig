@@ -11,5 +11,5 @@ ac_add_options --disable-debug
 ac_add_options --enable-optimize
 ac_add_options --enable-debug-symbols
 
-ac_add_options --enable-project=newapp
-ac_add_options --with-app-basename=NewApplication
+ac_add_options --enable-project=hatchedegg
+ac_add_options --with-app-basename=hatchedegg
