@@ -22,7 +22,7 @@ I've tested this _manually_ in early January, 2023 against mozilla-central, and 
 | `mach configure` | Working | Working | __Not tested__ |
 | `mach build` | Working | Working | __Not tested__ |
 | `mach run` | Working | Working | __Not tested__ |
-| `mach package` | Working | _Broken_ | __Not tested__ |
+| `mach package` | Working | [_Broken_](https://github.com/ajvincent/motherhen/issues/28) | __Not tested__ |
 
 ### Why not Windows?
 
