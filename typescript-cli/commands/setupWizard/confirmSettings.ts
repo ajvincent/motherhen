@@ -2,7 +2,7 @@ import type {
   WritableConfigurationJSON
 } from "./shared-types.js";
 import inquirer from "./inquirer-registration.js";
-import relativePathConfig from "./relativePathConfig.mjs";
+import relativePathConfig from "./relativePathConfig.js";
 
 /**
  * Convert absolute paths to relative ones, and confirm the configuration with the user.

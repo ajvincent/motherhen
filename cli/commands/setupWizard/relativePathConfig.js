@@ -18,4 +18,4 @@ export default function relativePathConfig(pathToConfig, absConfig) {
     };
     return { vanilla, integration };
 }
-//# sourceMappingURL=relativePathConfig.mjs.map
+//# sourceMappingURL=relativePathConfig.js.map
