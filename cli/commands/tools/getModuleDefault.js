@@ -7,4 +7,4 @@ export default async function getModuleDefault(importPath) {
     const module = await import(importPath);
     return module.default;
 }
-//# sourceMappingURL=getModuleDefault.mjs.map
+//# sourceMappingURL=getModuleDefault.js.map

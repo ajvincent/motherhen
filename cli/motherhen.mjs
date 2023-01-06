@@ -12,7 +12,7 @@ import fs from "fs/promises";
 import path from "path";
 import { Command } from 'commander';
 import getConfiguration from "./commands/tools/Configuration.mjs";
-import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
+import getModuleDefault from "./commands/tools/getModuleDefault.js";
 import projectRoot from "./commands/tools/projectRoot.js";
 // #endregion preamble
 //#region main program

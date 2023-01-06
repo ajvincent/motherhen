@@ -19,7 +19,7 @@ import getConfiguration, {
   type Configuration,
 } from "./commands/tools/Configuration.mjs";
 
-import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
+import getModuleDefault from "./commands/tools/getModuleDefault.js";
 import projectRoot from "./commands/tools/projectRoot.js";
 
 import type { CommandSettings } from "./commands/tools/CommandSettings-type.js";
