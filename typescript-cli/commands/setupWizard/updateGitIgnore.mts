@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 
-import projectRoot from "../tools/projectRoot.mjs";
+import projectRoot from "../tools/projectRoot.js";
 import inquirer from "./inquirer-registration.mjs";
 
 const gitignorePath = path.join(projectRoot, ".gitignore");

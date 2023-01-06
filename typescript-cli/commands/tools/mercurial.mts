@@ -10,7 +10,7 @@ import { type Configuration } from "./Configuration.mjs";
 import { execAsync } from "./childProcessAsync.mjs";
 import fileExists from "./fileExists.mjs";
 
-import projectRoot from "./projectRoot.mjs";
+import projectRoot from "./projectRoot.js";
 import getProjectDirFromMozconfig from "./projectDirFromMozconfig.mjs";
 const hg = await which("hg");
 // #endregion preamble

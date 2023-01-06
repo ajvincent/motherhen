@@ -20,7 +20,7 @@
     "test:run": "./cli/motherhen.mjs mach run --config=./test/.motherhen-config.json --project=default",
     "test:package": "./cli/motherhen.mjs mach package --config=./test/.motherhen-config.json --project=default",
     "test:where": "./cli/motherhen.mjs where --config=./test/.motherhen-config.json --project=default",
-    "tsc": "rm -rf /cli/*/* && tsc"
+    "tsc": "rm -rf ./cli/*/* && tsc"
   },
   "repository": {
     "type": "git",

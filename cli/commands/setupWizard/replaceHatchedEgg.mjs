@@ -4,7 +4,7 @@ import replaceInFilePkg from "replace-in-file";
 const { replaceInFile } = replaceInFilePkg;
 import fileExists from "../tools/fileExists.mjs";
 import inquirer from "./inquirer-registration.mjs";
-import projectRoot from "../tools/projectRoot.mjs";
+import projectRoot from "../tools/projectRoot.js";
 /**
  * Ask the user if we should replace the "hatchedegg" name.
  * @param integration - the integration repository configuration.

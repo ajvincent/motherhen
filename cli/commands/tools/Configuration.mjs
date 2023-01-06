@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import projectRoot from "./projectRoot.mjs";
+import projectRoot from "./projectRoot.js";
 /**
  * Get the configuration.
  * @param settings - the command-line settings from motherhen.mts.

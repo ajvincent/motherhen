@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 
 import type { CommandSettings } from "./CommandSettings-type.js";
-import projectRoot from "./projectRoot.mjs";
+import projectRoot from "./projectRoot.js";
 
 /**
  * Use this type to define .motherhen-config.json in the root directory.
