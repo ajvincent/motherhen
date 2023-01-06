@@ -1,5 +1,5 @@
 import which from "which";
-import { spawnAsync } from "./tools/childProcessAsync.mjs";
+import { spawnAsync } from "./tools/childProcessAsync.js";
 const python3 = await which("python3");
 export default async function runMach(config, settings, userArgs) {
     void (settings);

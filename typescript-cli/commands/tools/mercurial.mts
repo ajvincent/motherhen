@@ -7,7 +7,7 @@ import ini from "ini";
 import wget from "wget-improved";
 
 import { type Configuration } from "./Configuration.mjs";
-import { execAsync } from "./childProcessAsync.mjs";
+import { execAsync } from "./childProcessAsync.js";
 import fileExists from "./fileExists.js";
 
 import projectRoot from "./projectRoot.js";

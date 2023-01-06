@@ -4,7 +4,7 @@ import path from "path";
 import which from "which";
 import ini from "ini";
 import wget from "wget-improved";
-import { execAsync } from "./childProcessAsync.mjs";
+import { execAsync } from "./childProcessAsync.js";
 import fileExists from "./fileExists.js";
 import projectRoot from "./projectRoot.js";
 import getProjectDirFromMozconfig from "./projectDirFromMozconfig.mjs";

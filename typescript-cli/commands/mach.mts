@@ -2,7 +2,7 @@ import which from "which";
 
 import { type Configuration } from "./tools/Configuration.mjs";
 import type { CommandSettings } from "./tools/CommandSettings-type";
-import { spawnAsync } from "./tools/childProcessAsync.mjs";
+import { spawnAsync } from "./tools/childProcessAsync.js";
 
 const python3 = await which("python3");
 
