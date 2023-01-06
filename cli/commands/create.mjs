@@ -1,4 +1,4 @@
-import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.mjs";
+import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
 import fileExists from "./tools/fileExists.js";
 import whereIsMyProject from "./where.mjs";
 /**

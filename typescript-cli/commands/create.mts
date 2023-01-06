@@ -1,5 +1,5 @@
 import { type Configuration } from "./tools/Configuration.mjs";
-import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.mjs";
+import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
 import fileExists from "./tools/fileExists.js";
 
 import type { CommandSettings } from "./tools/CommandSettings-type";
