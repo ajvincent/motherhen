@@ -1,7 +1,7 @@
 // #region preamble
 import fs from "fs/promises";
 
-import fileExists from "../tools/fileExists.mjs";
+import fileExists from "../tools/fileExists.js";
 import {
   isConfiguration,
 } from "../tools/Configuration.mjs";

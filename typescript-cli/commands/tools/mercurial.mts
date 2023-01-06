@@ -8,7 +8,7 @@ import wget from "wget-improved";
 
 import { type Configuration } from "./Configuration.mjs";
 import { execAsync } from "./childProcessAsync.mjs";
-import fileExists from "./fileExists.mjs";
+import fileExists from "./fileExists.js";
 
 import projectRoot from "./projectRoot.js";
 import getProjectDirFromMozconfig from "./projectDirFromMozconfig.mjs";

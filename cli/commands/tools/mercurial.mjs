@@ -5,7 +5,7 @@ import which from "which";
 import ini from "ini";
 import wget from "wget-improved";
 import { execAsync } from "./childProcessAsync.mjs";
-import fileExists from "./fileExists.mjs";
+import fileExists from "./fileExists.js";
 import projectRoot from "./projectRoot.js";
 import getProjectDirFromMozconfig from "./projectDirFromMozconfig.mjs";
 const hg = await which("hg");

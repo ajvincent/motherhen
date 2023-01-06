@@ -1,5 +1,5 @@
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.mjs";
-import fileExists from "./tools/fileExists.mjs";
+import fileExists from "./tools/fileExists.js";
 import whereIsMyProject from "./where.mjs";
 /**
  * @param config - the configuration to use.

@@ -4,7 +4,7 @@ import fs from "fs/promises";
 import replaceInFilePkg from "replace-in-file";
 const { replaceInFile } = replaceInFilePkg;
 
-import fileExists from "../tools/fileExists.mjs";
+import fileExists from "../tools/fileExists.js";
 import inquirer from "./inquirer-registration.mjs";
 import projectRoot from "../tools/projectRoot.js";
 import type {

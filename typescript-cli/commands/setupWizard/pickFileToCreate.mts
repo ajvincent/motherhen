@@ -1,6 +1,6 @@
 import path from "path";
 
-import fileExists from "../tools/fileExists.mjs";
+import fileExists from "../tools/fileExists.js";
 import inquirer from "./inquirer-registration.mjs";
 import type {
   PathToFileValidation,

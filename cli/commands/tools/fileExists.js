@@ -15,4 +15,4 @@ export default async function fileExists(pathToFile, isDirectory, filesystem) {
     }
     return found;
 }
-//# sourceMappingURL=fileExists.mjs.map
+//# sourceMappingURL=fileExists.js.map
