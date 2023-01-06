@@ -19,4 +19,4 @@ export default async function confirmSettings(pathToConfig, output, keyName) {
     });
     return confirmWrite;
 }
-//# sourceMappingURL=confirmSettings.mjs.map
+//# sourceMappingURL=confirmSettings.js.map
