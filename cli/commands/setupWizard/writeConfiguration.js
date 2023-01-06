@@ -30,4 +30,4 @@ You should now be able to create your repository with the command:
 ./cli/motherhen.mjs create --config ${pathToFile}${key === "default" ? "" : `--project ${key}`}
 `.trim() + "\n");
 }
-//# sourceMappingURL=writeConfiguration.mjs.map
+//# sourceMappingURL=writeConfiguration.js.map

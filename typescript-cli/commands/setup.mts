@@ -17,7 +17,7 @@ import type {
   WritableConfigurationType,
 } from "./setupWizard/shared-types.js";
 
-import writeConfiguration from "./setupWizard/writeConfiguration.mjs";
+import writeConfiguration from "./setupWizard/writeConfiguration.js";
 
 // #endregion preamble
 

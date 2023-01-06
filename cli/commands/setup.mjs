@@ -8,7 +8,7 @@ import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.js";
 import { InterruptedPrompt } from "./setupWizard/inquirer-registration.js";
 import { maybeUpdateGitIgnore, } from "./setupWizard/updateGitIgnore.js";
 import pickConfigLocation from "./setupWizard/pickConfigLocation.js";
-import writeConfiguration from "./setupWizard/writeConfiguration.mjs";
+import writeConfiguration from "./setupWizard/writeConfiguration.js";
 // #endregion preamble
 /**
  * This function drives the set-up of a Motherhen configuration file.
