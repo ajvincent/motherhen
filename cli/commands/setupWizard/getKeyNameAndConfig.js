@@ -1,5 +1,5 @@
 import buildBlank from "./blankConfig.js";
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 /**
  * Select a project target for updating.
  * @param output - the project configuration.

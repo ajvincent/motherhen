@@ -1,5 +1,5 @@
 import buildBlank from "./blankConfig.js";
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 import type {
   WritableConfigurationJSON,
   WritableConfigurationType,

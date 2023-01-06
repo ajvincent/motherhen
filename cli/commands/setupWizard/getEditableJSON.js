@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import fileExists from "../tools/fileExists.js";
 import { isConfiguration, } from "../tools/Configuration.js";
 import buildBlank from "./blankConfig.js";
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 /**
  * Get an editable configuration, and report whether we should overwrite it.
  * @param pathToFile - absolute path to where the configuration file could live.

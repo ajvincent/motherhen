@@ -1,7 +1,7 @@
 import path from "path";
 
 import fileExists from "../tools/fileExists.js";
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 import type {
   PathToFileValidation,
   PathWithUncreatedDirs,

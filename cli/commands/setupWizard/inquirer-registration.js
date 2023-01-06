@@ -9,4 +9,4 @@ export const InterruptedPrompt = await getModuleDefault("inquirer-interrupted-pr
 InterruptedPrompt.fromAll(inquirer);
 inquirer.registerPrompt('file-tree-selection', InterruptedPrompt.from(inquirerFileTreeSelection));
 export default inquirer;
-//# sourceMappingURL=inquirer-registration.mjs.map
+//# sourceMappingURL=inquirer-registration.js.map

@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import replaceInFilePkg from "replace-in-file";
 const { replaceInFile } = replaceInFilePkg;
 import fileExists from "../tools/fileExists.js";
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 import projectRoot from "../tools/projectRoot.js";
 /**
  * Ask the user if we should replace the "hatchedegg" name.

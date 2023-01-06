@@ -1,6 +1,6 @@
 import path from "path";
 
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 import pickFileToCreate from "./pickFileToCreate.mjs";
 import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.js";
 import {

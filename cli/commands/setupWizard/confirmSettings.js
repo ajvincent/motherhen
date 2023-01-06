@@ -1,4 +1,4 @@
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 import relativePathConfig from "./relativePathConfig.mjs";
 /**
  * Convert absolute paths to relative ones, and confirm the configuration with the user.

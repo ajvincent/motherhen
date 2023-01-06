@@ -1,7 +1,7 @@
 import type {
   WritableConfigurationJSON
 } from "./shared-types.js";
-import inquirer from "./inquirer-registration.mjs";
+import inquirer from "./inquirer-registration.js";
 import relativePathConfig from "./relativePathConfig.mjs";
 
 /**
