@@ -1,6 +1,6 @@
 import path from "path";
 import inquirer from "./inquirer-registration.js";
-import pickFileToCreate from "./pickFileToCreate.mjs";
+import pickFileToCreate from "./pickFileToCreate.js";
 /**
  * @param pathToConfig - the Motherhen configuration file path.
  * @param vanilla - the vanilla repository configuration.

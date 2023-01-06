@@ -1,7 +1,7 @@
 import path from "path";
 
 import inquirer from "./inquirer-registration.js";
-import pickFileToCreate from "./pickFileToCreate.mjs";
+import pickFileToCreate from "./pickFileToCreate.js";
 import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.js";
 import {
   shouldReplaceHatchedEgg

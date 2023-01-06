@@ -1,4 +1,4 @@
-import pickFileToCreate from "./pickFileToCreate.mjs";
+import pickFileToCreate from "./pickFileToCreate.js";
 /**
  * Ask the user to give us a location for the Motherhen configuration file.
  * @returns pathToFile - where the configuration file should be.

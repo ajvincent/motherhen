@@ -1,4 +1,4 @@
-import pickFileToCreate from "./pickFileToCreate.mjs";
+import pickFileToCreate from "./pickFileToCreate.js";
 import type {
   PathWithUncreatedDirs
 } from "./shared-types.js";
