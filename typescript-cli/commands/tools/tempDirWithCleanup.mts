@@ -5,7 +5,7 @@ import os from "os";
 import {
   Deferred,
   type PromiseResolver
-} from "./PromiseTypes.mjs";
+} from "./PromiseTypes.js";
 
 export type TemporaryDirWithPromise = {
   /** The directory's full path. */

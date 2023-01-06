@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import os from "os";
-import { Deferred } from "./PromiseTypes.mjs";
+import { Deferred } from "./PromiseTypes.js";
 /**
  * Create a temporary directory with a promise to clean it up later.
  *

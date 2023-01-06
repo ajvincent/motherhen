@@ -22,4 +22,4 @@ export class Deferred {
         });
     }
 }
-//# sourceMappingURL=PromiseTypes.mjs.map
+//# sourceMappingURL=PromiseTypes.js.map
