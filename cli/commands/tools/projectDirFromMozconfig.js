@@ -16,4 +16,4 @@ See https://firefox-source-docs.mozilla.org/setup/configuring_build_options.html
     }
     return match[1];
 }
-//# sourceMappingURL=projectDirFromMozconfig.mjs.map
+//# sourceMappingURL=projectDirFromMozconfig.js.map

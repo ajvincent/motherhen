@@ -11,7 +11,7 @@ import { execAsync } from "./childProcessAsync.js";
 import fileExists from "./fileExists.js";
 
 import projectRoot from "./projectRoot.js";
-import getProjectDirFromMozconfig from "./projectDirFromMozconfig.mjs";
+import getProjectDirFromMozconfig from "./projectDirFromMozconfig.js";
 const hg = await which("hg");
 // #endregion preamble
 
