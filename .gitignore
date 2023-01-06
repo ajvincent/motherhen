@@ -8,6 +8,9 @@ node_modules
 
 cli/**/*.mjs.map
 cli/**/*.d.mts
+cli/**/*.js.map
+cli/**/*.d.ts
+
 
 # A directory for mozilla-unified to live in as a repository with no patches.
 .cleanroom

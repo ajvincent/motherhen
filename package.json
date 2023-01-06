@@ -5,9 +5,7 @@
     "node": ">=18.12"
   },
   "description": "Creating new Mozilla-based applications",
-  "directories": {
-    "test": "test"
-  },
+  "type": "module",
   "scripts": {
     "eslint": "eslint --max-warnings=0 typescript-cli",
     "help": "./cli/motherhen.mjs --help",
