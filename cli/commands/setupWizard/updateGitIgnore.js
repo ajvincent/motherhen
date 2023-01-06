@@ -28,4 +28,4 @@ export async function removeMotherhenConfig() {
 !.motherhen-config.json
     `.trim() + "\n", { encoding: "utf-8" });
 }
-//# sourceMappingURL=updateGitIgnore.mjs.map
+//# sourceMappingURL=updateGitIgnore.js.map

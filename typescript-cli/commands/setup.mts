@@ -11,7 +11,7 @@ import {
 } from "./setupWizard/inquirer-registration.js";
 import {
   maybeUpdateGitIgnore,
-} from "./setupWizard/updateGitIgnore.mjs";
+} from "./setupWizard/updateGitIgnore.js";
 import pickConfigLocation from "./setupWizard/pickConfigLocation.js";
 import type {
   WritableConfigurationType,

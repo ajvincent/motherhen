@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { replaceHatchedEgg } from "./replaceHatchedEgg.js";
-import { removeMotherhenConfig } from "./updateGitIgnore.mjs";
+import { removeMotherhenConfig } from "./updateGitIgnore.js";
 /**
  * Commit all out changes to the real file system!
  *

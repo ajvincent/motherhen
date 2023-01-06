@@ -5,7 +5,7 @@ import { replaceHatchedEgg } from "./replaceHatchedEgg.js";
 import type {
   WritableConfigurationJSON,
 } from "./shared-types.js";
-import { removeMotherhenConfig } from "./updateGitIgnore.mjs";
+import { removeMotherhenConfig } from "./updateGitIgnore.js";
 
 /**
  * Commit all out changes to the real file system!
