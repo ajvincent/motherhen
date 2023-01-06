@@ -2,7 +2,7 @@
 import fs from "fs/promises";
 import fileExists from "../tools/fileExists.js";
 import { isConfiguration, } from "../tools/Configuration.js";
-import buildBlank from "./blankConfig.mjs";
+import buildBlank from "./blankConfig.js";
 import inquirer from "./inquirer-registration.mjs";
 /**
  * Get an editable configuration, and report whether we should overwrite it.

@@ -1,5 +1,5 @@
 // #region preamble
-import buildBlank from "./setupWizard/blankConfig.mjs";
+import buildBlank from "./setupWizard/blankConfig.js";
 import confirmSettings from "./setupWizard/confirmSettings.mjs";
 import fillVanilla from "./setupWizard/fillVanilla.mjs";
 import fillIntegration from "./setupWizard/fillIntegration.mjs";

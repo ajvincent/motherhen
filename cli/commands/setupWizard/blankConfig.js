@@ -10,4 +10,4 @@ export default function buildBlank() {
         }
     };
 }
-//# sourceMappingURL=blankConfig.mjs.map
+//# sourceMappingURL=blankConfig.js.map

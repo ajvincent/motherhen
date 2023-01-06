@@ -6,7 +6,7 @@ import {
   isConfiguration,
 } from "../tools/Configuration.js";
 
-import buildBlank from "./blankConfig.mjs";
+import buildBlank from "./blankConfig.js";
 import inquirer from "./inquirer-registration.mjs";
 import type {
   WritableConfigurationJSON,
