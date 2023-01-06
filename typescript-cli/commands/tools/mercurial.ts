@@ -6,7 +6,7 @@ import which from "which";
 import ini from "ini";
 import wget from "wget-improved";
 
-import { type Configuration } from "./Configuration.mjs";
+import { type Configuration } from "./Configuration.js";
 import { execAsync } from "./childProcessAsync.js";
 import fileExists from "./fileExists.js";
 

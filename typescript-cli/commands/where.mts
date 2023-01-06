@@ -1,4 +1,4 @@
-import { type Configuration } from "./tools/Configuration.mjs";
+import { type Configuration } from "./tools/Configuration.js";
 
 /**
  * @param config - the configuration to use.

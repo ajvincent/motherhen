@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 
-import type { Configuration } from "./Configuration.mjs";
+import type { Configuration } from "./Configuration.js";
 
 /**
  * Extract a project directory from a .mozconfig file.

@@ -76,4 +76,4 @@ function normalize(base, key, pathToConfig) {
     base[key] = path.normalize(path.resolve(pathToConfig, "..", base[key]));
 }
 export default getConfiguration;
-//# sourceMappingURL=Configuration.mjs.map
+//# sourceMappingURL=Configuration.js.map

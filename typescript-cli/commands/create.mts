@@ -1,4 +1,4 @@
-import { type Configuration } from "./tools/Configuration.mjs";
+import { type Configuration } from "./tools/Configuration.js";
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
 import fileExists from "./tools/fileExists.js";
 

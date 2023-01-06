@@ -1,6 +1,6 @@
 import which from "which";
 
-import { type Configuration } from "./tools/Configuration.mjs";
+import { type Configuration } from "./tools/Configuration.js";
 import type { CommandSettings } from "./tools/CommandSettings-type";
 import { spawnAsync } from "./tools/childProcessAsync.js";
 
