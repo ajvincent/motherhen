@@ -7,7 +7,7 @@ import getEditableJSON from "./setupWizard/getEditableJSON.js";
 import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.js";
 import { InterruptedPrompt } from "./setupWizard/inquirer-registration.js";
 import { maybeUpdateGitIgnore, } from "./setupWizard/updateGitIgnore.mjs";
-import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
+import pickConfigLocation from "./setupWizard/pickConfigLocation.js";
 import writeConfiguration from "./setupWizard/writeConfiguration.mjs";
 // #endregion preamble
 /**

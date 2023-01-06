@@ -12,7 +12,7 @@ import {
 import {
   maybeUpdateGitIgnore,
 } from "./setupWizard/updateGitIgnore.mjs";
-import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
+import pickConfigLocation from "./setupWizard/pickConfigLocation.js";
 import type {
   WritableConfigurationType,
 } from "./setupWizard/shared-types.js";

@@ -20,4 +20,4 @@ intermediate directories do not exist.
         defaultPathToFile: ".motherhen-config.json",
     });
 }
-//# sourceMappingURL=pickConfigLocation.mjs.map
+//# sourceMappingURL=pickConfigLocation.js.map
