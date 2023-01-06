@@ -2,7 +2,7 @@
 
 import buildBlank from "./setupWizard/blankConfig.js";
 import confirmSettings from "./setupWizard/confirmSettings.js";
-import fillVanilla from "./setupWizard/fillVanilla.mjs";
+import fillVanilla from "./setupWizard/fillVanilla.js";
 import fillIntegration from "./setupWizard/fillIntegration.js";
 import getEditableJSON from "./setupWizard/getEditableJSON.mjs";
 import getKeyNameAndConfig from "./setupWizard/getKeyNameAndConfig.mjs";

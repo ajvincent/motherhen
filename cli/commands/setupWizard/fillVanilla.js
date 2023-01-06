@@ -115,4 +115,4 @@ async function updateTag(vanilla) {
     ]);
     vanilla.tag = tag.trim();
 }
-//# sourceMappingURL=fillVanilla.mjs.map
+//# sourceMappingURL=fillVanilla.js.map
