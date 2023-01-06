@@ -22,10 +22,7 @@ import getConfiguration, {
 import getModuleDefault from "./commands/tools/getModuleDefault.mjs";
 import projectRoot from "./commands/tools/projectRoot.mjs";
 
-export type CommandSettings = {
-  relativePathToConfig: string,
-  project: string
-};
+import type { CommandSettings } from "./commands/tools/CommandSettings-type.js";
 
 type CommandModule = (
   config: Configuration,

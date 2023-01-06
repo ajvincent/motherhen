@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-import type { CommandSettings } from "../../motherhen.mjs";
+import type { CommandSettings } from "./CommandSettings-type.js";
 import projectRoot from "./projectRoot.mjs";
 
 /**

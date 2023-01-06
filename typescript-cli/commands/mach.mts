@@ -1,7 +1,7 @@
 import which from "which";
 
 import { type Configuration } from "./tools/Configuration.mjs";
-import { type CommandSettings } from "../motherhen.mjs";
+import type { CommandSettings } from "./tools/CommandSettings-type";
 import { spawnAsync } from "./tools/childProcessAsync.mjs";
 
 const python3 = await which("python3");
