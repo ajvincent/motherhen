@@ -1,7 +1,6 @@
 import path from "path";
 import fileExists from "../tools/fileExists.mjs";
 import inquirer from "./inquirer-registration.mjs";
-import temporaryFS from "./temporaryFS.mjs";
 function AcceptFileValidation() {
     return true;
 }
@@ -49,8 +48,6 @@ async function pickFileToCreate(params) {
     ]);
     const fullPath = path.normalize(path.join(existingDirectory, pathToFile));
     let directory = path.dirname(fullPath);
-    // Create the directories on the temporary file system, under the hope we can use them in future calls.
-    await temporaryFS.mkdir(directory, { recursive: true });
     while (!await fileExists(directory, true)) {
         uncreatedDirs.unshift(directory);
         directory = path.dirname(directory);

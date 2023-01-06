@@ -6,7 +6,6 @@ import type {
   PathToFileValidation,
   PathWithUncreatedDirs,
 } from "./shared-types.mjs";
-import temporaryFS from "./temporaryFS.mjs";
 
 function AcceptFileValidation() : true {
   return true;
@@ -101,9 +100,6 @@ async function pickFileToCreate(
 
   const fullPath = path.normalize(path.join(existingDirectory, pathToFile));
   let directory = path.dirname(fullPath);
-
-  // Create the directories on the temporary file system, under the hope we can use them in future calls.
-  await temporaryFS.mkdir(directory, { recursive: true });
 
   while (!await fileExists(directory, true)) {
     uncreatedDirs.unshift(directory);
