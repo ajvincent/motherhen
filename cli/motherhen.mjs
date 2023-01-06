@@ -28,7 +28,7 @@ program
     .command("setup")
     .description("Create or edit an existing Motherhen configuration.")
     .action(async () => {
-    const setupMotherhen = await getModuleDefault(path.join(projectRoot, "cli/commands/setup.mjs"));
+    const setupMotherhen = await getModuleDefault(path.join(projectRoot, "cli/commands/setup.js"));
     await setupMotherhen();
 });
 bindCommand("create", "Create a Mozilla repository.");
@@ -65,7 +65,7 @@ function bindCommand(commandName, description) {
  * @returns the default export.
  */
 async function getCommandDefault(commandName) {
-    return getModuleDefault(path.join(projectRoot, "cli/commands", commandName + ".mjs"));
+    return getModuleDefault(path.join(projectRoot, "cli/commands", commandName + ".js"));
 }
 // #endregion command-handling functions
 //# sourceMappingURL=motherhen.mjs.map

@@ -9,4 +9,4 @@ export default async function runMach(config, settings, userArgs) {
         shell: true,
     });
 }
-//# sourceMappingURL=mach.mjs.map
+//# sourceMappingURL=mach.js.map

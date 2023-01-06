@@ -11,4 +11,4 @@ ${config.vanilla.path}
 `.trim());
     return Promise.resolve();
 }
-//# sourceMappingURL=where.mjs.map
+//# sourceMappingURL=where.js.map

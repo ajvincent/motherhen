@@ -1,6 +1,6 @@
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
 import fileExists from "./tools/fileExists.js";
-import whereIsMyProject from "./where.mjs";
+import whereIsMyProject from "./where.js";
 /**
  * @param config - the configuration to use.
  * @param settings - the user's command-line settings.
@@ -57,4 +57,4 @@ To run mach commands:
 Good luck!!
 `.trim());
 }
-//# sourceMappingURL=create.mjs.map
+//# sourceMappingURL=create.js.map

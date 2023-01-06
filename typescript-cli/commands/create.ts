@@ -3,7 +3,7 @@ import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
 import fileExists from "./tools/fileExists.js";
 
 import type { CommandSettings } from "./tools/CommandSettings-type";
-import whereIsMyProject from "./where.mjs";
+import whereIsMyProject from "./where.js";
 
 /**
  * @param config - the configuration to use.

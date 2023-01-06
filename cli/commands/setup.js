@@ -13,7 +13,7 @@ import writeConfiguration from "./setupWizard/writeConfiguration.js";
 /**
  * This function drives the set-up of a Motherhen configuration file.
  * It does _not_ create the repositories, build or run the Mozilla-based
- * application.  That is create.mjs's job.  This builds out the
+ * application.  That is create.js's job.  This builds out the
  * configurations which the create module uses, based on user inputs
  * through Inquirer's text prompting and a couple of really nice plugins
  * to Inquirer.
@@ -72,4 +72,4 @@ This wizard will walk you through the process of crafting a Motherhen configurat
 You may abort the process at any time by pressing the ESC key.
 `.trim() + "\n");
 }
-//# sourceMappingURL=setup.mjs.map
+//# sourceMappingURL=setup.js.map

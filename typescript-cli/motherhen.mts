@@ -60,7 +60,7 @@ program
   .action(async () => {
     const setupMotherhen = await getModuleDefault<
       () => Promise<void>
-    >(path.join(projectRoot, "cli/commands/setup.mjs"));
+    >(path.join(projectRoot, "cli/commands/setup.js"));
     await setupMotherhen();
   });
 
@@ -110,7 +110,7 @@ function bindCommand(
 async function getCommandDefault<T>(commandName: string) : Promise<T>
 {
   return getModuleDefault<T>(path.join(
-    projectRoot, "cli/commands", commandName + ".mjs"
+    projectRoot, "cli/commands", commandName + ".js"
   ));
 }
 // #endregion command-handling functions
