@@ -4,7 +4,7 @@ import inquirer from "./inquirer-registration.mjs";
 import pickFileToCreate from "./pickFileToCreate.mjs";
 import type {
   WritableConfigurationType,
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 /**
  * @param pathToConfig - the Motherhen configuration file path.

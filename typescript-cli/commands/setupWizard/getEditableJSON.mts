@@ -10,7 +10,7 @@ import buildBlank from "./blankConfig.mjs";
 import inquirer from "./inquirer-registration.mjs";
 import type {
   WritableConfigurationJSON,
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 // #endregion preamble
 
 type EditableJSONWithExists = {

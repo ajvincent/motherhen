@@ -5,7 +5,7 @@ import inquirer from "./inquirer-registration.mjs";
 import type {
   PathToFileValidation,
   PathWithUncreatedDirs,
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 function AcceptFileValidation() : true {
   return true;

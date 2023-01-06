@@ -1,7 +1,7 @@
 import pickFileToCreate from "./pickFileToCreate.mjs";
 import type {
   PathWithUncreatedDirs
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 /**
  * Ask the user to give us a location for the Motherhen configuration file.

@@ -4,7 +4,7 @@ import { replaceHatchedEgg } from "./replaceHatchedEgg.mjs";
 
 import type {
   WritableConfigurationJSON,
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 import { removeMotherhenConfig } from "./updateGitIgnore.mjs";
 
 /**

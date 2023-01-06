@@ -8,7 +8,7 @@ import {
 } from "./replaceHatchedEgg.mjs";
 import type {
   WritableConfigurationType,
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 import projectRoot from "../tools/projectRoot.js";
 const cleanroom = path.join(projectRoot, ".cleanroom/mozilla-unified");

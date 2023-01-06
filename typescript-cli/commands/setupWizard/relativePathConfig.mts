@@ -2,7 +2,7 @@ import path from "path";
 
 import type {
   WritableConfigurationType
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 /**
  * Convert absolute file paths to relative file paths.

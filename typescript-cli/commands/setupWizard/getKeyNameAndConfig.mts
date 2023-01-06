@@ -3,7 +3,7 @@ import inquirer from "./inquirer-registration.mjs";
 import type {
   WritableConfigurationJSON,
   WritableConfigurationType,
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 type KeyNameAndConfig = {
   key: string,

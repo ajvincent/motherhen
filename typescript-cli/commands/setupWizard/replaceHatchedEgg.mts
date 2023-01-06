@@ -9,7 +9,7 @@ import inquirer from "./inquirer-registration.mjs";
 import projectRoot from "../tools/projectRoot.js";
 import type {
   WritableConfigurationType
-} from "./shared-types.mjs";
+} from "./shared-types.js";
 
 /**
  * Ask the user if we should replace the "hatchedegg" name.

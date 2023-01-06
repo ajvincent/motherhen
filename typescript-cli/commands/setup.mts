@@ -15,7 +15,7 @@ import {
 import pickConfigLocation from "./setupWizard/pickConfigLocation.mjs";
 import type {
   WritableConfigurationType,
-} from "./setupWizard/shared-types.mjs";
+} from "./setupWizard/shared-types.js";
 
 import writeConfiguration from "./setupWizard/writeConfiguration.mjs";
 
