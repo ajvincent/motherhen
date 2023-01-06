@@ -55,4 +55,4 @@ function isValidConfigurationFile(unknownContents) {
         return false;
     return Object.values(contents).every(isConfiguration);
 }
-//# sourceMappingURL=getEditableJSON.mjs.map
+//# sourceMappingURL=getEditableJSON.js.map

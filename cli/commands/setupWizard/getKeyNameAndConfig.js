@@ -42,4 +42,4 @@ export default async function getKeyNameAndConfig(output) {
     ]));
     return { key, config: buildBlank() };
 }
-//# sourceMappingURL=getKeyNameAndConfig.mjs.map
+//# sourceMappingURL=getKeyNameAndConfig.js.map
