@@ -1,6 +1,6 @@
 {
   "name": "motherhen",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "node": ">=18.12"
   },
@@ -10,6 +10,7 @@
   },
   "scripts": {
     "eslint": "eslint --max-warnings=0 typescript-cli",
+    "help": "./cli/motherhen.mjs --help",
     "mach": "./cli/motherhen.mjs mach",
     "setup": "./cli/motherhen.mjs setup",
     "start": "./cli/motherhen.mjs",
