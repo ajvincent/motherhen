@@ -26,7 +26,7 @@ I've tested this _manually_ in early January, 2023 against mozilla-central, and 
 
 ### Why not Windows?
 
-I don't have a Windows development computer anymore.  (January 2023)  Help most definitely appreciated in this space!
+I don't have a Windows development computer anymore.  (January 2023)  [Please, help me out with this!](https://github.com/ajvincent/motherhen/issues/23)
 
 ## Set-up, build and run
 
