@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { replaceHatchedEgg } from "./replaceHatchedEgg.mjs";
+import { replaceHatchedEgg } from "./replaceHatchedEgg.js";
 
 import type {
   WritableConfigurationJSON,

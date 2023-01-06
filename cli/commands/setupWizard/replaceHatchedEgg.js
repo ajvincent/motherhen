@@ -65,4 +65,4 @@ export async function replaceHatchedEgg(fullPathToMozconfig, replaceHatchedEggNa
         to: replaceHatchedEggName
     });
 }
-//# sourceMappingURL=replaceHatchedEgg.mjs.map
+//# sourceMappingURL=replaceHatchedEgg.js.map

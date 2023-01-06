@@ -5,7 +5,7 @@ import pickFileToCreate from "./pickFileToCreate.js";
 import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.js";
 import {
   shouldReplaceHatchedEgg
-} from "./replaceHatchedEgg.mjs";
+} from "./replaceHatchedEgg.js";
 import type {
   WritableConfigurationType,
 } from "./shared-types.js";
