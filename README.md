@@ -33,8 +33,8 @@ I don't have a Windows development computer anymore.  (January 2023)  Help most 
 1. In GitHub, create a new repository by using this repository as a template.
 2. Clone your repository locally.
 3. `npm run install -P`.
-4. Create a .mozconfig file.  See [test/newapp-sym.mozconfig] for an example.  For now, leave the project name and app basename as "hatchedegg".
-5. `npm run setup` will launch a command-line wizard to guide you through crafting a Motherhen configuration file.  This wizard will eventually ask you for a new project name, and apply it if you give it one.
+4. Create a .mozconfig file.  See [test/newapp-sym.mozconfig](test/newapp-sym.mozconfig) for an example.  For now, leave the project name and app basename as "hatchedegg".
+5. `npm run setup` will launch a command-line wizard to guide you through crafting a Motherhen configuration file.  This wizard will eventually ask you for a new project name, and replace "hatchedegg" with it if you give it one.
 6. The wizard will give you a command at the end to run, like `./cli/motherhen.mjs create --config=./test/.motherhen-config.json`.  Run this command to set up your integration repository, where Mozilla code and your code will be joined together.
 7. `./cli/motherhen.mjs mach configure --config=./test/.motherhen-config.json` to configure your integration repository.
 8. `./cli/motherhen.mjs mach build --config=./test/.motherhen-config.json` to compile your project.
