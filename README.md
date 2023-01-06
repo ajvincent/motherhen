@@ -35,19 +35,19 @@ I don't have a Windows development computer anymore.  (January 2023)  [Please, h
 3. `npm run install -P`.
 4. Create a .mozconfig file.  See [test/newapp-sym.mozconfig](test/newapp-sym.mozconfig) for an example.  For now, leave the project name and app basename as "hatchedegg".
 5. `npm run setup` will launch a command-line wizard to guide you through crafting a Motherhen configuration file.  This wizard will eventually ask you for a new project name, and replace "hatchedegg" with it if you give it one.
-6. The wizard will give you a command at the end to run, like `./cli/motherhen.mjs create --config=./test/.motherhen-config.json`.  Run this command to set up your integration repository, where Mozilla code and your code will be joined together.
-7. `./cli/motherhen.mjs mach configure --config=./test/.motherhen-config.json` to configure your integration repository.
-8. `./cli/motherhen.mjs mach build --config=./test/.motherhen-config.json` to compile your project.
-9. `./cli/motherhen.mjs mach run --config=./test/.motherhen-config.json` to launch your code.
-10. `./cli/motherhen.mjs mach package --config=./test/.motherhen-config.json` (Linux only for now) to create a package for others to use.
+6. The wizard will give you a command at the end to run, like `./cli/motherhen.js create --config=./test/.motherhen-config.json`.  Run this command to set up your integration repository, where Mozilla code and your code will be joined together.
+7. `./cli/motherhen.js mach configure --config=./test/.motherhen-config.json` to configure your integration repository.
+8. `./cli/motherhen.js mach build --config=./test/.motherhen-config.json` to compile your project.
+9. `./cli/motherhen.js mach run --config=./test/.motherhen-config.json` to launch your code.
+10. `./cli/motherhen.js mach package --config=./test/.motherhen-config.json` (Linux only for now) to create a package for others to use.
 
 ## Other useful commands and options
 
-- `./cli/motherhen.mjs mach` is your gateway to the `mach` program.
-- `./cli/motherhen.mjs where` tells you where your integration and "vanilla" repositories are.
+- `./cli/motherhen.js mach` is your gateway to the `mach` program.
+- `./cli/motherhen.js where` tells you where your integration and "vanilla" repositories are.
 - `--project=(project name)` lets you choose a project other than your default.
   - Think testing your project against mozilla-beta, instead of mozilla-release.  This means you can check your project against multiple versions of Mozilla's source code, including "ESR" builds.
-- `./cli/motherhen.mjs help` or `npm run help` will get you basic help information.
+- `./cli/motherhen.js help` or `npm run help` will get you basic help information.
 
 ## Motherhen's own testing and development
 

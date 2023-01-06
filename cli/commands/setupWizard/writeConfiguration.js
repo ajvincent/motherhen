@@ -27,7 +27,7 @@ Your configuration file at ${pathToFile} has been updated!
 
 You should now be able to create your repository with the command:
 
-./cli/motherhen.mjs create --config ${pathToFile}${key === "default" ? "" : `--project ${key}`}
+./cli/motherhen.js create --config ${pathToFile}${key === "default" ? "" : `--project ${key}`}
 `.trim() + "\n");
 }
 //# sourceMappingURL=writeConfiguration.js.map

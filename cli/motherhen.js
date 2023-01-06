@@ -68,4 +68,4 @@ async function getCommandDefault(commandName) {
     return getModuleDefault(path.join(projectRoot, "cli/commands", commandName + ".js"));
 }
 // #endregion command-handling functions
-//# sourceMappingURL=motherhen.mjs.map
+//# sourceMappingURL=motherhen.js.map
