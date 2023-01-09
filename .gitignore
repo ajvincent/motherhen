@@ -11,6 +11,8 @@ cli/**/*.d.mts
 cli/**/*.js.map
 cli/**/*.d.ts
 
+cli/__tests__
+
 
 # A directory for mozilla-unified to live in as a repository with no patches.
 .cleanroom
