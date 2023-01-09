@@ -8,5 +8,5 @@ it("projectRoot points to the root of this project", () => {
     "typescript-cli/__tests__/commands/tools/projectRoot.ts"
   );
 
-  expect(actualPath).toBe(url.fileURLToPath(import.meta.url));
+  expect(url.pathToFileURL(actualPath).href).toBe(import.meta.url);
 });
