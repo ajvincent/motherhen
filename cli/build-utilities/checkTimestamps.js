@@ -14,7 +14,12 @@ import readDirsDeep from "./readDirsDeep.js";
         throw new Error("cli is out of date, run `npm run tsc`");
 }
 async function compareTimestamps([jsFile, tsFile]) {
-    const [jsStat, tsStat] = await PromiseAllParallel([jsFile, tsFile], fs.stat);
-    return jsStat.mtimeMs > tsStat.mtimeMs;
+    try {
+        const [jsStat, tsStat] = await PromiseAllParallel([jsFile, tsFile], fs.stat);
+        return jsStat.mtimeMs > tsStat.mtimeMs;
+    }
+    catch {
+        return false;
+    }
 }
 //# sourceMappingURL=checkTimestamps.js.map

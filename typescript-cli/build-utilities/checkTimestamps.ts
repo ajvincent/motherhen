@@ -21,6 +21,11 @@ async function compareTimestamps(
   [jsFile, tsFile]: [string, string]
 ) : Promise<boolean>
 {
-  const [jsStat, tsStat] = await PromiseAllParallel([jsFile, tsFile], fs.stat);
-  return jsStat.mtimeMs > tsStat.mtimeMs;
+  try {
+    const [jsStat, tsStat] = await PromiseAllParallel([jsFile, tsFile], fs.stat);
+    return jsStat.mtimeMs > tsStat.mtimeMs;
+  }
+  catch {
+    return false;
+  }
 }
