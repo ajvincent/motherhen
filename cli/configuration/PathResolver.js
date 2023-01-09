@@ -1,8 +1,14 @@
 import path from "path";
 /** A shared serialization flag class. */
 class SerializeAbsoluteProperty {
+    /** The shared base path. */
+    basePath;
     /** True if the serialization should use absolute paths. */
-    useAbsolute = false;
+    useAbsolute;
+    constructor(basePath, useAbsolute) {
+        this.basePath = basePath;
+        this.useAbsolute = useAbsolute;
+    }
 }
 /**
  * This class exists to handle path resolution with both relative and absolute paths.
@@ -37,16 +43,14 @@ export class PathResolver {
             absoluteSetting.useAbsolute = oldValue;
         }
     }
-    #basePath;
     #relativePath = "";
     #serializeAbsolute;
-    constructor(basePath, pathToFile, absoluteProperty) {
-        this.#basePath = basePath;
+    constructor(absoluteProperty, asAbsolute, pathToFile) {
         this.#serializeAbsolute = absoluteProperty;
-        this.setPath(absoluteProperty.useAbsolute, pathToFile);
+        this.setPath(asAbsolute, pathToFile);
     }
     #normalize(newPath) {
-        return path.normalize(path.resolve(this.#basePath, newPath));
+        return path.normalize(path.resolve(this.#serializeAbsolute.basePath, newPath));
     }
     getPath(asAbsolute) {
         if (asAbsolute) {
@@ -61,7 +65,7 @@ export class PathResolver {
         else {
             newPath = path.normalize(newPath);
         }
-        this.#relativePath = path.relative(this.#basePath, newPath);
+        this.#relativePath = path.relative(this.#serializeAbsolute.basePath, newPath);
     }
     toJSON() {
         return this.getPath(this.#serializeAbsolute.useAbsolute);

@@ -2,8 +2,17 @@ import path from "path";
 
 /** A shared serialization flag class. */
 class SerializeAbsoluteProperty {
+  /** The shared base path. */
+  readonly basePath: string;
+
   /** True if the serialization should use absolute paths. */
-  useAbsolute = false;
+  useAbsolute: boolean;
+
+  constructor(basePath: string, useAbsolute: boolean)
+  {
+    this.basePath = basePath;
+    this.useAbsolute = useAbsolute;
+  }
 }
 
 /**
@@ -57,25 +66,25 @@ export class PathResolver
     }
   }
 
-  readonly #basePath: string;
   #relativePath = "";
 
   readonly #serializeAbsolute: SerializeAbsoluteProperty
 
   constructor(
-    basePath: string,
+    absoluteProperty: SerializeAbsoluteProperty,
+    asAbsolute: boolean,
     pathToFile: string,
-    absoluteProperty: SerializeAbsoluteProperty
   )
   {
-    this.#basePath = basePath;
     this.#serializeAbsolute = absoluteProperty;
-    this.setPath(absoluteProperty.useAbsolute, pathToFile);
+    this.setPath(asAbsolute, pathToFile);
   }
 
   #normalize(newPath: string) : string
   {
-    return path.normalize(path.resolve(this.#basePath, newPath));
+    return path.normalize(path.resolve(
+      this.#serializeAbsolute.basePath, newPath
+    ));
   }
 
   getPath(asAbsolute: boolean) : string
@@ -95,7 +104,10 @@ export class PathResolver
       newPath = path.normalize(newPath);
     }
 
-    this.#relativePath = path.relative(this.#basePath, newPath);
+    this.#relativePath = path.relative(
+      this.#serializeAbsolute.basePath,
+      newPath
+    );
   }
 
   toJSON() : string {
