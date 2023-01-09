@@ -5,7 +5,6 @@ import projectRoot from "../commands/tools/projectRoot.js";
 import { PromiseAllParallel } from "./PromiseTypes.js";
 import readDirsDeep from "./readDirsDeep.js";
 
-export default async function checkTimestamps() : Promise<void>
 {
   const tsPath = path.join(projectRoot, "typescript-cli");
   const { files: tsFiles } = await readDirsDeep(tsPath);

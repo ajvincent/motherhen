@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run eslint
-npm run precommit
+npm run precommit:setup
+npm run precommit:eslint
+npm run precommit:timestamps
