@@ -67,6 +67,17 @@ export class PathResolver {
         }
         this.#relativePath = path.relative(this.#serializeAbsolute.basePath, newPath);
     }
+    isInBase(asAbsolute, newPath) {
+        if (!asAbsolute) {
+            newPath = this.#normalize(newPath);
+        }
+        else {
+            newPath = path.normalize(newPath);
+        }
+        if (newPath === this.#serializeAbsolute.basePath)
+            return true;
+        return newPath.startsWith(this.#serializeAbsolute.basePath + path.sep);
+    }
     toJSON() {
         return this.getPath(this.#serializeAbsolute.useAbsolute);
     }

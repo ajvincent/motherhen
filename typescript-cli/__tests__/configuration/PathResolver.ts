@@ -50,10 +50,40 @@ describe("PathResolver", () => {
       expect(resolver.getPath(false)).toBe(barPath);
     });
 
+    it(".setPath(false, '') results in the base path", () => {
+      resolver.setPath(false, "");
+      expect(resolver.getPath(false)).toBe("");
+      expect(resolver.getPath(true)).toBe(projectRoot);
+    });
+
     it(".setPath(true, barPath) updates the path as an absolute value", () => {
       const targetPath = path.normalize(path.join(projectRoot, barPath));
       resolver.setPath(true, targetPath);
       expect(resolver.getPath(false)).toBe(barPath);
+    });
+
+    it(`.isInBase(false, "foo") returns true`, () => {
+      expect(resolver.isInBase(false, "foo")).toBe(true);
+    });
+
+    it(`.isInBase(false, "") returns true`, () => {
+      expect(resolver.isInBase(false, "")).toBe(true);
+    });
+
+    it(`.isInBase(false, barPath) returns false`, () => {
+      expect(resolver.isInBase(false, barPath)).toBe(false);
+    });
+
+    it(`.isInBase(true, absolute path to fooPath/foo) returns true`, () => {
+      expect(resolver.isInBase(true, path.join(projectRoot, fooPath, "foo"))).toBe(true);
+    });
+
+    it(`.isInBase(true, absolute path to fooPath) returns true`, () => {
+      expect(resolver.isInBase(true, path.join(projectRoot, fooPath))).toBe(true);
+    });
+
+    it(`.isInBase(true, absolute path to barPath) returns false`, () => {
+      expect(resolver.isInBase(true, path.join(projectRoot, barPath))).toBe(false);
     });
 
     it(".toJSON() respects the useAbsolute property", () => {

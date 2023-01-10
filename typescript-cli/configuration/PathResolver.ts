@@ -110,6 +110,21 @@ export class PathResolver
     );
   }
 
+  isInBase(asAbsolute: boolean, newPath: string) : boolean
+  {
+    if (!asAbsolute) {
+      newPath = this.#normalize(newPath);
+    }
+    else {
+      newPath = path.normalize(newPath);
+    }
+
+    if (newPath === this.#serializeAbsolute.basePath)
+      return true;
+
+    return newPath.startsWith(this.#serializeAbsolute.basePath + path.sep);
+  }
+
   toJSON() : string {
     return this.getPath(this.#serializeAbsolute.useAbsolute);
   }
