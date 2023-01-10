@@ -32,7 +32,7 @@ describe("VanillaJSON", () => {
     pathResolver.setPath(false, "cleanroom/mozilla-central");
     expect(vanilla.toJSON()).toEqual({
       tag: "central",
-      path: "cleanroom/mozilla-central"
+      path: pathResolver
     });
   });
 });

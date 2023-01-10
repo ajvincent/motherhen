@@ -14,7 +14,7 @@ export interface VanillaJSONInterface {
 }
 
 type VanillaJSONOutput = {
-  path?: string;
+  path?: PathResolver;
   tag: string;
 }
 
@@ -37,7 +37,7 @@ export default class VanillaJSON implements VanillaJSONInterface
 
     const vanillaPath = this.path.getPath(true);
     if (vanillaPath !== cleanroomPath)
-      rv.path = this.path.toJSON();
+      rv.path = this.path;
 
     return rv;
   }

@@ -14,7 +14,7 @@ export default class VanillaJSON {
         };
         const vanillaPath = this.path.getPath(true);
         if (vanillaPath !== cleanroomPath)
-            rv.path = this.path.toJSON();
+            rv.path = this.path;
         return rv;
     }
 }
