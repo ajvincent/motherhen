@@ -5,7 +5,7 @@ import projectRoot from "../../utilities/projectRoot";
 
 const cleanroomPath = path.join(projectRoot, "cleanroom/mozilla-unified");
 
-export interface VanillaJSONInterface {
+export type VanillaJSONParsed = {
   /** The vanilla repository's location. */
   readonly path: PathResolver;
 
@@ -13,31 +13,72 @@ export interface VanillaJSONInterface {
   "tag": string;
 }
 
-type VanillaJSONOutput = {
-  path?: PathResolver;
+export type VanillaJSONSerialized = {
+  path?: string;
   tag: string;
 }
 
-export default class VanillaJSON implements VanillaJSONInterface
+export class VanillaJSON implements VanillaJSONParsed
 {
   readonly path: PathResolver;
   tag: string;
 
+  /**
+   * @param pathToVanilla - The vanilla repository's location.
+   * @param tag - The tag to apply to the mozilla-unified repository.
+   */
   constructor(pathToVanilla: PathResolver, tag: string)
   {
     this.path = pathToVanilla;
     this.tag = tag;
   }
 
-  toJSON() : Readonly<VanillaJSONOutput>
+  toJSON() : Readonly<VanillaJSONSerialized>
   {
-    const rv: VanillaJSONOutput = {
+    const rv: VanillaJSONSerialized = {
       tag: this.tag,
     };
 
     const vanillaPath = this.path.getPath(true);
     if (vanillaPath !== cleanroomPath)
-      rv.path = this.path;
+      rv.path = this.path.toJSON();
+
+    return rv;
+  }
+
+  static isJSON(
+    unknownValue: unknown
+  ) : unknownValue is VanillaJSONSerialized
+  {
+    if (
+      (Object(unknownValue) !== unknownValue) ||
+      !unknownValue ||
+      Array.isArray(unknownValue)
+    )
+      return false;
+
+    const value = unknownValue as VanillaJSONSerialized;
+    if (typeof value.tag !== "string")
+      return false;
+
+    const pathType = typeof value.path;
+    if (pathType === "undefined")
+      return true;
+    return pathType === "string";
+  }
+
+  static fromJSON(
+    pathResolver: PathResolver,
+    value: VanillaJSONSerialized
+  ) : VanillaJSON
+  {
+    const rv = new this(
+      pathResolver.clone(),
+      value.tag
+    );
+
+    if (value.path)
+      rv.path.setPath(false, value.path);
 
     return rv;
   }
