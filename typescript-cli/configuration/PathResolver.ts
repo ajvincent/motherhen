@@ -80,6 +80,14 @@ export default class PathResolver
     this.setPath(asAbsolute, pathToFile);
   }
 
+  clone() : PathResolver {
+    return new PathResolver(
+      this.#serializeAbsolute,
+      false,
+      this.#relativePath
+    );
+  }
+
   #normalize(newPath: string) : string
   {
     return path.normalize(path.resolve(

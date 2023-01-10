@@ -49,6 +49,9 @@ export default class PathResolver {
         this.#serializeAbsolute = absoluteProperty;
         this.setPath(asAbsolute, pathToFile);
     }
+    clone() {
+        return new PathResolver(this.#serializeAbsolute, false, this.#relativePath);
+    }
     #normalize(newPath) {
         return path.normalize(path.resolve(this.#serializeAbsolute.basePath, newPath));
     }

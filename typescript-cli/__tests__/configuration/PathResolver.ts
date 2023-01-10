@@ -56,6 +56,15 @@ describe("PathResolver", () => {
       expect(resolver.getPath(true)).toBe(projectRoot);
     });
 
+    it(".clone() results in an equivalent resolver", () => {
+      resolver.setPath(false, barPath);
+      const copy = resolver.clone();
+
+      expect(copy.getPath(false)).toBe(barPath);
+      resolver.setPath(false, "go/someplace/else");
+      expect(copy.getPath(false)).toBe(barPath);
+    });
+
     it(".setPath(true, barPath) updates the path as an absolute value", () => {
       const targetPath = path.normalize(path.join(projectRoot, barPath));
       resolver.setPath(true, targetPath);
