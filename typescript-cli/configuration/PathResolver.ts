@@ -18,7 +18,7 @@ class SerializeAbsoluteProperty {
 /**
  * This class exists to handle path resolution with both relative and absolute paths.
  */
-export class PathResolver
+export default class PathResolver
 {
   /** A shared serialization flag class. */
   static readonly UseAbsolute = SerializeAbsoluteProperty;

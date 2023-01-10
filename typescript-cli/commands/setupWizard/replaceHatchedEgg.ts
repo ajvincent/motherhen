@@ -6,7 +6,7 @@ const { replaceInFile } = replaceInFilePkg;
 
 import fileExists from "../tools/fileExists.js";
 import inquirer from "./inquirer-registration.js";
-import projectRoot from "../tools/projectRoot.js";
+import projectRoot from "../../utilities/projectRoot.js";
 import type {
   WritableConfigurationType
 } from "./shared-types.js";

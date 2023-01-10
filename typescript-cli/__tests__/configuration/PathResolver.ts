@@ -1,7 +1,7 @@
 import path from "path";
 
-import projectRoot from "../../commands/tools/projectRoot";
-import { PathResolver } from "../../configuration/PathResolver";
+import projectRoot from "../../utilities/projectRoot";
+import PathResolver from "../../configuration/PathResolver";
 
 describe("PathResolver", () => {
   const useAbsoluteProperty = new PathResolver.UseAbsolute(projectRoot, false);

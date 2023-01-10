@@ -13,7 +13,7 @@ import path from "path";
 import { Command } from 'commander';
 import getConfiguration from "./commands/tools/Configuration.js";
 import getModuleDefault from "./commands/tools/getModuleDefault.js";
-import projectRoot from "./commands/tools/projectRoot.js";
+import projectRoot from "./utilities/projectRoot.js";
 // #endregion preamble
 //#region main program
 const { version } = JSON.parse(await fs.readFile(path.join(projectRoot, "package.json"), { encoding: "utf-8" }));

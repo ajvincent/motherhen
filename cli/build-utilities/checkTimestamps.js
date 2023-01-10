@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs/promises";
-import projectRoot from "../commands/tools/projectRoot.js";
+import projectRoot from "../utilities/projectRoot.js";
 import { PromiseAllParallel } from "./PromiseTypes.js";
 import readDirsDeep from "./readDirsDeep.js";
 {
