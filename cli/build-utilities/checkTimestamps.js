@@ -5,7 +5,8 @@ import { PromiseAllParallel } from "./PromiseTypes.js";
 import readDirsDeep from "./readDirsDeep.js";
 {
     const tsPath = path.join(projectRoot, "typescript-cli");
-    const { files: tsFiles } = await readDirsDeep(tsPath);
+    let { files: tsFiles } = await readDirsDeep(tsPath);
+    tsFiles = tsFiles.filter(tsFile => tsFile.endsWith(".ts"));
     const comparisons = tsFiles.map(tsFile => {
         return [tsFile.replace("typescript-cli", "cli").replace(/ts$/, "js"), tsFile];
     });
@@ -16,9 +17,13 @@ import readDirsDeep from "./readDirsDeep.js";
 async function compareTimestamps([jsFile, tsFile]) {
     try {
         const [jsStat, tsStat] = await PromiseAllParallel([jsFile, tsFile], fs.stat);
-        return jsStat.mtimeMs > tsStat.mtimeMs;
+        const rv = jsStat.mtimeMs > tsStat.mtimeMs;
+        if (!rv)
+            console.log("time difference on " + tsFile);
+        return rv;
     }
     catch {
+        console.error("exception thrown on " + tsFile);
         return false;
     }
 }
