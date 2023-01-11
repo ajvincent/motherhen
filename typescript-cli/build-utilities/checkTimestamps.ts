@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs/promises";
 
 import projectRoot from "../utilities/projectRoot.js";
-import { PromiseAllParallel } from "./PromiseTypes.js";
+import { PromiseAllParallel } from "../utilities/PromiseTypes.js";
 import readDirsDeep from "./readDirsDeep.js";
 
 {
