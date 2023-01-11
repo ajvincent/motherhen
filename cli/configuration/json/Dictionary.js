@@ -1,3 +1,4 @@
+import { isJSONObject, } from "./JSON_Operations";
 // #region Dictionaries without PathResolver
 /**
  * Build a dictionary class for JSON support.
@@ -71,16 +72,14 @@ class DictionaryBase extends Map {
 }
 /**
  * @typeParam Serialized - the serialized object type.
- * @param value - the value to check.
+ * @param unknownValue - the value to check.
  * @param elementChecker - a callback to establish member types.
  * @returns true if we have a JSON dictionary of Serialized values.
  */
-function isJSONDictionary(value, elementChecker) {
-    if ((value === null) ||
-        (typeof value !== "object") ||
-        Array.isArray(value))
+function isJSONDictionary(unknownValue, elementChecker) {
+    if (!isJSONObject(unknownValue))
         return false;
-    const entries = Object.entries(value);
+    const entries = Object.entries(unknownValue);
     return entries.every(([key, property]) => isElement(key, property, elementChecker));
 }
 /**

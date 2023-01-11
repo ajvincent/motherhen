@@ -1,5 +1,6 @@
 import PathResolver from "../PathResolver";
 import {
+  isJSONObject,
   type JSONBase,
   type JSONBase_Static,
 } from "./JSON_Operations";
@@ -153,21 +154,19 @@ implements JSONBase<StringIndexed<Serialized>>
 
 /**
  * @typeParam Serialized - the serialized object type.
- * @param value - the value to check.
+ * @param unknownValue - the value to check.
  * @param elementChecker - a callback to establish member types.
  * @returns true if we have a JSON dictionary of Serialized values.
  */
 function isJSONDictionary<Serialized>(
-  value: unknown,
+  unknownValue: unknown,
   elementChecker: (element: unknown) => boolean,
-) : value is StringIndexed<Serialized>
+) : unknownValue is StringIndexed<Serialized>
 {
-  if ((value === null) ||
-      (typeof value !== "object") ||
-      Array.isArray(value))
+  if (!isJSONObject(unknownValue))
     return false;
 
-  const entries = Object.entries(value);
+  const entries = Object.entries(unknownValue);
   return entries.every(
     ([key, property]) => isElement(key, property, elementChecker)
   );

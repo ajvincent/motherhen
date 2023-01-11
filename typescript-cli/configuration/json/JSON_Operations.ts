@@ -32,3 +32,14 @@ export function forceJSONType<
 {
   void(value);
 }
+
+export function isJSONObject(unknownValue: unknown) : unknownValue is object
+{
+  if (
+    (Object(unknownValue) !== unknownValue) ||
+    !unknownValue ||
+    Array.isArray(unknownValue)
+  )
+    return false;
+  return true;
+}

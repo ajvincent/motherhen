@@ -1,5 +1,6 @@
 import path from "path";
 import projectRoot from "../../utilities/projectRoot";
+import { isJSONObject } from "./JSON_Operations";
 const cleanroomPath = path.join(projectRoot, "cleanroom/mozilla-unified");
 export class VanillaJSON {
     path;
@@ -22,9 +23,7 @@ export class VanillaJSON {
         return rv;
     }
     static isJSON(unknownValue) {
-        if ((Object(unknownValue) !== unknownValue) ||
-            !unknownValue ||
-            Array.isArray(unknownValue))
+        if (!isJSONObject(unknownValue))
             return false;
         const value = unknownValue;
         if (typeof value.tag !== "string")

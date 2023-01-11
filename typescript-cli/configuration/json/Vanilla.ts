@@ -2,6 +2,7 @@ import path from "path";
 
 import PathResolver from "../PathResolver";
 import projectRoot from "../../utilities/projectRoot";
+import { isJSONObject } from "./JSON_Operations";
 
 const cleanroomPath = path.join(projectRoot, "cleanroom/mozilla-unified");
 
@@ -50,11 +51,7 @@ export class VanillaJSON implements VanillaJSONParsed
     unknownValue: unknown
   ) : unknownValue is VanillaJSONSerialized
   {
-    if (
-      (Object(unknownValue) !== unknownValue) ||
-      !unknownValue ||
-      Array.isArray(unknownValue)
-    )
+    if (!isJSONObject(unknownValue))
       return false;
 
     const value = unknownValue as VanillaJSONSerialized;
