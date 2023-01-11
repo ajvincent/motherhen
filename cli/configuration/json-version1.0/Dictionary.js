@@ -9,7 +9,7 @@ import { isJSONObject, } from "./JSON_Operations";
  * @returns a Dictionary class.
  */
 export function DictionaryBuilder(BaseClass) {
-    return class Dictionary extends DictionaryBase {
+    return class Dictionary extends DictionaryMap {
         static isJSON(value) {
             return isJSONDictionary(value, element => BaseClass.isJSON(element));
         }
@@ -39,7 +39,7 @@ function entriesFromDictionary(value, elementBase) {
  * @returns a Dictionary class.
  */
 export function DictionaryResolverBuilder(BaseClass) {
-    return class Dictionary extends DictionaryBase {
+    return class Dictionary extends DictionaryMap {
         static isJSON(value) {
             return isJSONDictionary(value, element => BaseClass.isJSON(element));
         }
@@ -63,7 +63,7 @@ function entriesFromDictionaryResolver(value, pathResolver, elementBase) {
  * @typeParam Parsed - the parsed object type.
  * @typeParam Serialized - the serialized object type.
  */
-class DictionaryBase extends Map {
+export class DictionaryMap extends Map {
     toJSON() {
         const result = {};
         this.forEach((parsedValue, key) => result[key] = parsedValue.toJSON());

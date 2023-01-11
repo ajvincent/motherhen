@@ -2,12 +2,12 @@ import {
   VanillaJSON,
   type VanillaJSONParsed,
   type VanillaJSONSerialized,
-} from "../../../configuration/json/Vanilla";
+} from "../../../configuration/json-version1.0/Vanilla";
 
 import PathResolver from "../../../configuration/PathResolver";
 import projectRoot from "../../../utilities/projectRoot";
 
-import { forceJSONType } from "../../../configuration/json/JSON_Operations";
+import { forceJSONType } from "../../../configuration/json-version1.0/JSON_Operations";
 
 forceJSONType<VanillaJSONParsed, VanillaJSONSerialized, true>(VanillaJSON);
 

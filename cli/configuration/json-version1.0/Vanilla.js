@@ -35,8 +35,12 @@ export class VanillaJSON {
     }
     static fromJSON(pathResolver, value) {
         const rv = new this(pathResolver.clone(), value.tag);
-        if (value.path)
+        if ("path" in value) {
             rv.path.setPath(false, value.path);
+        }
+        else {
+            rv.path.setPath(true, cleanroomPath);
+        }
         return rv;
     }
 }

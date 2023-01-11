@@ -1,7 +1,7 @@
 import {
   type JSONBase,
   forceJSONType
-} from "../../../configuration/json/JSON_Operations";
+} from "../../../configuration/json-version1.0/JSON_Operations";
 import PathResolver from "../../../configuration/PathResolver";
 
 export type WrappedNumber = {

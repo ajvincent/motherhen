@@ -1,13 +1,13 @@
 import IntegrationJSON, {
   type IntegrationJSONParsed,
   type IntegrationJSONSerialized,
-} from "../../../configuration/json/Integration";
+} from "../../../configuration/json-version1.0/Integration";
 
 import PathResolver from "../../../configuration/PathResolver";
 import projectRoot from "../../../utilities/projectRoot";
 
-import { forceJSONType } from "../../../configuration/json/JSON_Operations";
-import StringSet from "../../../configuration/json/StringSet";
+import { forceJSONType } from "../../../configuration/json-version1.0/JSON_Operations";
+import StringSet from "../../../configuration/json-version1.0/StringSet";
 
 forceJSONType<
   IntegrationJSONParsed,

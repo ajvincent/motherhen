@@ -22,12 +22,12 @@ export function DictionaryBuilder<
   BaseClass: JSONBase_Static<Parsed, Serialized, false>
 )
 : JSONBase_Static<
-    DictionaryBase<Parsed, Serialized>,
+    DictionaryMap<Parsed, Serialized>,
     StringIndexed<Serialized>,
     false
   >
 {
-  return class Dictionary extends DictionaryBase<Parsed, Serialized>
+  return class Dictionary extends DictionaryMap<Parsed, Serialized>
   {
     static isJSON(value: unknown) : value is StringIndexed<Serialized>
     {
@@ -81,12 +81,12 @@ export function DictionaryResolverBuilder<
   BaseClass: JSONBase_Static<Parsed, Serialized, true>
 )
 : JSONBase_Static<
-    DictionaryBase<Parsed, Serialized>,
+    DictionaryMap<Parsed, Serialized>,
     StringIndexed<Serialized>,
     true
   >
 {
-  return class Dictionary extends DictionaryBase<Parsed, Serialized>
+  return class Dictionary extends DictionaryMap<Parsed, Serialized>
   {
     static isJSON(value: unknown) : value is StringIndexed<Serialized>
     {
@@ -135,7 +135,7 @@ export type StringIndexed<Element> = {
  * @typeParam Parsed - the parsed object type.
  * @typeParam Serialized - the serialized object type.
  */
-class DictionaryBase<
+export class DictionaryMap<
   Parsed extends JSONBase<Serialized>,
   Serialized,
 >

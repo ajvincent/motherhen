@@ -1,7 +1,7 @@
 import {
   DictionaryBuilder,
   DictionaryResolverBuilder,
-} from "../../../configuration/json/Dictionary";
+} from "../../../configuration/json-version1.0/Dictionary";
 
 import {
   NumberWrapper,

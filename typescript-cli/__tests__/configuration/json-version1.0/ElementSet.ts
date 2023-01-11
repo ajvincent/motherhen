@@ -1,7 +1,7 @@
 import {
   ElementSetBuilder,
   ElementSetResolverBuilder
-} from "../../../configuration/json/ElementSet";
+} from "../../../configuration/json-version1.0/ElementSet";
 
 import {
   NumberWrapper,

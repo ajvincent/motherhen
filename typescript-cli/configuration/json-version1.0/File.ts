@@ -12,7 +12,7 @@ export default class FileJSON implements FileJSONParsed
   readonly path: PathResolver;
 
   constructor(pathToSource: PathResolver) {
-    this.path = pathToSource;
+    this.path = pathToSource.clone();
   }
 
   toJSON() : Readonly<FileJSONSerialized>
@@ -32,7 +32,7 @@ export default class FileJSON implements FileJSONParsed
     value: FileJSONSerialized
   ) : FileJSON
   {
-    const rv = new FileJSON(pathResolver.clone());
+    const rv = new FileJSON(pathResolver);
     rv.path.setPath(false, value);
     return rv;
   }

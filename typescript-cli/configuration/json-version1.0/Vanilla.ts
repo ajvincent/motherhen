@@ -74,8 +74,12 @@ export class VanillaJSON implements VanillaJSONParsed
       value.tag
     );
 
-    if (value.path)
-      rv.path.setPath(false, value.path);
+    if ("path" in value) {
+      rv.path.setPath(false, value.path as string);
+    }
+    else {
+      rv.path.setPath(true, cleanroomPath);
+    }
 
     return rv;
   }
