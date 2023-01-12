@@ -12,17 +12,12 @@ import SharedArgumentsImpl from "./SharedArguments";
  *
  * @param inquirer - the prompting system to use.
  * @param pathToStartDirectory - the start directory for configurations.
- * @param asTest - true if this is a test run.
  */
 export default async function CreateEnvironment(
   inquirer: PartialInquirer,
   pathToStartDirectory: string,
-  asTest: boolean,
 ) : Promise<SharedArguments>
 {
-  if (!asTest) {
-    throw new Error("not yet implemented");
-  }
   const configLocation = await pickConfigLocation(
     inquirer, pathToStartDirectory
   );

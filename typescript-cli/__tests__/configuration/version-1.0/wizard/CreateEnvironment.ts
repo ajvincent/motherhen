@@ -28,7 +28,7 @@ describe("CreateEnvironment", () => {
     inquirer.set("existingDirectory", new FakeAnswers(temp.tempDir));
     inquirer.set("pathToFile", new FakeAnswers(".motherhen-config.json"));
 
-    shared = await CreateEnvironment(inquirer, temp.tempDir, true);
+    shared = await CreateEnvironment(inquirer, temp.tempDir);
 
     expect(shared.pathResolver.getPath(true)).toBe(temp.tempDir);
     expect(shared.fsQueue.hasCommitted()).toBe(false);
@@ -57,7 +57,7 @@ describe("CreateEnvironment", () => {
     inquirer.set("existingDirectory", new FakeAnswers(temp.tempDir));
     inquirer.set("pathToFile", new FakeAnswers(".motherhen-config.json"));
 
-    shared = await CreateEnvironment(inquirer, temp.tempDir, true);
+    shared = await CreateEnvironment(inquirer, temp.tempDir);
 
     expect(shared.pathResolver.getPath(true)).toBe(temp.tempDir);
     expect(shared.fsQueue.hasCommitted()).toBe(false);

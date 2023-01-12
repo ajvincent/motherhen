@@ -6,12 +6,8 @@ import SharedArgumentsImpl from "./SharedArguments";
  *
  * @param inquirer - the prompting system to use.
  * @param pathToStartDirectory - the start directory for configurations.
- * @param asTest - true if this is a test run.
  */
-export default async function CreateEnvironment(inquirer, pathToStartDirectory, asTest) {
-    if (!asTest) {
-        throw new Error("not yet implemented");
-    }
+export default async function CreateEnvironment(inquirer, pathToStartDirectory) {
     const configLocation = await pickConfigLocation(inquirer, pathToStartDirectory);
     const configExists = await fileExists(configLocation.pathToFile, false);
     const shared = await SharedArgumentsImpl.build(inquirer, pathToStartDirectory, configExists ? configLocation.pathToFile : "");
