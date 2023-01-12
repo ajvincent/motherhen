@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import os from "os";
 
-type TempDirWithCleanupType = {
+export type TempDirWithCleanupType = {
   tempDir: string;
   cleanupTempDir: () => Promise<void>;
 }
