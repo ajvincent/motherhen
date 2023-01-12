@@ -23,6 +23,7 @@ export default class SharedArgumentsImpl {
         return this.#configuration;
     }
     inquirer;
+    postSetupMessages = [];
     // #endregion SharedArguments
     #configuration;
     constructor(inquirer, pathToTempDirectory) {

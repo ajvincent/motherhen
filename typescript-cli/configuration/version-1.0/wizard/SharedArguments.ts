@@ -38,6 +38,7 @@ export default class SharedArgumentsImpl implements SharedArguments
     return this.#configuration;
   }
   readonly inquirer: PartialInquirer;
+  readonly postSetupMessages: string[] = [];
   // #endregion SharedArguments
 
   #configuration: ConfigFileFormat;

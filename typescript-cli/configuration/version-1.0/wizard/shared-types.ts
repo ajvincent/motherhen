@@ -11,6 +11,8 @@ export type SharedArguments = {
   readonly fsQueue: FSQueue;
   readonly configuration: ConfigFileFormat;
   readonly inquirer: PartialInquirer;
+
+  readonly postSetupMessages: string[];
 };
 
 export type PathToFileValidation = (s: string) => true | string;
