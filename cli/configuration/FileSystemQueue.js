@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import path from "path";
 export default class FSQueue {
     #pathResolver;
     #requiredToCallOnce = new Set([
@@ -10,11 +11,16 @@ export default class FSQueue {
         this.#requiredToCallOnce.add(requirement);
         return requirement;
     }
-    #tasks = [];
+    /** A map of pending tasks to descriptions of the task. */
+    #tasks = new Map;
     #started = false;
     #hasCommitted = false;
     constructor(pathResolver) {
         this.#pathResolver = pathResolver.clone();
+    }
+    /** Get a list of operations we have not started. */
+    pendingOperations() {
+        return Array.from(this.#tasks.values());
     }
     /**
      * Add writing the configuration to the filesystem to the queue.
@@ -28,7 +34,7 @@ export default class FSQueue {
         this.#requiredToCallOnce.delete("writeConfiguration");
         return this.#appendResolverTask(relativePath, async () => {
             await fs.writeFile(this.#pathResolver.getPath(true), contents, { encoding: "utf-8" });
-        }, {
+        }, `write configuration to ${path.resolve(this.#pathResolver.getPath(true), relativePath)}`, {
             command: "writeConfiguration",
             relativePath,
             contents
@@ -40,25 +46,26 @@ export default class FSQueue {
      * @param task - the asynchronous callback.
      * @param context - console.warn metadata in case the callback fails.
      */
-    #appendResolverTask(overridePath, task, context) {
+    #appendResolverTask(overridePath, task, description, context) {
         this.#assertNotStarted();
-        this.#tasks.push(() => {
-            const currentPath = this.#pathResolver.getPath(false);
-            this.#pathResolver.setPath(false, overridePath);
-            try {
-                return task();
-            }
-            catch (ex) {
-                if (this.#enableWarnings) {
-                    console.warn(context);
-                }
-                throw ex;
-            }
-            finally {
-                this.#pathResolver.setPath(false, currentPath);
-            }
-        });
+        this.#tasks.set(() => this.#withTemporaryPath(overridePath, task, context), description);
         return Promise.resolve();
+    }
+    #withTemporaryPath(overridePath, task, context) {
+        const currentPath = this.#pathResolver.getPath(false);
+        this.#pathResolver.setPath(false, overridePath);
+        try {
+            return task();
+        }
+        catch (ex) {
+            if (this.#enableWarnings && context) {
+                console.warn(context);
+            }
+            throw ex;
+        }
+        finally {
+            this.#pathResolver.setPath(false, currentPath);
+        }
     }
     /** Run all tasks in the queue. */
     async commit() {
@@ -70,8 +77,9 @@ export default class FSQueue {
             throw new Error("You have required tasks to execute!");
         }
         this.#started = true;
-        while (this.#tasks.length) {
-            await this.#tasks.shift()();
+        const tasks = Array.from(this.#tasks.keys());
+        while (tasks.length) {
+            await tasks.shift()();
         }
         this.#hasCommitted = true;
     }

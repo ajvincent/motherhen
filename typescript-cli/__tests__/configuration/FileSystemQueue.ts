@@ -36,6 +36,10 @@ describe("File system queue", () => {
       config, ".motherhen-config.json"
     ));
 
+    expect(queue.pendingOperations()).toEqual([
+      `write configuration to ${path.resolve(pathResolver.getPath(true), ".motherhen-config.json")}`,
+    ]);
+
     // checking for mutations after we've requested a write
     const expectedContents = JSON.stringify(config, null, 2) + "\n";
     config.vanilla.set("central", new VanillaJSON(pathResolver, "central"));
