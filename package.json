@@ -24,7 +24,7 @@
     "test:where": "npm run tsc && ./cli/motherhen.js where --config=./test/.motherhen-config.json --project=default",
     "tsc": "rm -rf ./cli/*/* && tsc",
     "precommit:eslint": "eslint --max-warnings=0 typescript-cli",
-    "precommit:setup": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache",
+    "precommit:setup": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --all",
     "precommit:timestamps": "node ./cli/build-utilities/checkTimestamps.js",
     "prepare": "husky install"
   },
