@@ -3,26 +3,48 @@ import fs from "fs/promises";
 import PathResolver from "#cli/configuration/PathResolver";
 import FSQueue from "#cli/configuration/FileSystemQueue";
 import ConfigFileFormat from "../json/ConfigFileFormat";
-import FakeInquirer from "#cli/utilities/FakeInquirer";
 
 import type {
+  PartialInquirer,
   SharedArguments,
 } from "./shared-types";
 
-export default class SharedArgumentsTest implements SharedArguments
+export default class SharedArgumentsImpl implements SharedArguments
 {
+  /**
+   * Build a SharedArguments instance.
+   * @param inquirer - the prompting service to use.
+   * @param pathToDirectory - the directory the project configuration lives in.
+   * @param relativePathToConfig - if provided, the path to the configuration file.
+   */
+  static async build(
+    inquirer: PartialInquirer,
+    pathToDirectory: string,
+    relativePathToConfig?: string
+  ) : Promise<SharedArguments>
+  {
+    const config = new SharedArgumentsImpl(inquirer, pathToDirectory);
+    if (relativePathToConfig) {
+      await config.#loadConfiguration(relativePathToConfig);
+    }
+    return config;
+  }
+
+  // #region SharedArguments
   readonly pathResolver: PathResolver;
   readonly fsQueue: FSQueue;
   get configuration(): ConfigFileFormat
   {
     return this.#configuration;
   }
-  readonly inquirer = new FakeInquirer;
+  readonly inquirer: PartialInquirer;
+  // #endregion SharedArguments
 
   #configuration: ConfigFileFormat;
 
-  constructor(
-    pathToTempDirectory: string
+  private constructor(
+    inquirer: PartialInquirer,
+    pathToTempDirectory: string,
   )
   {
     const useAbsoluteProperty = new PathResolver.UseAbsolute(
@@ -40,10 +62,12 @@ export default class SharedArgumentsTest implements SharedArguments
       this.pathResolver,
       ConfigFileFormat.blank()
     );
+
+    this.inquirer = inquirer;
   }
 
   #hasAttemptedLoad = false;
-  async loadConfiguration(pathToConfiguration: string) : Promise<void>
+  async #loadConfiguration(pathToConfiguration: string) : Promise<void>
   {
     if (this.#hasAttemptedLoad)
       throw new Error("has attempted load");

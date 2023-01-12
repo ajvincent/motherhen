@@ -1,6 +1,6 @@
 import pickConfigLocation from "./pickConfigLocation";
 import fileExists from "#cli/utilities/fileExists";
-import SharedArgumentsTest from "./SharedArguments-test";
+import SharedArgumentsImpl from "./SharedArguments";
 /**
  * Create shared arguments for use in other wizard modules.
  *
@@ -13,16 +13,8 @@ export default async function CreateEnvironment(inquirer, pathToStartDirectory, 
         throw new Error("not yet implemented");
     }
     const configLocation = await pickConfigLocation(inquirer, pathToStartDirectory);
-    let shared;
-    if (asTest) {
-        const sharedTest = new SharedArgumentsTest(pathToStartDirectory);
-        if (await fileExists(configLocation.pathToFile, false))
-            await sharedTest.loadConfiguration(configLocation.pathToFile);
-        shared = sharedTest;
-    }
-    else {
-        throw new Error("not yet implemented");
-    }
+    const configExists = await fileExists(configLocation.pathToFile, false);
+    const shared = await SharedArgumentsImpl.build(inquirer, pathToStartDirectory, configExists ? configLocation.pathToFile : "");
     return shared;
 }
 //# sourceMappingURL=CreateEnvironment.js.map

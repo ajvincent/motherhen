@@ -2,23 +2,38 @@ import fs from "fs/promises";
 import PathResolver from "#cli/configuration/PathResolver";
 import FSQueue from "#cli/configuration/FileSystemQueue";
 import ConfigFileFormat from "../json/ConfigFileFormat";
-import FakeInquirer from "#cli/utilities/FakeInquirer";
-export default class SharedArgumentsTest {
+export default class SharedArgumentsImpl {
+    /**
+     * Build a SharedArguments instance.
+     * @param inquirer - the prompting service to use.
+     * @param pathToDirectory - the directory the project configuration lives in.
+     * @param relativePathToConfig - if provided, the path to the configuration file.
+     */
+    static async build(inquirer, pathToDirectory, relativePathToConfig) {
+        const config = new SharedArgumentsImpl(inquirer, pathToDirectory);
+        if (relativePathToConfig) {
+            await config.#loadConfiguration(relativePathToConfig);
+        }
+        return config;
+    }
+    // #region SharedArguments
     pathResolver;
     fsQueue;
     get configuration() {
         return this.#configuration;
     }
-    inquirer = new FakeInquirer;
+    inquirer;
+    // #endregion SharedArguments
     #configuration;
-    constructor(pathToTempDirectory) {
+    constructor(inquirer, pathToTempDirectory) {
         const useAbsoluteProperty = new PathResolver.UseAbsolute(pathToTempDirectory, false);
         this.pathResolver = new PathResolver(useAbsoluteProperty, false, "");
         this.fsQueue = new FSQueue(this.pathResolver);
         this.#configuration = ConfigFileFormat.fromJSON(this.pathResolver, ConfigFileFormat.blank());
+        this.inquirer = inquirer;
     }
     #hasAttemptedLoad = false;
-    async loadConfiguration(pathToConfiguration) {
+    async #loadConfiguration(pathToConfiguration) {
         if (this.#hasAttemptedLoad)
             throw new Error("has attempted load");
         this.#hasAttemptedLoad = true;
@@ -32,4 +47,4 @@ export default class SharedArgumentsTest {
         this.#configuration = ConfigFileFormat.fromJSON(this.pathResolver, serialized);
     }
 }
-//# sourceMappingURL=SharedArguments-test.js.map
+//# sourceMappingURL=SharedArguments.js.map
