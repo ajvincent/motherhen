@@ -1,15 +1,16 @@
 import type {
-  PromptFunction,
   QuestionCollection,
   Answers,
   DistinctQuestion,
 } from "inquirer";
 
-import { PromiseAllSequence } from "./PromiseTypes";
+import {
+  PromiseAllSequence
+} from "./PromiseTypes";
 
-export interface PartialInquirer {
-  readonly prompt: PromptFunction;
-}
+import type {
+  PartialInquirer
+} from "./PartialInquirer";
 
 export class FakeAnswers {
   readonly answer: unknown
@@ -43,7 +44,7 @@ implements PartialInquirer
 
     await PromiseAllSequence(
       questions,
-      async question => this.#askQuestion(question, answers)
+      async question => this.#askQuestion(question, answers as T)
     );
 
     return answers as T;
@@ -64,9 +65,7 @@ implements PartialInquirer
   >
   (
     question: DistinctQuestion<T>,
-    answers: {
-      [key: string]: T[string] | undefined
-    }
+    answers: T
   ) : Promise<void>
   {
     if (!question.name)
@@ -82,14 +81,16 @@ implements PartialInquirer
 
     if (question.validate) {
       await PromiseAllSequence(fakeAnswers.validateFail, async answer => {
-        await this.#validateAnswer(question, name, answer, false, false);
+        await this.#validateAnswer(question, name, answer, answers, false, false);
       });
 
       await PromiseAllSequence(fakeAnswers.validatePass, async answer => {
-        await this.#validateAnswer(question, name, answer, true, false);
+        await this.#validateAnswer(question, name, answer, answers, true, false);
       });
 
-      await this.#validateAnswer(question, name, fakeAnswers.answer, true, true);
+      await this.#validateAnswer(
+        question, name, fakeAnswers.answer, answers, true, true
+      );
     }
     else if (
       fakeAnswers.validateFail.length ||
@@ -109,6 +110,7 @@ implements PartialInquirer
     question : DistinctQuestion<T>,
     name: string,
     answer: unknown,
+    answers: T,
     shouldPass: boolean,
     isFinal: boolean
   ) : Promise<void>
@@ -116,7 +118,7 @@ implements PartialInquirer
     if (!question.validate)
       throw new Error("assertion failure, we shouldn't get here");
 
-    const result = await question.validate(answer);
+    const result = await question.validate(answer, answers);
     if ((result === true) === shouldPass)
       return;
 

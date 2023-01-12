@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-import FSQueue from "#cli/configuration/version-1.0/wizard/FileSystemQueue";
+import FSQueue from "#cli/configuration/FileSystemQueue";
 import PathResolver from "#cli/configuration/PathResolver";
 import TempDirWithCleanup, {
   type TempDirWithCleanupType

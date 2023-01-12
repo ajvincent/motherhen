@@ -1,7 +1,9 @@
 import fs from "fs/promises";
 
-import PathResolver from "#cli/configuration/PathResolver";
-import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat";
+import PathResolver from "./PathResolver";
+type ConfigFileFormat = {
+  formatVersion: string;
+}
 
 type PromiseQueueTask = () => Promise<void>;
 
