@@ -24,7 +24,7 @@ import ProjectJSON, {
   ProjectJSONData
 } from "./Project";
 import { isJSONObject } from "./JSON_Operations";
-import PathResolver from "../PathResolver";
+import PathResolver from "../../PathResolver";
 
 // #endregion preamble
 

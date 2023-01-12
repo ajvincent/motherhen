@@ -1,15 +1,15 @@
 import {
   DictionaryBuilder,
   DictionaryResolverBuilder,
-} from "../../../configuration/json-version1.0/Dictionary";
+} from "../../../../configuration/version-1.0/json/Dictionary";
 
 import {
   NumberWrapper,
   NumberResolver,
 } from "./JSON_Operations";
 
-import projectRoot from "../../../utilities/projectRoot";
-import PathResolver from "../../../configuration/PathResolver";
+import projectRoot from "../../../../utilities/projectRoot";
+import PathResolver from "../../../../configuration/PathResolver";
 
 it("DictionaryBuilder works", () => {
   const NumberDictionary = DictionaryBuilder<

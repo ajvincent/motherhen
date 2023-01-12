@@ -1,7 +1,7 @@
 import path from "path";
 
-import PathResolver from "../PathResolver";
-import projectRoot from "../../utilities/projectRoot";
+import PathResolver from "../../PathResolver";
+import projectRoot from "../../../utilities/projectRoot";
 import { isJSONObject } from "./JSON_Operations";
 
 const cleanroomPath = path.join(projectRoot, "cleanroom/mozilla-unified");

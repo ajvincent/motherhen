@@ -1,16 +1,16 @@
 import ConfigFileFormat, {
   type ConfigFileFormatParsed,
   type ConfigFileFormatSerialized,
-} from "../../../configuration/json-version1.0/ConfigFileFormat";
+} from "../../../../configuration/version-1.0/json/ConfigFileFormat";
 
-import PathResolver from "../../../configuration/PathResolver";
-import projectRoot from "../../../utilities/projectRoot";
+import PathResolver from "../../../../configuration/PathResolver";
+import projectRoot from "../../../../utilities/projectRoot";
 
-import { forceJSONType } from "../../../configuration/json-version1.0/JSON_Operations";
-import { VanillaJSON } from "../../../configuration/json-version1.0/Vanilla";
-import FileJSON from "../../../configuration/json-version1.0/File";
-import IntegrationJSON from "../../../configuration/json-version1.0/Integration";
-import ProjectJSON from "../../../configuration/json-version1.0/Project";
+import { forceJSONType } from "../../../../configuration/version-1.0/json/JSON_Operations";
+import { VanillaJSON } from "../../../../configuration/version-1.0/json/Vanilla";
+import FileJSON from "../../../../configuration/version-1.0/json/File";
+import IntegrationJSON from "../../../../configuration/version-1.0/json/Integration";
+import ProjectJSON from "../../../../configuration/version-1.0/json/Project";
 
 forceJSONType<
   ConfigFileFormatParsed,

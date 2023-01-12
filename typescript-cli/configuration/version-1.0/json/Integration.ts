@@ -1,4 +1,4 @@
-import PathResolver from "../PathResolver";
+import PathResolver from "../../PathResolver";
 import { isJSONObject } from "./JSON_Operations";
 import StringSet from "./StringSet";
 

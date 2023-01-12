@@ -1,4 +1,4 @@
-import PathResolver from "../PathResolver";
+import PathResolver from "../../PathResolver";
 import {
   type JSONBase,
   type JSONBase_Static,

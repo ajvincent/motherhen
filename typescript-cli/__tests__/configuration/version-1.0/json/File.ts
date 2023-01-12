@@ -1,12 +1,12 @@
 import FileJSON, {
   type FileJSONParsed,
   type FileJSONSerialized
-} from "../../../configuration/json-version1.0/File";
+} from "../../../../configuration/version-1.0/json/File";
 
-import PathResolver from "../../../configuration/PathResolver";
-import projectRoot from "../../../utilities/projectRoot";
+import PathResolver from "../../../../configuration/PathResolver";
+import projectRoot from "../../../../utilities/projectRoot";
 
-import { forceJSONType } from "../../../configuration/json-version1.0/JSON_Operations";
+import { forceJSONType } from "../../../../configuration/version-1.0/json/JSON_Operations";
 
 forceJSONType<FileJSONParsed, FileJSONSerialized, true>(FileJSON);
 
