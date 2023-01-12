@@ -1,4 +1,4 @@
-import FakeInquirer, { FakeAnswers } from "../../utilities/FakeInquirer";
+import FakeInquirer, { FakeAnswers } from "#cli/utilities/FakeInquirer";
 
 describe("FakeInquirer", () => {
   const debugInquirer = new FakeInquirer;

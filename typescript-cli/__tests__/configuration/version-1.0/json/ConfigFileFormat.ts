@@ -1,16 +1,16 @@
 import ConfigFileFormat, {
   type ConfigFileFormatParsed,
   type ConfigFileFormatSerialized,
-} from "../../../../configuration/version-1.0/json/ConfigFileFormat";
+} from "#cli/configuration/version-1.0/json/ConfigFileFormat";
 
-import PathResolver from "../../../../configuration/PathResolver";
-import projectRoot from "../../../../utilities/projectRoot";
+import PathResolver from "#cli/configuration/PathResolver";
+import projectRoot from "#cli/utilities/projectRoot";
 
-import { forceJSONType } from "../../../../configuration/version-1.0/json/JSON_Operations";
-import { VanillaJSON } from "../../../../configuration/version-1.0/json/Vanilla";
-import FileJSON from "../../../../configuration/version-1.0/json/File";
-import IntegrationJSON from "../../../../configuration/version-1.0/json/Integration";
-import ProjectJSON from "../../../../configuration/version-1.0/json/Project";
+import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations";
+import { VanillaJSON } from "#cli/configuration/version-1.0/json/Vanilla";
+import FileJSON from "#cli/configuration/version-1.0/json/File";
+import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
+import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
 
 forceJSONType<
   ConfigFileFormatParsed,

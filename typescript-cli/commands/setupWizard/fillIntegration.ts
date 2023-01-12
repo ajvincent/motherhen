@@ -10,7 +10,7 @@ import type {
   WritableConfigurationType,
 } from "./shared-types.js";
 
-import projectRoot from "../../utilities/projectRoot.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 const cleanroom = path.join(projectRoot, ".cleanroom/mozilla-unified");
 
 type FillIntegrationResults = {

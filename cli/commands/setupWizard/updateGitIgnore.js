@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs/promises";
-import projectRoot from "../../utilities/projectRoot.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 import inquirer from "./inquirer-registration.js";
 const gitignorePath = path.join(projectRoot, ".gitignore");
 const defaultConfigPath = path.join(projectRoot, ".motherhen-config.json");

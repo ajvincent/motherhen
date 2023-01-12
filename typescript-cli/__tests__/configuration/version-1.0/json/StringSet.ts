@@ -1,6 +1,6 @@
-import StringSet from "../../../../configuration/version-1.0/json/StringSet";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 
-import { forceJSONType } from "../../../../configuration/version-1.0/json/JSON_Operations";
+import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations";
 forceJSONType<Set<string>, string[], false>(StringSet);
 
 it("StringSet works", () => {

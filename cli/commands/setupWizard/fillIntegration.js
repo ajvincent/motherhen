@@ -3,7 +3,7 @@ import inquirer from "./inquirer-registration.js";
 import pickFileToCreate from "./pickFileToCreate.js";
 import getProjectDirFromMozconfig from "../tools/projectDirFromMozconfig.js";
 import { shouldReplaceHatchedEgg } from "./replaceHatchedEgg.js";
-import projectRoot from "../../utilities/projectRoot.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 const cleanroom = path.join(projectRoot, ".cleanroom/mozilla-unified");
 /**
  * @param pathToConfig - the Motherhen configuration file path.

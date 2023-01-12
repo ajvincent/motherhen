@@ -1,10 +1,10 @@
 import ProjectJSON, {
   type ProjectJSONData
-} from "../../../../configuration/version-1.0/json/Project";
+} from "#cli/configuration/version-1.0/json/Project";
 
 import {
   forceJSONType
-} from "../../../../configuration/version-1.0/json/JSON_Operations";
+} from "#cli/configuration/version-1.0/json/JSON_Operations";
 
 forceJSONType<ProjectJSONData, ProjectJSONData, false>(ProjectJSON);
 

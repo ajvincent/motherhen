@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
-import projectRoot from "../utilities/projectRoot.js";
-import { PromiseAllParallel } from "../utilities/PromiseTypes.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
+import { PromiseAllParallel } from "#cli/utilities/PromiseTypes.js";
 import readDirsDeep from "./readDirsDeep.js";
 {
     const tsPath = path.join(projectRoot, "typescript-cli");

@@ -13,6 +13,10 @@ const jestConfig = {
       },
     ],
   },
+
+  moduleNameMapper: {
+    "#cli/(.*)": "<rootDir>/typescript-cli/$1",
+  },
 }
 
 export default jestConfig
