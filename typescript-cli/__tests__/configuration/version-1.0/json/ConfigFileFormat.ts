@@ -10,6 +10,7 @@ import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operatio
 import FileJSON from "#cli/configuration/version-1.0/json/File";
 import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 
 forceJSONType<
   ConfigFileFormatParsed,
@@ -88,10 +89,10 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
     pathResolver.setPath(false, "cleanroom/mozilla-unified");
 
     config.sources.set(
-      "hatchedEgg", FileJSON.fromJSON(pathResolver, "sources/hatchedEgg")
+      "hatchedEgg", StringSet.fromJSON(["sources/hatchedEgg"])
     );
     config.sources.set(
-      "crackedEgg", FileJSON.fromJSON(pathResolver, "sources/crackedEgg")
+      "crackedEgg", StringSet.fromJSON(["sources/crackedEgg"])
     );
 
     config.patches.set(
@@ -162,8 +163,8 @@ function buildSerializedRef() : ConfigFileFormatSerialized
     "formatVersion": "1.0.0",
 
     "sources": {
-      "hatchedEgg": "sources/hatchedEgg",
-      "crackedEgg": "sources/crackedEgg",
+      "hatchedEgg": ["sources/hatchedEgg"],
+      "crackedEgg": ["sources/crackedEgg"],
     },
 
     "patches": {

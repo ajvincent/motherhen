@@ -20,6 +20,7 @@ import ProjectJSON, {
 } from "./Project";
 import { isJSONObject } from "./JSON_Operations";
 import PathResolver from "../../PathResolver";
+import StringSet from "./StringSet";
 
 // #endregion preamble
 
@@ -27,7 +28,7 @@ export type ConfigFileFormatSerialized = {
   readonly formatVersion: "1.0.0";
 
   // Source directory sets as StringSet under ${projectRoot}/sources
-  readonly sources:      StringIndexed<FileJSONSerialized>;
+  readonly sources:      StringIndexed<string[]>;
 
   // Patch file globs and commit instructions under ${projectRoot}/patches
   readonly patches:      StringIndexed<string>;
@@ -75,7 +76,7 @@ export type ConfigFileFormatSerialized = {
 export type ConfigFileFormatParsed = {
   readonly formatVersion: "1.0.0";
 
-  readonly sources:      DictionaryMap<File,            FileJSONSerialized>;
+  readonly sources:      DictionaryMap<StringSet,       string[]>;
   readonly patches:      DictionaryMap<File,            FileJSONSerialized>;
   readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
@@ -87,7 +88,7 @@ implements ConfigFileFormatParsed
 {
   readonly formatVersion = "1.0.0";
 
-  readonly sources:      DictionaryMap<File,            FileJSONSerialized>;
+  readonly sources:      DictionaryMap<StringSet,       string[]>;
   readonly patches:      DictionaryMap<File,            FileJSONSerialized>;
   readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
@@ -123,7 +124,7 @@ implements ConfigFileFormatParsed
     if (value.formatVersion !== "1.0.0")
       return false;
 
-    if (!ClassesDictionary.files.isJSON(value.sources))
+    if (!ClassesDictionary.stringSet.isJSON(value.sources))
       return false;
 
     if (!ClassesDictionary.files.isJSON(value.patches))
@@ -147,8 +148,8 @@ implements ConfigFileFormatParsed
   ) : ConfigFileFormat
   {
     const formatVersion = "1.0.0";
-    const sources = ClassesDictionary.files.fromJSON(
-      pathResolver, value.sources
+    const sources = ClassesDictionary.stringSet.fromJSON(
+      value.sources
     );
     const patches = ClassesDictionary.files.fromJSON(
       pathResolver, value.patches
@@ -190,8 +191,8 @@ implements ConfigFileFormatParsed
 const ClassesDictionary = {
   files:       DictionaryResolverBuilder(File),
   integration: DictionaryResolverBuilder(IntegrationJSON),
-
   projects:    DictionaryBuilder(ProjectJSON),
+  stringSet:   DictionaryBuilder(StringSet),
 };
 
 export default ConfigFileFormat;

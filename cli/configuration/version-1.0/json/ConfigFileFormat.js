@@ -4,6 +4,7 @@ import { DictionaryBuilder, DictionaryResolverBuilder, } from "./Dictionary";
 import IntegrationJSON from "./Integration";
 import ProjectJSON from "./Project";
 import { isJSONObject } from "./JSON_Operations";
+import StringSet from "./StringSet";
 class ConfigFileFormat {
     formatVersion = "1.0.0";
     sources;
@@ -34,7 +35,7 @@ class ConfigFileFormat {
         const value = unknownValue;
         if (value.formatVersion !== "1.0.0")
             return false;
-        if (!ClassesDictionary.files.isJSON(value.sources))
+        if (!ClassesDictionary.stringSet.isJSON(value.sources))
             return false;
         if (!ClassesDictionary.files.isJSON(value.patches))
             return false;
@@ -48,7 +49,7 @@ class ConfigFileFormat {
     }
     static fromJSON(pathResolver, value) {
         const formatVersion = "1.0.0";
-        const sources = ClassesDictionary.files.fromJSON(pathResolver, value.sources);
+        const sources = ClassesDictionary.stringSet.fromJSON(value.sources);
         const patches = ClassesDictionary.files.fromJSON(pathResolver, value.patches);
         const mozconfigs = ClassesDictionary.files.fromJSON(pathResolver, value.mozconfigs);
         const integrations = ClassesDictionary.integration.fromJSON(pathResolver, value.integrations);
@@ -78,6 +79,7 @@ const ClassesDictionary = {
     files: DictionaryResolverBuilder(File),
     integration: DictionaryResolverBuilder(IntegrationJSON),
     projects: DictionaryBuilder(ProjectJSON),
+    stringSet: DictionaryBuilder(StringSet),
 };
 export default ConfigFileFormat;
 //# sourceMappingURL=ConfigFileFormat.js.map
