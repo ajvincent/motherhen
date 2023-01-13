@@ -1,12 +1,3 @@
-#
-# See http://www.mozilla.org/build/ for build instructions.
-#
-
-. ./branding.mozconfig
-
-# Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../hatchedegg-sym
-
 # Enables sccache to speed up builds
 ac_add_options --with-ccache=sccache
 
