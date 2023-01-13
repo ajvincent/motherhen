@@ -16,13 +16,13 @@ describe("ProjectJSON", () => {
 
     expect(project.integrationKey).toBe("foo");
     expect(project.mozconfigKey).toBe("debug");
-    expect(project.appDirKey).toBe("chicken");
+    expect(project.appDir).toBe("chicken");
 
     const data = project.toJSON();
     expect(data).toEqual({
       integrationKey: "foo",
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
     });
   });
 
@@ -30,24 +30,24 @@ describe("ProjectJSON", () => {
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
     })).toBe(true);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
       extra: true
     })).toBe(true);
 
     expect(ProjectJSON.isJSON({
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
-      appDirKey: "chicken",
+      appDir: "chicken",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
@@ -58,26 +58,26 @@ describe("ProjectJSON", () => {
     expect(ProjectJSON.isJSON({
       integrationKey: true,
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
       mozconfigKey: true,
-      appDirKey: "chicken",
+      appDir: "chicken",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
       mozconfigKey: "debug",
-      appDirKey: true,
+      appDir: true,
     })).toBe(false);
 
     // array, disallowed
     expect(ProjectJSON.isJSON([{
       integrationKey: "foo",
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
     }])).toBe(false);
   });
 
@@ -85,11 +85,11 @@ describe("ProjectJSON", () => {
     project = ProjectJSON.fromJSON({
       integrationKey: "foo",
       mozconfigKey: "debug",
-      appDirKey: "chicken",
+      appDir: "chicken",
     });
 
     expect(project.integrationKey).toBe("foo");
     expect(project.mozconfigKey).toBe("debug");
-    expect(project.appDirKey).toBe("chicken");
+    expect(project.appDir).toBe("chicken");
   });
 });

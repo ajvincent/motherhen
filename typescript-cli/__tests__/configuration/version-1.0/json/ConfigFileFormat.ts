@@ -141,7 +141,7 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       ProjectJSON.fromJSON({
         integrationKey: "central",
         mozconfigKey: "debug",
-        appDirKey: "hatchedEgg"
+        appDir: "hatchedEgg"
       })
     );
 
@@ -150,7 +150,7 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       ProjectJSON.fromJSON({
         integrationKey: "beta",
         mozconfigKey: "debug",
-        appDirKey: "hatchedEgg"
+        appDir: "hatchedEgg"
       })
     );
 
@@ -218,13 +218,13 @@ function buildSerializedRef() : ConfigFileFormatSerialized
       "hatchedEgg-central-debug": {
         "integrationKey": "central",
         "mozconfigKey": "debug",
-        "appDirKey": "hatchedEgg"
+        "appDir": "hatchedEgg"
       },
 
       "hatchedEgg-beta-debug": {
         "integrationKey": "beta",
         "mozconfigKey": "debug",
-        "appDirKey": "hatchedEgg"
+        "appDir": "hatchedEgg"
       },
     },
 

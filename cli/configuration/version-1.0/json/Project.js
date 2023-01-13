@@ -1,27 +1,24 @@
 import { isJSONObject } from "./JSON_Operations";
 export default class ProjectJSON {
-    /** the integration dictionary key */
     integrationKey;
-    /** the mozconfig dictionary key */
     mozconfigKey;
-    /** a dictionary key under sources to treat as the application directory */
-    appDirKey;
+    appDir;
     /**
      * Provide a Project configuration.
      * @param integrationKey - the integration dictionary key
      * @param mozconfigKey - the mozconfig dictionary key
-     * @param appDirKey - a dictionary key under sources to treat as the application directory
+     * @param appDir - a dictionary key under sources to treat as the application directory
      */
-    constructor(integrationKey, mozconfigKey, appDirKey) {
+    constructor(integrationKey, mozconfigKey, appDir) {
         this.integrationKey = integrationKey;
         this.mozconfigKey = mozconfigKey;
-        this.appDirKey = appDirKey;
+        this.appDir = appDir;
     }
     toJSON() {
         return {
             integrationKey: this.integrationKey,
             mozconfigKey: this.mozconfigKey,
-            appDirKey: this.appDirKey,
+            appDir: this.appDir,
         };
     }
     static isJSON(unknownValue) {
@@ -30,10 +27,10 @@ export default class ProjectJSON {
         const value = unknownValue;
         return ((typeof value.integrationKey === "string") &&
             (typeof value.mozconfigKey === "string") &&
-            (typeof value.appDirKey === "string"));
+            (typeof value.appDir === "string"));
     }
     static fromJSON(value) {
-        return new ProjectJSON(value.integrationKey, value.mozconfigKey, value.appDirKey);
+        return new ProjectJSON(value.integrationKey, value.mozconfigKey, value.appDir);
     }
 }
 //# sourceMappingURL=Project.js.map
