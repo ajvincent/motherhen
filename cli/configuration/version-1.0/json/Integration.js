@@ -1,8 +1,8 @@
 import { isJSONObject } from "./JSON_Operations";
 import StringSet from "./StringSet";
 export default class IntegrationJSON {
-    /** the key for a vanilla configuration */
-    vanillaKey;
+    /** the tag to update our cleanroom Mozilla repository to, before cloning it for integration */
+    vanillaTag;
     /** the source directory keys */
     sourceKeys;
     /** the patch file keys */
@@ -11,20 +11,20 @@ export default class IntegrationJSON {
     targetDirectory;
     /**
      * Provide an Integration configuration.
-     * @param vanillaKey - the key for a vanilla configuration
+     * @param vanillaTag - the tag to update our cleanroom Mozilla repository to, before cloning it for integration
      * @param sourceKeys - the source directory keys
      * @param patchKeys - the patch file keys
      * @param targetDirectory - the Motherhen integration directory
      */
-    constructor(vanillaKey, sourceKeys, patchKeys, targetDirectory) {
-        this.vanillaKey = vanillaKey;
+    constructor(vanillaTag, sourceKeys, patchKeys, targetDirectory) {
+        this.vanillaTag = vanillaTag;
         this.sourceKeys = sourceKeys;
         this.patchKeys = patchKeys;
         this.targetDirectory = targetDirectory;
     }
     toJSON() {
         return {
-            vanillaKey: this.vanillaKey,
+            vanillaTag: this.vanillaTag,
             sourceKeys: this.sourceKeys.toJSON(),
             patchKeys: this.patchKeys.toJSON(),
             targetDirectory: this.targetDirectory.toJSON(),
@@ -34,7 +34,7 @@ export default class IntegrationJSON {
         if (!isJSONObject(unknownValue))
             return false;
         const value = unknownValue;
-        if (typeof value.vanillaKey !== "string")
+        if (typeof value.vanillaTag !== "string")
             return false;
         if (typeof value.targetDirectory !== "string")
             return false;
@@ -46,7 +46,7 @@ export default class IntegrationJSON {
         const patchKeys = new StringSet(value.patchKeys);
         const targetDirectory = pathResolver.clone();
         targetDirectory.setPath(false, value.targetDirectory);
-        return new IntegrationJSON(value.vanillaKey, sourceKeys, patchKeys, targetDirectory);
+        return new IntegrationJSON(value.vanillaTag, sourceKeys, patchKeys, targetDirectory);
     }
 }
 //# sourceMappingURL=Integration.js.map

@@ -3,14 +3,14 @@ import { isJSONObject } from "./JSON_Operations";
 import StringSet from "./StringSet";
 
 export type IntegrationJSONParsed = {
-  vanillaKey: string;
+  vanillaTag: string;
   readonly sourceKeys: StringSet;
   readonly patchKeys: StringSet;
   readonly targetDirectory: PathResolver;
 }
 
 export type IntegrationJSONSerialized = {
-  vanillaKey: string;
+  vanillaTag: string;
   readonly sourceKeys: string[];
   readonly patchKeys: string[];
   targetDirectory: string;
@@ -20,8 +20,8 @@ export default
 class IntegrationJSON
 implements IntegrationJSONParsed
 {
-  /** the key for a vanilla configuration */
-  vanillaKey: string;
+  /** the tag to update our cleanroom Mozilla repository to, before cloning it for integration */
+  vanillaTag: string;
 
   /** the source directory keys */
   readonly sourceKeys: StringSet;
@@ -34,19 +34,19 @@ implements IntegrationJSONParsed
 
   /**
    * Provide an Integration configuration.
-   * @param vanillaKey - the key for a vanilla configuration
+   * @param vanillaTag - the tag to update our cleanroom Mozilla repository to, before cloning it for integration
    * @param sourceKeys - the source directory keys
    * @param patchKeys - the patch file keys
    * @param targetDirectory - the Motherhen integration directory
    */
   constructor(
-    vanillaKey: string,
+    vanillaTag: string,
     sourceKeys: StringSet,
     patchKeys: StringSet,
     targetDirectory: PathResolver
   )
   {
-    this.vanillaKey = vanillaKey;
+    this.vanillaTag = vanillaTag;
     this.sourceKeys = sourceKeys;
     this.patchKeys = patchKeys;
     this.targetDirectory = targetDirectory;
@@ -55,7 +55,7 @@ implements IntegrationJSONParsed
   toJSON() : Readonly<IntegrationJSONSerialized>
   {
     return {
-      vanillaKey: this.vanillaKey,
+      vanillaTag: this.vanillaTag,
       sourceKeys: this.sourceKeys.toJSON(),
       patchKeys: this.patchKeys.toJSON(),
       targetDirectory: this.targetDirectory.toJSON(),
@@ -70,7 +70,7 @@ implements IntegrationJSONParsed
       return false;
 
     const value = unknownValue as IntegrationJSONSerialized;
-    if (typeof value.vanillaKey !== "string")
+    if (typeof value.vanillaTag !== "string")
       return false;
     if (typeof value.targetDirectory !== "string")
       return false;
@@ -93,7 +93,7 @@ implements IntegrationJSONParsed
     targetDirectory.setPath(false, value.targetDirectory);
 
     return new IntegrationJSON(
-      value.vanillaKey,
+      value.vanillaTag,
       sourceKeys,
       patchKeys,
       targetDirectory

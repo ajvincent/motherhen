@@ -22,12 +22,12 @@ describe("IntegrationJSON", () => {
 
   const pathResolver = new PathResolver(pathResolverBase, false, "cleanroom/mozilla-unified");
 
-  let vanillaKey: string;
+  let vanillaTag: string;
   const sourceKeys = new StringSet;
   const patchKeys = new StringSet;
   let integration: IntegrationJSON;
   beforeEach(() => {
-    vanillaKey = "vanillaKey"
+    vanillaTag = "vanillaTag"
     sourceKeys.clear();
     patchKeys.clear();
     pathResolver.setPath(false, "userdir");
@@ -35,14 +35,14 @@ describe("IntegrationJSON", () => {
 
   it("works with a constructor", () => {
     integration = new IntegrationJSON(
-      vanillaKey, sourceKeys, patchKeys, pathResolver
+      vanillaTag, sourceKeys, patchKeys, pathResolver
     );
-    expect(integration.vanillaKey).toBe("vanillaKey");
+    expect(integration.vanillaTag).toBe("vanillaTag");
     expect(integration.sourceKeys).toBe(sourceKeys);
     expect(integration.patchKeys).toBe(patchKeys);
     expect(integration.targetDirectory).toBe(pathResolver);
 
-    integration.vanillaKey = "chocolateKey";
+    integration.vanillaTag = "chocolateKey";
 
     integration.sourceKeys.add("foo");
     integration.sourceKeys.add("bar");
@@ -53,7 +53,7 @@ describe("IntegrationJSON", () => {
     integration.targetDirectory.setPath(false, "myUserDir");
 
     const result = integration.toJSON();
-    expect(result.vanillaKey).toBe("chocolateKey");
+    expect(result.vanillaTag).toBe("chocolateKey");
     expect(result.sourceKeys).toEqual(["foo", "bar"]);
     expect(result.patchKeys).toEqual(["patch0", "patch_01"]);
     expect(result.targetDirectory).toBe("myUserDir");
@@ -61,28 +61,28 @@ describe("IntegrationJSON", () => {
 
   it("static .isJSON() returns correct results", () => {
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       patchKeys: ["patch0", "patch_01"],
       targetDirectory: "userDir"
     })).toBe(true);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: [],
       patchKeys: ["patch0", "patch_01"],
       targetDirectory: "userDir"
     })).toBe(true);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       patchKeys: [],
       targetDirectory: "userDir"
     })).toBe(true);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "",
+      vanillaTag: "",
       sourceKeys: [],
       patchKeys: [],
       targetDirectory: ""
@@ -95,25 +95,25 @@ describe("IntegrationJSON", () => {
     })).toBe(false);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       patchKeys: ["patch0", "patch_01"],
       targetDirectory: "userDir"
     })).toBe(false);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       targetDirectory: "userDir"
     })).toBe(false);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       patchKeys: ["patch0", "patch_01"],
     })).toBe(false);
 
     expect(IntegrationJSON.isJSON({
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       patchKeys: ["patch0", "patch_01"],
       targetDirectory: "userDir",
@@ -122,7 +122,7 @@ describe("IntegrationJSON", () => {
 
     // array, disallowed
     expect(IntegrationJSON.isJSON([{
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       patchKeys: ["patch0", "patch_01"],
       targetDirectory: "userDir",
@@ -131,13 +131,13 @@ describe("IntegrationJSON", () => {
 
   it("static .fromJSON() creates integrations with a cloned target", () => {
     integration = IntegrationJSON.fromJSON(pathResolver, {
-      vanillaKey: "vanillaKey",
+      vanillaTag: "vanillaTag",
       sourceKeys: ["foo", "bar"],
       patchKeys: ["patch0"],
       targetDirectory: pathResolver.getPath(false)
     });
 
-    expect(integration.vanillaKey).toBe("vanillaKey");
+    expect(integration.vanillaTag).toBe("vanillaTag");
 
     expect(integration.sourceKeys.size).toBe(2);
     expect(integration.sourceKeys.has("foo")).toBe(true);
