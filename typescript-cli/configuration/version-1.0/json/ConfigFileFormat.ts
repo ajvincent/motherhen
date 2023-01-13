@@ -1,10 +1,5 @@
 // #region preamble
 
-import {
-  VanillaJSONSerialized,
-  VanillaJSON,
-} from "./Vanilla";
-
 import File, {
   type FileJSONSerialized
 } from "./File";
@@ -30,12 +25,6 @@ import PathResolver from "../../PathResolver";
 
 export type ConfigFileFormatSerialized = {
   readonly formatVersion: "1.0.0";
-
-  // "Vanilla" repository metadata
-  /**
-   * @deprecated - this will be removed soon, as there should be only one vanilla mozilla-unified repo
-   */
-  readonly vanilla:      StringIndexed<VanillaJSONSerialized>;
 
   // Source directory sets as StringSet under ${projectRoot}/sources
   readonly sources:      StringIndexed<FileJSONSerialized>;
@@ -86,7 +75,6 @@ export type ConfigFileFormatSerialized = {
 export type ConfigFileFormatParsed = {
   readonly formatVersion: "1.0.0";
 
-  readonly vanilla:      DictionaryMap<VanillaJSON,     VanillaJSONSerialized>;
   readonly sources:      DictionaryMap<File,            FileJSONSerialized>;
   readonly patches:      DictionaryMap<File,            FileJSONSerialized>;
   readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
@@ -99,7 +87,6 @@ implements ConfigFileFormatParsed
 {
   readonly formatVersion = "1.0.0";
 
-  readonly vanilla:      DictionaryMap<VanillaJSON,     VanillaJSONSerialized>;
   readonly sources:      DictionaryMap<File,            FileJSONSerialized>;
   readonly patches:      DictionaryMap<File,            FileJSONSerialized>;
   readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
@@ -108,7 +95,6 @@ implements ConfigFileFormatParsed
 
   private constructor(configuration: ConfigFileFormatParsed)
   {
-    this.vanilla      = configuration.vanilla;
     this.sources      = configuration.sources;
     this.patches      = configuration.patches;
     this.mozconfigs   = configuration.mozconfigs;
@@ -120,7 +106,6 @@ implements ConfigFileFormatParsed
   {
     return {
       formatVersion: this.formatVersion,
-      vanilla: this.vanilla.toJSON(),
       sources: this.sources.toJSON(),
       patches: this.patches.toJSON(),
       mozconfigs: this.mozconfigs.toJSON(),
@@ -136,9 +121,6 @@ implements ConfigFileFormatParsed
 
     const value = unknownValue as ConfigFileFormatSerialized;
     if (value.formatVersion !== "1.0.0")
-      return false;
-
-    if (!ClassesDictionary.vanilla.isJSON(value.vanilla))
       return false;
 
     if (!ClassesDictionary.files.isJSON(value.sources))
@@ -165,9 +147,6 @@ implements ConfigFileFormatParsed
   ) : ConfigFileFormat
   {
     const formatVersion = "1.0.0";
-    const vanilla = ClassesDictionary.vanilla.fromJSON(
-      pathResolver, value.vanilla
-    );
     const sources = ClassesDictionary.files.fromJSON(
       pathResolver, value.sources
     );
@@ -186,7 +165,6 @@ implements ConfigFileFormatParsed
 
     return new this({
       formatVersion,
-      vanilla,
       sources,
       patches,
       mozconfigs,
@@ -200,7 +178,6 @@ implements ConfigFileFormatParsed
   {
     return {
       formatVersion: "1.0.0",
-      vanilla: {},
       sources: {},
       patches: {},
       mozconfigs: {},
@@ -211,7 +188,6 @@ implements ConfigFileFormatParsed
 }
 
 const ClassesDictionary = {
-  vanilla:     DictionaryResolverBuilder(VanillaJSON),
   files:       DictionaryResolverBuilder(File),
   integration: DictionaryResolverBuilder(IntegrationJSON),
 

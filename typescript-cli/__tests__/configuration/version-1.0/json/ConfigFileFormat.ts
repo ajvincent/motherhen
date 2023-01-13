@@ -7,7 +7,6 @@ import PathResolver from "#cli/configuration/PathResolver";
 import projectRoot from "#cli/utilities/projectRoot";
 
 import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations";
-import { VanillaJSON } from "#cli/configuration/version-1.0/json/Vanilla";
 import FileJSON from "#cli/configuration/version-1.0/json/File";
 import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
@@ -36,7 +35,6 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       ConfigFileFormat.blank()
     );
 
-    expect(config.vanilla.size).toBe(0);
     expect(config.sources.size).toBe(0);
     expect(config.patches.size).toBe(0);
     expect(config.mozconfigs.size).toBe(0);
@@ -60,9 +58,6 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
 
     expect(ConfigFileFormat.isJSON(
       buildWithoutProperty("formatVersion")
-    )).toBe(false);
-    expect(ConfigFileFormat.isJSON(
-      buildWithoutProperty("vanilla")
     )).toBe(false);
     expect(ConfigFileFormat.isJSON(
       buildWithoutProperty("sources")
@@ -91,16 +86,6 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
     );
 
     pathResolver.setPath(false, "cleanroom/mozilla-unified");
-    config.vanilla.set(
-      "(central)", VanillaJSON.fromJSON(pathResolver, { tag: "central" })
-    );
-
-    config.vanilla.set(
-      "(beta)",    VanillaJSON.fromJSON(pathResolver, {
-        path: "cleanroom/mozilla-beta",
-        tag: "beta"
-      })
-    );
 
     config.sources.set(
       "hatchedEgg", FileJSON.fromJSON(pathResolver, "sources/hatchedEgg")
@@ -175,16 +160,6 @@ function buildSerializedRef() : ConfigFileFormatSerialized
 {
   return {
     "formatVersion": "1.0.0",
-
-    "vanilla": {
-      "(central)": {
-        "tag": "central"
-      },
-      "(beta)": {
-        "tag": "beta",
-        "path": "cleanroom/mozilla-beta",
-      },
-    },
 
     "sources": {
       "hatchedEgg": "sources/hatchedEgg",
