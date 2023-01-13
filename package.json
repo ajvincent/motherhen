@@ -13,7 +13,7 @@
     "setup": "./cli/motherhen.js setup",
     "start": "./cli/motherhen.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:setup": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --watch",
+    "test:setup": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --watch --no-watchman",
     "test:setup:debug": "node --inspect --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --watch",
     "test:clean": "rm -rf test/checkouts",
     "test:create": "npm run tsc && ./cli/motherhen.js create --config=./test/.motherhen-config.json --project=default",
@@ -23,9 +23,7 @@
     "test:package": "npm run tsc && ./cli/motherhen.js mach package --config=./test/.motherhen-config.json --project=default",
     "test:where": "npm run tsc && ./cli/motherhen.js where --config=./test/.motherhen-config.json --project=default",
     "tsc": "rm -rf ./cli/*/* && tsc",
-    "precommit:eslint": "eslint --max-warnings=0 typescript-cli",
-    "precommit:setup": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --all",
-    "precommit:timestamps": "node ./cli/build-utilities/checkTimestamps.js",
+    "precommit": "node --trace-uncaught ./cli/build-utilities/precommit.js",
     "prepare": "husky install"
   },
   "repository": {
