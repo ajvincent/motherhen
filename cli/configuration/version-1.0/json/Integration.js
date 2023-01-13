@@ -1,32 +1,31 @@
 import { isJSONObject } from "./JSON_Operations";
-import StringSet from "./StringSet";
 export default class IntegrationJSON {
     /** the tag to update our cleanroom Mozilla repository to, before cloning it for integration */
     vanillaTag;
-    /** the source directory keys */
-    sourceKeys;
-    /** the patch file keys */
-    patchKeys;
+    /** the source directory key */
+    sourceKey;
+    /** the patch file key */
+    patchKey;
     /** the Motherhen integration directory */
     targetDirectory;
     /**
      * Provide an Integration configuration.
      * @param vanillaTag - the tag to update our cleanroom Mozilla repository to, before cloning it for integration
-     * @param sourceKeys - the source directory keys
-     * @param patchKeys - the patch file keys
+     * @param sourceKey - the source directory key
+     * @param patchKey - the patch file key
      * @param targetDirectory - the Motherhen integration directory
      */
-    constructor(vanillaTag, sourceKeys, patchKeys, targetDirectory) {
+    constructor(vanillaTag, sourceKey, patchKey, targetDirectory) {
         this.vanillaTag = vanillaTag;
-        this.sourceKeys = sourceKeys;
-        this.patchKeys = patchKeys;
+        this.sourceKey = sourceKey;
+        this.patchKey = patchKey;
         this.targetDirectory = targetDirectory;
     }
     toJSON() {
         return {
             vanillaTag: this.vanillaTag,
-            sourceKeys: this.sourceKeys.toJSON(),
-            patchKeys: this.patchKeys.toJSON(),
+            sourceKey: this.sourceKey,
+            patchKey: this.patchKey,
             targetDirectory: this.targetDirectory.toJSON(),
         };
     }
@@ -36,17 +35,18 @@ export default class IntegrationJSON {
         const value = unknownValue;
         if (typeof value.vanillaTag !== "string")
             return false;
+        if (typeof value.sourceKey !== "string")
+            return false;
+        if (typeof value.patchKey !== "string")
+            return false;
         if (typeof value.targetDirectory !== "string")
             return false;
-        return (StringSet.isJSON(value.sourceKeys) &&
-            StringSet.isJSON(value.patchKeys));
+        return true;
     }
     static fromJSON(pathResolver, value) {
-        const sourceKeys = new StringSet(value.sourceKeys);
-        const patchKeys = new StringSet(value.patchKeys);
         const targetDirectory = pathResolver.clone();
         targetDirectory.setPath(false, value.targetDirectory);
-        return new IntegrationJSON(value.vanillaTag, sourceKeys, patchKeys, targetDirectory);
+        return new IntegrationJSON(value.vanillaTag, value.sourceKey, value.patchKey, targetDirectory);
     }
 }
 //# sourceMappingURL=Integration.js.map

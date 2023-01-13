@@ -39,8 +39,7 @@ export type ConfigFileFormatSerialized = {
   readonly patches:      StringIndexed<PatchesJSONSerialized>;
 
   /* mozconfigs are automatically available in ${projectRoot}/mozconfigs.
-     Only one mozconfig applies at a time, so we don't need a path resolver,
-     or a glob, or anything like that.
+     Only one mozconfig applies at a time.
   */
   readonly mozconfigs:   StringIndexed<FileJSONSerialized>;
 
@@ -48,7 +47,7 @@ export type ConfigFileFormatSerialized = {
   {
     vanillaTag: "central", "beta", /^esr\d+/, "release", etc.
       /^FIREFOX_\d+(_\d+)*_RELEASE$/ if you really insist.
-    sourceKeys: Set<keyof this.sources>;
+    sourceKey: keyof this.sources;
     patchKey: keyof this.patches;
     targetDirectory: PathResolver;
   }
@@ -58,7 +57,7 @@ export type ConfigFileFormatSerialized = {
   /*
   {
     integrationKey: keyof this.integrations;
-    mozconfig: filename under ${projectRoot}/mozconfigs;
+    mozconfigKey: keyof this.mozconfigs;
     appDirKey: keyof this.sources;
   }
   */

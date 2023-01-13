@@ -1,18 +1,17 @@
 import PathResolver from "../../PathResolver";
 import { isJSONObject } from "./JSON_Operations";
-import StringSet from "./StringSet";
 
 export type IntegrationJSONParsed = {
   vanillaTag: string;
-  readonly sourceKeys: StringSet;
-  readonly patchKeys: StringSet;
+  sourceKey: string;
+  patchKey: string;
   readonly targetDirectory: PathResolver;
 }
 
 export type IntegrationJSONSerialized = {
   vanillaTag: string;
-  readonly sourceKeys: string[];
-  readonly patchKeys: string[];
+  sourceKey: string;
+  patchKey: string;
   targetDirectory: string;
 };
 
@@ -23,11 +22,11 @@ implements IntegrationJSONParsed
   /** the tag to update our cleanroom Mozilla repository to, before cloning it for integration */
   vanillaTag: string;
 
-  /** the source directory keys */
-  readonly sourceKeys: StringSet;
+  /** the source directory key */
+  sourceKey: string;
 
-  /** the patch file keys */
-  readonly patchKeys: StringSet;
+  /** the patch file key */
+  patchKey: string;
 
   /** the Motherhen integration directory */
   readonly targetDirectory: PathResolver;
@@ -35,20 +34,20 @@ implements IntegrationJSONParsed
   /**
    * Provide an Integration configuration.
    * @param vanillaTag - the tag to update our cleanroom Mozilla repository to, before cloning it for integration
-   * @param sourceKeys - the source directory keys
-   * @param patchKeys - the patch file keys
+   * @param sourceKey - the source directory key
+   * @param patchKey - the patch file key
    * @param targetDirectory - the Motherhen integration directory
    */
   constructor(
     vanillaTag: string,
-    sourceKeys: StringSet,
-    patchKeys: StringSet,
+    sourceKey: string,
+    patchKey: string,
     targetDirectory: PathResolver
   )
   {
     this.vanillaTag = vanillaTag;
-    this.sourceKeys = sourceKeys;
-    this.patchKeys = patchKeys;
+    this.sourceKey = sourceKey;
+    this.patchKey = patchKey;
     this.targetDirectory = targetDirectory;
   }
 
@@ -56,8 +55,8 @@ implements IntegrationJSONParsed
   {
     return {
       vanillaTag: this.vanillaTag,
-      sourceKeys: this.sourceKeys.toJSON(),
-      patchKeys: this.patchKeys.toJSON(),
+      sourceKey: this.sourceKey,
+      patchKey: this.patchKey,
       targetDirectory: this.targetDirectory.toJSON(),
     }
   }
@@ -72,13 +71,14 @@ implements IntegrationJSONParsed
     const value = unknownValue as IntegrationJSONSerialized;
     if (typeof value.vanillaTag !== "string")
       return false;
+    if (typeof value.sourceKey !== "string")
+      return false;
+    if (typeof value.patchKey !== "string")
+      return false;
     if (typeof value.targetDirectory !== "string")
       return false;
 
-    return (
-      StringSet.isJSON(value.sourceKeys) &&
-      StringSet.isJSON(value.patchKeys)
-    );
+    return true;
   }
 
   static fromJSON(
@@ -86,16 +86,13 @@ implements IntegrationJSONParsed
     value: IntegrationJSONSerialized
   ) : IntegrationJSON
   {
-    const sourceKeys = new StringSet(value.sourceKeys);
-    const patchKeys = new StringSet(value.patchKeys);
-
     const targetDirectory = pathResolver.clone();
     targetDirectory.setPath(false, value.targetDirectory);
 
     return new IntegrationJSON(
       value.vanillaTag,
-      sourceKeys,
-      patchKeys,
+      value.sourceKey,
+      value.patchKey,
       targetDirectory
     );
   }

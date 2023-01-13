@@ -115,8 +115,8 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       "central",
       IntegrationJSON.fromJSON(pathResolver, {
         vanillaTag: "central",
-        sourceKeys: ["hatchedEgg", "crackedEgg"],
-        patchKeys: [],
+        sourceKey: "hatchedEgg",
+        patchKey: "patches",
         targetDirectory: "../compiles/central"
       })
     );
@@ -125,8 +125,8 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       "beta",
       IntegrationJSON.fromJSON(pathResolver, {
         vanillaTag: "beta",
-        sourceKeys: ["hatchedEgg", "crackedEgg"],
-        patchKeys: [],
+        sourceKey: "crackedEgg",
+        patchKey: "patches",
         targetDirectory: "../compiles/beta"
       })
     );
@@ -187,15 +187,15 @@ function buildSerializedRef() : ConfigFileFormatSerialized
     "integrations": {
       "central": {
         "vanillaTag": "central",
-        "sourceKeys": ["hatchedEgg", "crackedEgg"],
-        "patchKeys": [],
+        "sourceKey": "hatchedEgg",
+        "patchKey": "patches",
         "targetDirectory": "../compiles/central",
       },
 
       "beta": {
         "vanillaTag": "beta",
-        "sourceKeys": ["hatchedEgg", "crackedEgg"],
-        "patchKeys": [],
+        "sourceKey": "crackedEgg",
+        "patchKey": "patches",
         "targetDirectory": "../compiles/beta",
       }
     },
