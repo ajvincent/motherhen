@@ -6,7 +6,7 @@ export type IntegrationJSONParsed = {
   sourceKey: string;
   patchKey: string;
   readonly targetDirectory: PathResolver;
-}
+};
 
 export type IntegrationJSONSerialized = {
   vanillaTag: string;

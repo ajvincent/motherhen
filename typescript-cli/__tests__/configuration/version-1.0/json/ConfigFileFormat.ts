@@ -12,6 +12,7 @@ import PatchesJSON from "#cli/configuration/version-1.0/json/Patches";
 import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
 import StringSet from "#cli/configuration/version-1.0/json/StringSet";
+import FirefoxJSON from "#cli/configuration/version-1.0/json/Firefox";
 
 forceJSONType<
   ConfigFileFormatParsed,
@@ -42,6 +43,7 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
     expect(config.mozconfigs.size).toBe(0);
     expect(config.integrations.size).toBe(0);
     expect(config.projects.size).toBe(0);
+    expect(config.firefoxes.size).toBe(0);
 
     expect(config.toJSON()).toEqual(ConfigFileFormat.blank());
   });
@@ -75,6 +77,9 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
     )).toBe(false);
     expect(ConfigFileFormat.isJSON(
       buildWithoutProperty("projects")
+    )).toBe(false);
+    expect(ConfigFileFormat.isJSON(
+      buildWithoutProperty("firefoxes")
     )).toBe(false);
 
     // array, disallowed
@@ -149,6 +154,15 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       })
     );
 
+    config.firefoxes.set(
+      "optimized",
+      FirefoxJSON.fromJSON(pathResolver, {
+        "vanillaTag": "release",
+        "buildType": "optimized",
+        "targetDirectory": "test/firefox-targets",
+      })
+    );
+
     const serialized = buildSerializedRef();
     expect(config.toJSON()).toEqual(serialized);
   });
@@ -213,5 +227,13 @@ function buildSerializedRef() : ConfigFileFormatSerialized
         "appDirKey": "hatchedEgg"
       },
     },
+
+    "firefoxes": {
+      "optimized": {
+        "vanillaTag": "release",
+        "buildType": "optimized",
+        "targetDirectory": "test/firefox-targets",
+      }
+    }
   };
 }

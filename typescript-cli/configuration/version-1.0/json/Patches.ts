@@ -84,7 +84,10 @@ export default class PatchesJSON implements PatchesJSONParsed
     return true;
   }
 
-  static readonly #commitModes = new Set(
+  static readonly #commitModes = new Set<
+    PatchesJSONSerialized["commitMode"]
+  >
+  (
     [ "none", "import", "qimport", "atEnd", ]
   );
 

@@ -5,6 +5,7 @@ import StringSet from "./StringSet";
 import PatchesJSON from "./Patches";
 import IntegrationJSON from "./Integration";
 import ProjectJSON from "./Project";
+import FirefoxJSON from "./Firefox";
 import { isJSONObject } from "./JSON_Operations";
 class ConfigFileFormat {
     formatVersion = "1.0.0";
@@ -13,12 +14,14 @@ class ConfigFileFormat {
     mozconfigs;
     integrations;
     projects;
+    firefoxes;
     constructor(configuration) {
         this.sources = configuration.sources;
         this.patches = configuration.patches;
         this.mozconfigs = configuration.mozconfigs;
         this.integrations = configuration.integrations;
         this.projects = configuration.projects;
+        this.firefoxes = configuration.firefoxes;
     }
     toJSON() {
         return {
@@ -28,6 +31,7 @@ class ConfigFileFormat {
             mozconfigs: this.mozconfigs.toJSON(),
             integrations: this.integrations.toJSON(),
             projects: this.projects.toJSON(),
+            firefoxes: this.firefoxes.toJSON(),
         };
     }
     static isJSON(unknownValue) {
@@ -42,9 +46,11 @@ class ConfigFileFormat {
             return false;
         if (!ClassesDictionary.files.isJSON(value.mozconfigs))
             return false;
-        if (!ClassesDictionary.integration.isJSON(value.integrations))
+        if (!ClassesDictionary.integrations.isJSON(value.integrations))
             return false;
         if (!ClassesDictionary.projects.isJSON(value.projects))
+            return false;
+        if (!ClassesDictionary.firefoxes.isJSON(value.firefoxes))
             return false;
         return true;
     }
@@ -53,8 +59,9 @@ class ConfigFileFormat {
         const sources = ClassesDictionary.stringSet.fromJSON(value.sources);
         const patches = ClassesDictionary.patches.fromJSON(value.patches);
         const mozconfigs = ClassesDictionary.files.fromJSON(pathResolver, value.mozconfigs);
-        const integrations = ClassesDictionary.integration.fromJSON(pathResolver, value.integrations);
+        const integrations = ClassesDictionary.integrations.fromJSON(pathResolver, value.integrations);
         const projects = ClassesDictionary.projects.fromJSON(value.projects);
+        const firefoxes = ClassesDictionary.firefoxes.fromJSON(pathResolver, value.firefoxes);
         return new this({
             formatVersion,
             sources,
@@ -62,6 +69,7 @@ class ConfigFileFormat {
             mozconfigs,
             integrations,
             projects,
+            firefoxes,
         });
     }
     /** Provide a blank serialized configuration. */
@@ -73,15 +81,17 @@ class ConfigFileFormat {
             mozconfigs: {},
             integrations: {},
             projects: {},
+            firefoxes: {},
         };
     }
 }
 const ClassesDictionary = {
+    stringSet: DictionaryBuilder(StringSet),
     files: DictionaryResolverBuilder(File),
     patches: DictionaryBuilder(PatchesJSON),
-    integration: DictionaryResolverBuilder(IntegrationJSON),
+    integrations: DictionaryResolverBuilder(IntegrationJSON),
     projects: DictionaryBuilder(ProjectJSON),
-    stringSet: DictionaryBuilder(StringSet),
+    firefoxes: DictionaryResolverBuilder(FirefoxJSON),
 };
 export default ConfigFileFormat;
 //# sourceMappingURL=ConfigFileFormat.js.map
