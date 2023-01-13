@@ -7,7 +7,9 @@ import { isJSONObject } from "./JSON_Operations";
 const cleanroomPath = path.join(projectRoot, "cleanroom/mozilla-unified");
 
 export type VanillaJSONParsed = {
-  /** The vanilla repository's location. */
+  /**
+   * The vanilla repository's location.
+   */
   readonly path: PathResolver;
 
   /** The tag to apply to the mozilla-unified repository. */

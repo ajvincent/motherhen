@@ -31,12 +31,56 @@ import PathResolver from "../../PathResolver";
 export type ConfigFileFormatSerialized = {
   readonly formatVersion: "1.0.0";
 
+  // "Vanilla" repository metadata
+  /**
+   * @deprecated - this will be removed soon, as there should be only one vanilla mozilla-unified repo
+   */
   readonly vanilla:      StringIndexed<VanillaJSONSerialized>;
+
+  // Source directory sets as StringSet under ${projectRoot}/sources
   readonly sources:      StringIndexed<FileJSONSerialized>;
+
+  // Patch file globs and commit instructions under ${projectRoot}/patches
   readonly patches:      StringIndexed<string>;
+
+  /* mozconfigs are automatically available in ${projectRoot}/mozconfigs.
+     Only one mozconfig applies at a time, so we don't need a path resolver,
+     or a glob, or anything like that.
+  */
   readonly mozconfigs:   StringIndexed<FileJSONSerialized>;
+
+  /*
+  {
+    vanillaTag: "central", "beta", /^esr\d+/, "release", etc.
+      /^FIREFOX_\d+(_\d+)*_RELEASE$/ if you really insist.
+    sourceKeys: Set<keyof this.sources>;
+    patchKey: keyof this.patches;
+    targetDirectory: PathResolver;
+  }
+  */
   readonly integrations: StringIndexed<IntegrationJSONSerialized>;
+
+  /*
+  {
+    integrationKey: keyof this.integrations;
+    mozconfig: filename under ${projectRoot}/mozconfigs;
+    appDirKey: keyof this.sources;
+  }
+  */
   readonly projects:     StringIndexed<ProjectJSONData>;
+
+  /*
+  These are for building Mozilla Firefox from a clean copy of the "vanilla" repository,
+  with none of our custom patches or sources applies.  It's a verification step, to ensure
+  your system can compile a known base-line.
+
+  {
+    vanillaTag,
+    mozconfig,
+    targetDirectory,
+  }
+  */
+  //readonly firefoxProjects: undefined;
 };
 
 export type ConfigFileFormatParsed = {
@@ -62,7 +106,7 @@ implements ConfigFileFormatParsed
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
 
-  constructor(configuration: ConfigFileFormatParsed)
+  private constructor(configuration: ConfigFileFormatParsed)
   {
     this.vanilla      = configuration.vanilla;
     this.sources      = configuration.sources;
