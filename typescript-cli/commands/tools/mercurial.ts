@@ -228,6 +228,10 @@ async function copyVanilla(
 /**
  * Apply Motherhen patches and ignore the project in the integration repository.
  * @param integration - the "integration" repository metadata.
+ *
+ * @see {@link https://www.gnu.org/software/diffutils/manual/html_node/Merging-with-patch.html}
+ * @see {@link https://www.mercurial-scm.org/doc/hg.1.html#import}
+ * @see {@link https://www.mercurial-scm.org/doc/hg.1.html#qimport}
  */
 async function applyProject(
   integration: Configuration["integration"],
