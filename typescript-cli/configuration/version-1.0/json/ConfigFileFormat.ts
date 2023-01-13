@@ -11,6 +11,13 @@ import {
   type StringIndexed,
 } from "./Dictionary";
 
+import PathResolver from "../../PathResolver";
+import StringSet from "./StringSet";
+
+import PatchesJSON, {
+  type PatchesJSONSerialized
+} from "./Patches";
+
 import IntegrationJSON, {
   type IntegrationJSONSerialized
 } from "./Integration";
@@ -19,8 +26,6 @@ import ProjectJSON, {
   ProjectJSONData
 } from "./Project";
 import { isJSONObject } from "./JSON_Operations";
-import PathResolver from "../../PathResolver";
-import StringSet from "./StringSet";
 
 // #endregion preamble
 
@@ -31,7 +36,7 @@ export type ConfigFileFormatSerialized = {
   readonly sources:      StringIndexed<string[]>;
 
   // Patch file globs and commit instructions under ${projectRoot}/patches
-  readonly patches:      StringIndexed<string>;
+  readonly patches:      StringIndexed<PatchesJSONSerialized>;
 
   /* mozconfigs are automatically available in ${projectRoot}/mozconfigs.
      Only one mozconfig applies at a time, so we don't need a path resolver,
@@ -77,7 +82,7 @@ export type ConfigFileFormatParsed = {
   readonly formatVersion: "1.0.0";
 
   readonly sources:      DictionaryMap<StringSet,       string[]>;
-  readonly patches:      DictionaryMap<File,            FileJSONSerialized>;
+  readonly patches:      DictionaryMap<PatchesJSON,     PatchesJSONSerialized>;
   readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
@@ -89,7 +94,7 @@ implements ConfigFileFormatParsed
   readonly formatVersion = "1.0.0";
 
   readonly sources:      DictionaryMap<StringSet,       string[]>;
-  readonly patches:      DictionaryMap<File,            FileJSONSerialized>;
+  readonly patches:      DictionaryMap<PatchesJSON,     PatchesJSONSerialized>;
   readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
@@ -115,7 +120,9 @@ implements ConfigFileFormatParsed
     };
   }
 
-  static isJSON(unknownValue: unknown) : unknownValue is ConfigFileFormatSerialized
+  static isJSON(
+    unknownValue: unknown
+  ) : unknownValue is ConfigFileFormatSerialized
   {
     if (!isJSONObject(unknownValue))
       return false;
@@ -127,7 +134,7 @@ implements ConfigFileFormatParsed
     if (!ClassesDictionary.stringSet.isJSON(value.sources))
       return false;
 
-    if (!ClassesDictionary.files.isJSON(value.patches))
+    if (!ClassesDictionary.patches.isJSON(value.patches))
       return false;
 
     if (!ClassesDictionary.files.isJSON(value.mozconfigs))
@@ -151,8 +158,8 @@ implements ConfigFileFormatParsed
     const sources = ClassesDictionary.stringSet.fromJSON(
       value.sources
     );
-    const patches = ClassesDictionary.files.fromJSON(
-      pathResolver, value.patches
+    const patches = ClassesDictionary.patches.fromJSON(
+      value.patches
     );
     const mozconfigs = ClassesDictionary.files.fromJSON(
       pathResolver, value.mozconfigs
@@ -190,6 +197,7 @@ implements ConfigFileFormatParsed
 
 const ClassesDictionary = {
   files:       DictionaryResolverBuilder(File),
+  patches:     DictionaryBuilder(PatchesJSON),
   integration: DictionaryResolverBuilder(IntegrationJSON),
   projects:    DictionaryBuilder(ProjectJSON),
   stringSet:   DictionaryBuilder(StringSet),

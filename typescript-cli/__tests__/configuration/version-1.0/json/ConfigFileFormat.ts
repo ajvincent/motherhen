@@ -8,6 +8,7 @@ import projectRoot from "#cli/utilities/projectRoot";
 
 import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations";
 import FileJSON from "#cli/configuration/version-1.0/json/File";
+import PatchesJSON from "#cli/configuration/version-1.0/json/Patches";
 import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
 import StringSet from "#cli/configuration/version-1.0/json/StringSet";
@@ -97,7 +98,11 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
 
     config.patches.set(
       "xpath-functions",
-      FileJSON.fromJSON(pathResolver, "patches/xpath-functions.diff")
+      PatchesJSON.fromJSON({
+        globs: ["patches/xpath-functions.diff"],
+        commitMode: "none",
+        commitMessage: null,
+      })
     );
 
     config.mozconfigs.set(
@@ -168,7 +173,11 @@ function buildSerializedRef() : ConfigFileFormatSerialized
     },
 
     "patches": {
-      "xpath-functions": "patches/xpath-functions.diff"
+      "xpath-functions": {
+        globs: ["patches/xpath-functions.diff"],
+        commitMode: "none",
+        commitMessage: null,
+      },
     },
 
     "mozconfigs": {

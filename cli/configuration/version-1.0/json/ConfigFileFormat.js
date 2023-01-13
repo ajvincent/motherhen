@@ -1,10 +1,11 @@
 // #region preamble
 import File from "./File";
 import { DictionaryBuilder, DictionaryResolverBuilder, } from "./Dictionary";
+import StringSet from "./StringSet";
+import PatchesJSON from "./Patches";
 import IntegrationJSON from "./Integration";
 import ProjectJSON from "./Project";
 import { isJSONObject } from "./JSON_Operations";
-import StringSet from "./StringSet";
 class ConfigFileFormat {
     formatVersion = "1.0.0";
     sources;
@@ -37,7 +38,7 @@ class ConfigFileFormat {
             return false;
         if (!ClassesDictionary.stringSet.isJSON(value.sources))
             return false;
-        if (!ClassesDictionary.files.isJSON(value.patches))
+        if (!ClassesDictionary.patches.isJSON(value.patches))
             return false;
         if (!ClassesDictionary.files.isJSON(value.mozconfigs))
             return false;
@@ -50,7 +51,7 @@ class ConfigFileFormat {
     static fromJSON(pathResolver, value) {
         const formatVersion = "1.0.0";
         const sources = ClassesDictionary.stringSet.fromJSON(value.sources);
-        const patches = ClassesDictionary.files.fromJSON(pathResolver, value.patches);
+        const patches = ClassesDictionary.patches.fromJSON(value.patches);
         const mozconfigs = ClassesDictionary.files.fromJSON(pathResolver, value.mozconfigs);
         const integrations = ClassesDictionary.integration.fromJSON(pathResolver, value.integrations);
         const projects = ClassesDictionary.projects.fromJSON(value.projects);
@@ -77,6 +78,7 @@ class ConfigFileFormat {
 }
 const ClassesDictionary = {
     files: DictionaryResolverBuilder(File),
+    patches: DictionaryBuilder(PatchesJSON),
     integration: DictionaryResolverBuilder(IntegrationJSON),
     projects: DictionaryBuilder(ProjectJSON),
     stringSet: DictionaryBuilder(StringSet),
