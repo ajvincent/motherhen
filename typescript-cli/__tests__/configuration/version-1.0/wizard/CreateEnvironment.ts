@@ -11,6 +11,7 @@ import FakeInquirer, { FakeAnswers } from "#cli/utilities/FakeInquirer";
 import type {
   SharedArguments
 } from "#cli/configuration/version-1.0/wizard/shared-types";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 
 describe("CreateEnvironment", () => {
   let shared: SharedArguments;
@@ -27,14 +28,14 @@ describe("CreateEnvironment", () => {
     inquirer.set("existingDirectory", new FakeAnswers(temp.tempDir));
     inquirer.set("pathToFile", new FakeAnswers(".motherhen-config.json"));
 
-    shared = await CreateEnvironment(inquirer, temp.tempDir);
+    shared = await CreateEnvironment(inquirer, temp.tempDir, true);
 
     expect(shared.pathResolver.getPath(true)).toBe(temp.tempDir);
     expect(shared.fsQueue.hasCommitted()).toBe(false);
     await expect(fs.readdir(temp.tempDir)).resolves.toEqual([]);
   });
 
-  xit("works with an existing Motherhen configuration", async () => {
+  it("works with an existing Motherhen configuration", async () => {
     {
       const config = ConfigFileFormat.fromJSON(
         shared.pathResolver,
@@ -43,6 +44,8 @@ describe("CreateEnvironment", () => {
 
       const tempResolver = shared.pathResolver.clone();
       tempResolver.setPath(false, "cleanroom/mozilla-unified");
+
+      config.sources.set("hatchedEgg", StringSet.fromJSON(["hatchedEgg"]));
 
       // disabled because we need something beyond a blank configuration to test against
       const configPath = path.join(temp.tempDir, ".motherhen-config.json");
@@ -53,9 +56,11 @@ describe("CreateEnvironment", () => {
     inquirer.set("existingDirectory", new FakeAnswers(temp.tempDir));
     inquirer.set("pathToFile", new FakeAnswers(".motherhen-config.json"));
 
-    shared = await CreateEnvironment(inquirer, temp.tempDir);
+    shared = await CreateEnvironment(inquirer, temp.tempDir, true);
 
     expect(shared.pathResolver.getPath(true)).toBe(temp.tempDir);
     expect(shared.fsQueue.hasCommitted()).toBe(false);
+
+    expect(shared.configuration.sources.has("hatchedEgg"));
   });
 });

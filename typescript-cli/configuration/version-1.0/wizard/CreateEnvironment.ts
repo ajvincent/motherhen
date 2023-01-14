@@ -16,16 +16,18 @@ import SharedArgumentsImpl from "./SharedArguments";
 export default async function CreateEnvironment(
   inquirer: PartialInquirer,
   pathToStartDirectory: string,
+  suppressConsole = false,
 ) : Promise<SharedArguments>
 {
   const configLocation = await pickConfigLocation(
-    inquirer, pathToStartDirectory
+    inquirer, pathToStartDirectory, suppressConsole
   );
 
   const configExists = await fileExists(configLocation.pathToFile, false);
   const shared = await SharedArgumentsImpl.build(
     inquirer,
     pathToStartDirectory,
+    suppressConsole,
     configExists ? configLocation.pathToFile : ""
   );
 

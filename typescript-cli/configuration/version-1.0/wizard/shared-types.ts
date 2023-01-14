@@ -13,6 +13,7 @@ export type SharedArguments = {
   readonly inquirer: PartialInquirer;
 
   readonly postSetupMessages: string[];
+  readonly suppressConsole: boolean;
 };
 
 export type PathToFileValidation = (s: string) => true | string;

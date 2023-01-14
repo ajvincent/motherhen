@@ -15,15 +15,17 @@ export default class SharedArgumentsImpl implements SharedArguments
    * Build a SharedArguments instance.
    * @param inquirer - the prompting service to use.
    * @param pathToDirectory - the directory the project configuration lives in.
+   * @param suppressConsole - true if we a
    * @param relativePathToConfig - if provided, the path to the configuration file.
    */
   static async build(
     inquirer: PartialInquirer,
     pathToDirectory: string,
+    suppressConsole: boolean,
     relativePathToConfig?: string
   ) : Promise<SharedArguments>
   {
-    const config = new SharedArgumentsImpl(inquirer, pathToDirectory);
+    const config = new SharedArgumentsImpl(inquirer, pathToDirectory, suppressConsole);
     if (relativePathToConfig) {
       await config.#loadConfiguration(relativePathToConfig);
     }
@@ -39,6 +41,7 @@ export default class SharedArgumentsImpl implements SharedArguments
   }
   readonly inquirer: PartialInquirer;
   readonly postSetupMessages: string[] = [];
+  readonly suppressConsole: boolean;
   // #endregion SharedArguments
 
   #configuration: ConfigFileFormat;
@@ -46,6 +49,7 @@ export default class SharedArgumentsImpl implements SharedArguments
   private constructor(
     inquirer: PartialInquirer,
     pathToTempDirectory: string,
+    suppressConsole: boolean,
   )
   {
     const useAbsoluteProperty = new PathResolver.UseAbsolute(
@@ -65,6 +69,8 @@ export default class SharedArgumentsImpl implements SharedArguments
     );
 
     this.inquirer = inquirer;
+
+    this.suppressConsole = suppressConsole;
   }
 
   #hasAttemptedLoad = false;

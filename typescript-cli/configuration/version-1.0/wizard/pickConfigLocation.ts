@@ -13,9 +13,11 @@ export default
 async function pickConfigLocation(
   inquirer: PartialInquirer,
   pathToStartDirectory: string,
+  suppressConsole: boolean,
 ) : Promise<PathWithUncreatedDirs>
 {
-  console.log("\n" + `
+  if (!suppressConsole) {
+    console.log("\n" + `
 First, I need to find an existing Motherhen configuration file, or a location
 to create one.  Don't worry about the files and directories not existing: this
 will only edit or create the Motherhen configuration file, and only at the end
@@ -23,6 +25,7 @@ of this process.  Instead, I'll ask you to provide an existing directory, and
 then a relative path from this directory to the configuration file, even if
 intermediate directories do not exist.
 `.trim());
+  }
 
   return pickFileToCreate(
     inquirer,

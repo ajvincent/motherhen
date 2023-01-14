@@ -11,6 +11,7 @@ import FakeInquirer from "#cli/utilities/FakeInquirer";
 import type {
   SharedArguments
 } from "#cli/configuration/version-1.0/wizard/shared-types";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 
 describe("SharedArguments creates all the necessary parts", () => {
   let shared: SharedArguments;
@@ -24,18 +25,20 @@ describe("SharedArguments creates all the necessary parts", () => {
   afterEach(async () => await temp.cleanupTempDir());
 
   it("from an empty directory", async () => {
-    shared = await SharedArgumentsImpl.build(inquirer, temp.tempDir, "");
+    shared = await SharedArgumentsImpl.build(inquirer, temp.tempDir, true, "");
     expect(shared.pathResolver.getPath(true)).toBe(temp.tempDir);
     expect(shared.fsQueue.hasCommitted()).toBe(false);
     await expect(fs.readdir(temp.tempDir)).resolves.toEqual([]);
   });
 
-  xit("from a directory with an existing Motherhen configuration", async () => {
+  it("from a directory with an existing Motherhen configuration", async () => {
     {
       const config = ConfigFileFormat.fromJSON(
         shared.pathResolver,
         ConfigFileFormat.blank()
       );
+
+      config.sources.set("hatchedEgg", StringSet.fromJSON(["hatchedEgg"]));
 
       const tempResolver = shared.pathResolver.clone();
       tempResolver.setPath(false, "cleanroom/mozilla-unified");
@@ -47,9 +50,11 @@ describe("SharedArguments creates all the necessary parts", () => {
     }
 
     shared = await SharedArgumentsImpl.build(
-      inquirer, temp.tempDir, ".motherhen-config.json"
+      inquirer, temp.tempDir, true, ".motherhen-config.json"
     );
     expect(shared.pathResolver.getPath(true)).toBe(temp.tempDir);
     expect(shared.fsQueue.hasCommitted()).toBe(false);
+
+    expect(shared.configuration.sources.has("hatchedEgg"));
   });
 });

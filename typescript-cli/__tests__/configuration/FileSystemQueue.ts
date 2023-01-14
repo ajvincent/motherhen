@@ -8,6 +8,7 @@ import TempDirWithCleanup, {
 } from "#cli/utilities/TempDirWithCleanup";
 
 import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 
 describe("File system queue", () => {
   let queue: FSQueue;
@@ -30,7 +31,7 @@ describe("File system queue", () => {
   });
   afterEach(async () => await cleanupTempDir());
 
-  xit("can write a minimal configuration file", async () => {
+  it("can write a minimal configuration file", async () => {
     await (queue.writeConfiguration(
       config, ".motherhen-config.json"
     ));
@@ -41,6 +42,7 @@ describe("File system queue", () => {
 
     // checking for mutations after we've requested a write
     const expectedContents = JSON.stringify(config, null, 2) + "\n";
+    config.sources.set("hatchedEgg", StringSet.fromJSON(["hatchedEgg"]));
 
     // confirming we haven't actually written to the file system yet
     await expect(fs.readdir(tempDir)).resolves.toEqual([]);

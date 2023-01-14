@@ -45,7 +45,7 @@ interface BaseSummary
   vanillaTag?: string;
 }
 
-export interface FirefoxSummary  extends BaseSummary
+export interface FirefoxSummary extends BaseSummary
 {
   isFirefox: true;
 
