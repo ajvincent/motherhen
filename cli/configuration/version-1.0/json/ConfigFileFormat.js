@@ -1,12 +1,12 @@
 // #region preamble
-import File from "./File";
-import { DictionaryBuilder, DictionaryResolverBuilder, } from "./Dictionary";
-import StringSet from "./StringSet";
-import PatchesJSON from "./Patches";
-import IntegrationJSON from "./Integration";
-import ProjectJSON from "./Project";
-import FirefoxJSON from "./Firefox";
-import { isJSONObject } from "./JSON_Operations";
+import File from "./File.js";
+import { DictionaryBuilder, DictionaryResolverBuilder, } from "./Dictionary.js";
+import StringSet from "./StringSet.js";
+import PatchesJSON from "./Patches.js";
+import IntegrationJSON from "./Integration.js";
+import ProjectJSON from "./Project.js";
+import FirefoxJSON from "./Firefox.js";
+import { isJSONObject } from "./JSON_Operations.js";
 class ConfigFileFormat {
     formatVersion = "1.0.0";
     sources;

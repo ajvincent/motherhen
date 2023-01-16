@@ -1,8 +1,8 @@
-import PathResolver from "#cli/configuration/PathResolver";
-import FSQueue from "#cli/configuration/FileSystemQueue";
-import ConfigFileFormat from "../json/ConfigFileFormat";
+import PathResolver from "#cli/configuration/PathResolver.js";
+import FSQueue from "#cli/configuration/FileSystemQueue.js";
+import ConfigFileFormat from "../json/ConfigFileFormat.js";
 
-import type { PartialInquirer } from "#cli/utilities/PartialInquirer";
+import type { PartialInquirer } from "#cli/utilities/PartialInquirer.js";
 
 export type { PartialInquirer };
 

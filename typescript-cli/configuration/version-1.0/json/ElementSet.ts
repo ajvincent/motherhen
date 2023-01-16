@@ -1,8 +1,8 @@
-import PathResolver from "../../PathResolver";
+import PathResolver from "../../PathResolver.js";
 import {
   type JSONBase,
   type JSONBase_Static,
-} from "./JSON_Operations";
+} from "./JSON_Operations.js";
 
 /**
  * Build an element set class for JSON support without a PathResolver.

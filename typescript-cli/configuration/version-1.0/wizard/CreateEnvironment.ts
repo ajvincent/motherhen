@@ -1,11 +1,11 @@
 import type {
   PartialInquirer,
   SharedArguments
-} from "./shared-types";
+} from "./shared-types.js";
 
-import pickConfigLocation from "./pickConfigLocation";
-import fileExists from "#cli/utilities/fileExists";
-import SharedArgumentsImpl from "./SharedArguments";
+import pickConfigLocation from "./pickConfigLocation.js";
+import fileExists from "#cli/utilities/fileExists.js";
+import SharedArgumentsImpl from "./SharedArguments.js";
 
 /**
  * Create shared arguments for use in other wizard modules.

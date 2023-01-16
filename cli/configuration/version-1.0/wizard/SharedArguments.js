@@ -1,7 +1,7 @@
 import fs from "fs/promises";
-import PathResolver from "#cli/configuration/PathResolver";
-import FSQueue from "#cli/configuration/FileSystemQueue";
-import ConfigFileFormat from "../json/ConfigFileFormat";
+import PathResolver from "#cli/configuration/PathResolver.js";
+import FSQueue from "#cli/configuration/FileSystemQueue.js";
+import ConfigFileFormat from "../json/ConfigFileFormat.js";
 export default class SharedArgumentsImpl {
     /**
      * Build a SharedArguments instance.

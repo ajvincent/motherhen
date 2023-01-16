@@ -1,4 +1,4 @@
-import { isJSONObject } from "./JSON_Operations";
+import { isJSONObject } from "./JSON_Operations.js";
 export default class ProjectJSON {
     integrationKey;
     mozconfigKey;

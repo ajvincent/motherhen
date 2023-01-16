@@ -1,14 +1,14 @@
 import fs from "fs/promises";
 import path from "path";
 
-import FSQueue from "#cli/configuration/FileSystemQueue";
-import PathResolver from "#cli/configuration/PathResolver";
+import FSQueue from "#cli/configuration/FileSystemQueue.js";
+import PathResolver from "#cli/configuration/PathResolver.js";
 import TempDirWithCleanup, {
   type TempDirWithCleanupType
-} from "#cli/utilities/TempDirWithCleanup";
+} from "#cli/utilities/TempDirWithCleanup.js";
 
-import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat";
-import StringSet from "#cli/configuration/version-1.0/json/StringSet";
+import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet.js";
 
 describe("File system queue", () => {
   let queue: FSQueue;

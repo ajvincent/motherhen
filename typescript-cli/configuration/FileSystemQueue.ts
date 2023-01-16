@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-import PathResolver from "./PathResolver";
+import PathResolver from "./PathResolver.js";
 type ConfigFileFormat = {
   formatVersion: string;
 }

@@ -1,6 +1,6 @@
 import path from "path";
 import url from "url";
-import projectRoot from "#cli/utilities/projectRoot";
+import projectRoot from "#cli/utilities/projectRoot.js";
 
 it("projectRoot points to the root of this project", () => {
   const actualPath = path.join(

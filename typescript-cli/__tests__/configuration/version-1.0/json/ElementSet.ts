@@ -1,15 +1,15 @@
 import {
   ElementSetBuilder,
   ElementSetResolverBuilder
-} from "#cli/configuration/version-1.0/json/ElementSet";
+} from "#cli/configuration/version-1.0/json/ElementSet.js";
 
 import {
   NumberWrapper,
   NumberResolver,
-} from "./JSON_Operations";
+} from "./JSON_Operations.js";
 
-import projectRoot from "#cli/utilities/projectRoot";
-import PathResolver from "#cli/configuration/PathResolver";
+import projectRoot from "#cli/utilities/projectRoot.js";
+import PathResolver from "#cli/configuration/PathResolver.js";
 
 it("ElementSetBuilder works", () => {
   const NumberSet = ElementSetBuilder<

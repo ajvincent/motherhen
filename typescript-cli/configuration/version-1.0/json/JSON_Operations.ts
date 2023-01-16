@@ -1,4 +1,4 @@
-import PathResolver from "../../PathResolver";
+import PathResolver from "../../PathResolver.js";
 
 export interface JSONBase<Serialized>
 {

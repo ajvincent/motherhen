@@ -1,12 +1,12 @@
 import path from "path";
 
-import fileExists from "#cli/utilities/fileExists";
+import fileExists from "#cli/utilities/fileExists.js";
 
 import type {
   PartialInquirer,
   PathToFileValidation,
   PathWithUncreatedDirs,
-} from "./shared-types";
+} from "./shared-types.js";
 
 function AcceptFileValidation() : true {
   return true;

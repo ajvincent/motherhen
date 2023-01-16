@@ -1,9 +1,9 @@
 // #region preamble
-import ConfigFileFormat from "./ConfigFileFormat";
-import { FirefoxJSONParsed } from "./Firefox";
+import ConfigFileFormat from "./ConfigFileFormat.js";
+import { FirefoxJSONParsed } from "./Firefox.js";
 
-import type { DictionaryMap } from "./Dictionary";
-import { JSONBase } from "./JSON_Operations";
+import type { DictionaryMap } from "./Dictionary.js";
+import { JSONBase } from "./JSON_Operations.js";
 
 import ProjectJSON, {
   type ProjectJSONData,

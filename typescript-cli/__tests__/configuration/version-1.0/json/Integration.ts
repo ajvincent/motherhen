@@ -1,14 +1,14 @@
 import IntegrationJSON, {
   type IntegrationJSONParsed,
   type IntegrationJSONSerialized,
-} from "#cli/configuration/version-1.0/json/Integration";
+} from "#cli/configuration/version-1.0/json/Integration.js";
 
-import PathResolver from "#cli/configuration/PathResolver";
-import projectRoot from "#cli/utilities/projectRoot";
+import PathResolver from "#cli/configuration/PathResolver.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 
 import {
   forceJSONType
-} from "#cli/configuration/version-1.0/json/JSON_Operations";
+} from "#cli/configuration/version-1.0/json/JSON_Operations.js";
 
 forceJSONType<
   IntegrationJSONParsed,

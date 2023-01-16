@@ -1,5 +1,5 @@
 import path from "path";
-import fileExists from "#cli/utilities/fileExists";
+import fileExists from "#cli/utilities/fileExists.js";
 function AcceptFileValidation() {
     return true;
 }

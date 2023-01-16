@@ -1,4 +1,4 @@
-import { isJSONObject } from "./JSON_Operations";
+import { isJSONObject } from "./JSON_Operations.js";
 export default class IntegrationJSON {
     /** the tag to update our cleanroom Mozilla repository to, before cloning it for integration */
     vanillaTag;

@@ -1,5 +1,5 @@
-import PathResolver from "../../PathResolver";
-import { isJSONObject } from "./JSON_Operations";
+import PathResolver from "../../PathResolver.js";
+import { isJSONObject } from "./JSON_Operations.js";
 
 export type IntegrationJSONParsed = {
   vanillaTag: string;

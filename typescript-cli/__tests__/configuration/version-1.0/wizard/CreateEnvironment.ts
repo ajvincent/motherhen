@@ -1,17 +1,17 @@
 import fs from "fs/promises";
 import path from "path";
 
-import CreateEnvironment from "#cli/configuration/version-1.0/wizard/CreateEnvironment";
+import CreateEnvironment from "#cli/configuration/version-1.0/wizard/CreateEnvironment.js";
 import TempDirWithCleanup, {
   type TempDirWithCleanupType
-} from "#cli/utilities/TempDirWithCleanup";
+} from "#cli/utilities/TempDirWithCleanup.js";
 
-import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat";
-import FakeInquirer, { FakeAnswers } from "#cli/utilities/FakeInquirer";
+import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
+import FakeInquirer, { FakeAnswers } from "#cli/utilities/FakeInquirer.js";
 import type {
   SharedArguments
-} from "#cli/configuration/version-1.0/wizard/shared-types";
-import StringSet from "#cli/configuration/version-1.0/json/StringSet";
+} from "#cli/configuration/version-1.0/wizard/shared-types.js";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet.js";
 
 describe("CreateEnvironment", () => {
   let shared: SharedArguments;

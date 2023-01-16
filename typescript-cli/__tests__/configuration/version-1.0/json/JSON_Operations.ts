@@ -1,8 +1,8 @@
 import {
   type JSONBase,
   forceJSONType
-} from "#cli/configuration/version-1.0/json/JSON_Operations";
-import PathResolver from "#cli/configuration/PathResolver";
+} from "#cli/configuration/version-1.0/json/JSON_Operations.js";
+import PathResolver from "#cli/configuration/PathResolver.js";
 
 export type WrappedNumber = {
   value: number;

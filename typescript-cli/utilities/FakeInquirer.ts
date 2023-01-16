@@ -6,11 +6,11 @@ import type {
 
 import {
   PromiseAllSequence
-} from "./PromiseTypes";
+} from "./PromiseTypes.js";
 
 import type {
   PartialInquirer
-} from "./PartialInquirer";
+} from "./PartialInquirer.js";
 
 export class FakeAnswers {
   readonly answer: unknown

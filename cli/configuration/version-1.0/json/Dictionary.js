@@ -1,4 +1,4 @@
-import { isJSONObject, } from "./JSON_Operations";
+import { isJSONObject, } from "./JSON_Operations.js";
 // #region Dictionaries without PathResolver
 /**
  * Build a dictionary class for JSON support.

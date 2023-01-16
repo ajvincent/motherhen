@@ -1,9 +1,9 @@
-import PathResolver from "../../PathResolver";
+import PathResolver from "../../PathResolver.js";
 import {
   isJSONObject,
   type JSONBase,
   type JSONBase_Static,
-} from "./JSON_Operations";
+} from "./JSON_Operations.js";
 
 // #region Dictionaries without PathResolver
 

@@ -1,9 +1,9 @@
 import PatchesJSON, {
   type PatchesJSONParsed,
   type PatchesJSONSerialized,
-} from "#cli/configuration/version-1.0/json/Patches";
+} from "#cli/configuration/version-1.0/json/Patches.js";
 
-import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations";
+import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations.js";
 forceJSONType<PatchesJSONParsed, PatchesJSONSerialized, false>(PatchesJSON);
 
 describe("Patches", () => {

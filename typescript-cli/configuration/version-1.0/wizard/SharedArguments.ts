@@ -1,13 +1,13 @@
 import fs from "fs/promises";
 
-import PathResolver from "#cli/configuration/PathResolver";
-import FSQueue from "#cli/configuration/FileSystemQueue";
-import ConfigFileFormat from "../json/ConfigFileFormat";
+import PathResolver from "#cli/configuration/PathResolver.js";
+import FSQueue from "#cli/configuration/FileSystemQueue.js";
+import ConfigFileFormat from "../json/ConfigFileFormat.js";
 
 import type {
   PartialInquirer,
   SharedArguments,
-} from "./shared-types";
+} from "./shared-types.js";
 
 export default class SharedArgumentsImpl implements SharedArguments
 {

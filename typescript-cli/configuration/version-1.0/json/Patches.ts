@@ -1,7 +1,7 @@
 import {
   isJSONObject
-} from "./JSON_Operations";
-import StringSet from "./StringSet";
+} from "./JSON_Operations.js";
+import StringSet from "./StringSet.js";
 
 export type PatchesJSONParsed = {
   /**

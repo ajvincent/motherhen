@@ -17,6 +17,8 @@ const jestConfig = {
   moduleNameMapper: {
     "#cli/(.*)": "<rootDir>/typescript-cli/$1",
   },
+
+  resolver: "ts-jest-resolver",
 }
 
 export default jestConfig

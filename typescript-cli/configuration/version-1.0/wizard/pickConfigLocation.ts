@@ -1,8 +1,8 @@
-import pickFileToCreate from "./pickFileToCreate";
+import pickFileToCreate from "./pickFileToCreate.js";
 import type {
   PartialInquirer,
   PathWithUncreatedDirs
-} from "./shared-types";
+} from "./shared-types.js";
 
 /**
  * Ask the user to give us a location for the Motherhen configuration file.

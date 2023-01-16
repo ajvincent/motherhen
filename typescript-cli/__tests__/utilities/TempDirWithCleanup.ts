@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-import TempDirWithCleanup from "#cli/utilities/TempDirWithCleanup";
+import TempDirWithCleanup from "#cli/utilities/TempDirWithCleanup.js";
 
 it("TempDirWithCleanup creates a temporary directory, and on demand, cleans it up", async () => {
   const { tempDir, cleanupTempDir } = await TempDirWithCleanup();

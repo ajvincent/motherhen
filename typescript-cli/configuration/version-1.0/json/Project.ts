@@ -1,4 +1,4 @@
-import { isJSONObject } from "./JSON_Operations";
+import { isJSONObject } from "./JSON_Operations.js";
 
 export type ProjectJSONData = {
   /** the integration dictionary key */

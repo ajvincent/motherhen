@@ -1,14 +1,14 @@
 import FirefoxJSON, {
   type FirefoxJSONParsed,
   type FirefoxJSONSerialized,
-} from "#cli/configuration/version-1.0/json/Firefox";
+} from "#cli/configuration/version-1.0/json/Firefox.js";
 
-import PathResolver from "#cli/configuration/PathResolver";
-import projectRoot from "#cli/utilities/projectRoot";
+import PathResolver from "#cli/configuration/PathResolver.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 
 import {
   forceJSONType
-} from "#cli/configuration/version-1.0/json/JSON_Operations";
+} from "#cli/configuration/version-1.0/json/JSON_Operations.js";
 
 forceJSONType<
   FirefoxJSONParsed,

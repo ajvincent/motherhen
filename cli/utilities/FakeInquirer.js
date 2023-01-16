@@ -1,4 +1,4 @@
-import { PromiseAllSequence } from "./PromiseTypes";
+import { PromiseAllSequence } from "./PromiseTypes.js";
 export class FakeAnswers {
     answer;
     validatePass;

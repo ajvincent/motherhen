@@ -1,18 +1,18 @@
 import ConfigFileFormat, {
   type ConfigFileFormatParsed,
   type ConfigFileFormatSerialized,
-} from "#cli/configuration/version-1.0/json/ConfigFileFormat";
+} from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
 
-import PathResolver from "#cli/configuration/PathResolver";
-import projectRoot from "#cli/utilities/projectRoot";
+import PathResolver from "#cli/configuration/PathResolver.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 
-import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations";
-import FileJSON from "#cli/configuration/version-1.0/json/File";
-import PatchesJSON from "#cli/configuration/version-1.0/json/Patches";
-import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
-import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
-import StringSet from "#cli/configuration/version-1.0/json/StringSet";
-import FirefoxJSON from "#cli/configuration/version-1.0/json/Firefox";
+import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations.js";
+import FileJSON from "#cli/configuration/version-1.0/json/File.js";
+import PatchesJSON from "#cli/configuration/version-1.0/json/Patches.js";
+import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration.js";
+import ProjectJSON from "#cli/configuration/version-1.0/json/Project.js";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet.js";
+import FirefoxJSON from "#cli/configuration/version-1.0/json/Firefox.js";
 
 forceJSONType<
   ConfigFileFormatParsed,

@@ -2,35 +2,35 @@
 
 import File, {
   type FileJSONSerialized
-} from "./File";
+} from "./File.js";
 
 import {
   DictionaryBuilder,
   DictionaryMap,
   DictionaryResolverBuilder,
   type StringIndexed,
-} from "./Dictionary";
+} from "./Dictionary.js";
 
-import PathResolver from "../../PathResolver";
-import StringSet from "./StringSet";
+import PathResolver from "../../PathResolver.js";
+import StringSet from "./StringSet.js";
 
 import PatchesJSON, {
   type PatchesJSONSerialized
-} from "./Patches";
+} from "./Patches.js";
 
 import IntegrationJSON, {
   type IntegrationJSONSerialized
-} from "./Integration";
+} from "./Integration.js";
 
 import ProjectJSON, {
   type ProjectJSONData,
-} from "./Project";
+} from "./Project.js";
 
 import FirefoxJSON, {
   type FirefoxJSONSerialized,
-} from "./Firefox";
+} from "./Firefox.js";
 
-import { isJSONObject } from "./JSON_Operations";
+import { isJSONObject } from "./JSON_Operations.js";
 
 // #endregion preamble
 

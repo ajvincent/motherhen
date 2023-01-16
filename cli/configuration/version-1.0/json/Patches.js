@@ -1,5 +1,5 @@
-import { isJSONObject } from "./JSON_Operations";
-import StringSet from "./StringSet";
+import { isJSONObject } from "./JSON_Operations.js";
+import StringSet from "./StringSet.js";
 export default class PatchesJSON {
     globs;
     commitMode;
