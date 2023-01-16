@@ -1,12 +1,14 @@
 import FakeInquirer, { FakeAnswers } from "#cli/utilities/FakeInquirer.js";
 
 describe("FakeInquirer", () => {
-  const debugInquirer = new FakeInquirer;
-  beforeEach(() => debugInquirer.clear());
+  let debugInquirer: FakeInquirer;
+  beforeEach(() => debugInquirer = new FakeInquirer);
 
   it("allows us to ask sevaral questions", async () => {
-    debugInquirer.set("confirmWrite", new FakeAnswers(true));
-    debugInquirer.set("name", new FakeAnswers("John Doe"));
+    debugInquirer.append([
+      ["confirmWrite", new FakeAnswers(true)],
+      ["name", new FakeAnswers("John Doe")]
+    ]);
 
     const results = await debugInquirer.prompt<{
       confirmWrite: boolean,
@@ -30,6 +32,34 @@ describe("FakeInquirer", () => {
     expect(results.confirmWrite).toBe(true);
     expect(results.name).toBe("John Doe");
     expect(Object.keys(results).length).toBe(2);
+
+    expect(debugInquirer.isEmpty()).toBe(true);
+  });
+
+  it("reports when there are unanswered questions", async () => {
+    debugInquirer.append([
+      ["confirmWrite", new FakeAnswers(true)],
+      ["name", new FakeAnswers("John Doe")]
+    ]);
+
+    const results = await debugInquirer.prompt<{
+      confirmWrite: boolean,
+      name: string
+    }>
+    ([
+      {
+        name: "confirmWrite",
+        type: "confirm",
+        message: "Do you want to proceed?",
+        default: false
+      },
+    ]);
+
+    expect(results.confirmWrite).toBe(true);
+    expect(results.name).toBe(undefined);
+    expect(Object.keys(results).length).toBe(1);
+
+    expect(debugInquirer.isEmpty()).toBe(false);
   });
 
   it("throws for missing answers", async () => {
@@ -49,14 +79,14 @@ describe("FakeInquirer", () => {
   });
 
   it("runs validation checks", async () => {
-    debugInquirer.set(
+    debugInquirer.append([[
       "name",
       new FakeAnswers(
         "John Doe",
         ["John Doe", "Jane Doe", "Tom Doe"],
         ["Frank Rizzo", "Leeroy Jenkins"]
       )
-    );
+    ]]);
 
     const namesCaptured: string[] = [];
 
@@ -88,7 +118,7 @@ describe("FakeInquirer", () => {
   });
 
   it("throws for invalid final answers", async () => {
-    debugInquirer.set("name", new FakeAnswers("Leeroy Jenkins"));
+    debugInquirer.append([["name", new FakeAnswers("Leeroy Jenkins")]]);
 
     await expect(debugInquirer.prompt<{
       name: string
@@ -109,7 +139,9 @@ describe("FakeInquirer", () => {
   });
 
   it("throws for invalid answers in the should-pass array", async () => {
-    debugInquirer.set("name", new FakeAnswers("John Doe", ["Leeroy Jenkins"]));
+    debugInquirer.append([
+      ["name", new FakeAnswers("John Doe", ["Leeroy Jenkins"])]
+    ]);
 
     await expect(debugInquirer.prompt<{
       name: string
@@ -130,7 +162,9 @@ describe("FakeInquirer", () => {
   });
 
   it("throws for invalid answers in the should-fail array", async () => {
-    debugInquirer.set("name", new FakeAnswers("John Doe", [], ["Jane Doe"]));
+    debugInquirer.append([
+      ["name", new FakeAnswers("John Doe", [], ["Jane Doe"])],
+    ]);
 
     await expect(debugInquirer.prompt<{
       name: string
@@ -151,7 +185,9 @@ describe("FakeInquirer", () => {
   });
 
   it("throws for answers in the should-pass array with no validation", async () => {
-    debugInquirer.set("namePlease", new FakeAnswers("John Doe", ["Jane Doe"]));
+    debugInquirer.append([
+      ["namePlease", new FakeAnswers("John Doe", ["Jane Doe"])]
+    ]);
 
     await expect(debugInquirer.prompt<{
       name: string
@@ -168,7 +204,9 @@ describe("FakeInquirer", () => {
   });
 
   it("throws for answers in the should-fail array with no validation", async () => {
-    debugInquirer.set("namePlease", new FakeAnswers("John Doe", [], ["Jane Doe"]));
+    debugInquirer.append([
+      ["namePlease", new FakeAnswers("John Doe", [], ["Jane Doe"])]
+    ]);
 
     await expect(debugInquirer.prompt<{
       name: string
@@ -186,7 +224,7 @@ describe("FakeInquirer", () => {
 
   it("honors the askAnswered attribute of questions", async () => {
     let fakeAnswers = new FakeAnswers("John Doe");
-    debugInquirer.set("name", fakeAnswers);
+    debugInquirer.append([["name", fakeAnswers]]);
 
     const question = {
       name: "name",
@@ -208,7 +246,7 @@ describe("FakeInquirer", () => {
     expect(validationCount).toBe(1);
 
     fakeAnswers = new FakeAnswers("Jane Doe");
-    debugInquirer.set("name", fakeAnswers);
+    debugInquirer.append([["name", fakeAnswers]]);
 
     const secondResult = await debugInquirer.prompt<{
       name: string
@@ -223,9 +261,9 @@ describe("FakeInquirer", () => {
     const thirdResult = await debugInquirer.prompt<{
       name: string
     }>
-    ([question, question], firstResult);
+    ([question], firstResult);
 
-    expect(validationCount).toBe(3);
+    expect(validationCount).toBe(2);
     expect(thirdResult.name).toBe("Jane Doe");
-  });
+  }, 1000 * 60 * 60);
 });

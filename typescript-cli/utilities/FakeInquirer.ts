@@ -12,7 +12,8 @@ import type {
   PartialInquirer
 } from "./PartialInquirer.js";
 
-export class FakeAnswers {
+export class FakeAnswers
+{
   readonly answer: unknown
   readonly validatePass: unknown[];
   readonly validateFail: unknown[];
@@ -29,10 +30,23 @@ export class FakeAnswers {
   }
 }
 
+type QuestionAndAnswer = [ string, FakeAnswers ];
+
 export default
-class FakeInquirer extends Map<string, FakeAnswers>
-implements PartialInquirer
+class FakeInquirer implements PartialInquirer
 {
+  #questionsQueue: QuestionAndAnswer[] = [];
+
+  append(questions: QuestionAndAnswer[]) : void
+  {
+    this.#questionsQueue.push(...questions);
+  }
+
+  isEmpty() : boolean
+  {
+    return this.#questionsQueue.length === 0;
+  }
+
   async prompt<T extends Answers = Answers>(
     questions: QuestionCollection<T>,
     initialAnswers?: Partial<T>
@@ -75,9 +89,17 @@ implements PartialInquirer
     if ((name in answers) && !(question as { askAnswered: boolean }).askAnswered)
       return;
 
-    const fakeAnswers = this.get(name);
+    if (this.#questionsQueue.length === 0) {
+      throw new Error(`No fake answers for question "${name}"!`);
+    }
+
+    const [expectedNextName, fakeAnswers] = this.#questionsQueue[0];
+    if (name !== expectedNextName)
+      throw new Error(`expected question "${expectedNextName}", received "${name}"`);
+
     if (!fakeAnswers)
       throw new Error(`No fake answers for question "${name}"!`);
+    this.#questionsQueue.shift();
 
     if (question.validate) {
       await PromiseAllSequence(fakeAnswers.validateFail, async answer => {

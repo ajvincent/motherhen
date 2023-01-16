@@ -9,7 +9,14 @@ export class FakeAnswers {
         this.validateFail = validateFail.slice();
     }
 }
-export default class FakeInquirer extends Map {
+export default class FakeInquirer {
+    #questionsQueue = [];
+    append(questions) {
+        this.#questionsQueue.push(...questions);
+    }
+    isEmpty() {
+        return this.#questionsQueue.length === 0;
+    }
     async prompt(questions, initialAnswers) {
         if (!FakeInquirer.#isQuestionArray(questions))
             throw new Error("FakeInquirer only supports question arrays");
@@ -26,9 +33,15 @@ export default class FakeInquirer extends Map {
         const { name } = question;
         if ((name in answers) && !question.askAnswered)
             return;
-        const fakeAnswers = this.get(name);
+        if (this.#questionsQueue.length === 0) {
+            throw new Error(`No fake answers for question "${name}"!`);
+        }
+        const [expectedNextName, fakeAnswers] = this.#questionsQueue[0];
+        if (name !== expectedNextName)
+            throw new Error(`expected question "${expectedNextName}", received "${name}"`);
         if (!fakeAnswers)
             throw new Error(`No fake answers for question "${name}"!`);
+        this.#questionsQueue.shift();
         if (question.validate) {
             await PromiseAllSequence(fakeAnswers.validateFail, async (answer) => {
                 await this.#validateAnswer(question, name, answer, answers, false, false);

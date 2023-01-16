@@ -25,8 +25,10 @@ describe("CreateEnvironment", () => {
   afterEach(async () => await temp.cleanupTempDir());
 
   it("works with an empty directory", async () => {
-    inquirer.set("existingDirectory", new FakeAnswers(temp.tempDir));
-    inquirer.set("pathToFile", new FakeAnswers(".motherhen-config.json"));
+    inquirer.append([
+      ["existingDirectory", new FakeAnswers(temp.tempDir)],
+      ["pathToFile", new FakeAnswers(".motherhen-config.json")]
+    ]);
 
     shared = await CreateEnvironment(inquirer, temp.tempDir, true);
 
@@ -53,8 +55,10 @@ describe("CreateEnvironment", () => {
       await fs.writeFile(configPath, contents, { encoding: "utf-8" });
     }
 
-    inquirer.set("existingDirectory", new FakeAnswers(temp.tempDir));
-    inquirer.set("pathToFile", new FakeAnswers(".motherhen-config.json"));
+    inquirer.append([
+      ["existingDirectory", new FakeAnswers(temp.tempDir)],
+      ["pathToFile", new FakeAnswers(".motherhen-config.json")],
+    ]);
 
     shared = await CreateEnvironment(inquirer, temp.tempDir, true);
 

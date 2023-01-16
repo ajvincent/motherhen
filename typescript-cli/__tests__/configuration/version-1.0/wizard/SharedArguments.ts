@@ -16,11 +16,11 @@ import StringSet from "#cli/configuration/version-1.0/json/StringSet.js";
 describe("SharedArguments creates all the necessary parts", () => {
   let shared: SharedArguments;
   let temp: TempDirWithCleanupType;
-  const inquirer = new FakeInquirer;
+  let inquirer: FakeInquirer;
 
   beforeEach(async () => {
     temp = await TempDirWithCleanup();
-    inquirer.clear();
+    inquirer = new FakeInquirer;
   })
   afterEach(async () => await temp.cleanupTempDir());
 
