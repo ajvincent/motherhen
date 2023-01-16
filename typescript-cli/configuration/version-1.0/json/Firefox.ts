@@ -55,7 +55,7 @@ implements FirefoxJSONParsed
     const value = unknownValue as FirefoxJSONSerialized;
     if (typeof value.vanillaTag !== "string")
       return false;
-    if (!FirefoxJSON.#buildTypes.has(value.buildType))
+    if (!FirefoxJSON.buildTypes.has(value.buildType))
       return false;
     if (typeof value.targetDirectory !== "string")
       return false;
@@ -63,7 +63,7 @@ implements FirefoxJSONParsed
     return true;
   }
 
-  static readonly #buildTypes = new Set<
+  static readonly buildTypes: ReadonlySet<FirefoxJSON["buildType"]> = new Set<
     FirefoxJSONParsed["buildType"]
   >
   (

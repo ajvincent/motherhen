@@ -1,7 +1,6 @@
 import { fork } from "child_process";
 import projectRoot from "../utilities/projectRoot.js";
 
-
 const promises = [
   runESLint(),
   runJest(),

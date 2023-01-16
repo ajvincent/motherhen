@@ -17,6 +17,9 @@ export default class SharedArgumentsImpl {
         }
         return config;
     }
+    static getPrompt(sharedArguments) {
+        return sharedArguments.inquirer.prompt.bind(sharedArguments.inquirer);
+    }
     // #region SharedArguments
     pathResolver;
     fsQueue;

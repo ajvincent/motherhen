@@ -32,6 +32,11 @@ export default class SharedArgumentsImpl implements SharedArguments
     return config;
   }
 
+  static getPrompt(sharedArguments: SharedArguments) : PartialInquirer["prompt"]
+  {
+    return sharedArguments.inquirer.prompt.bind(sharedArguments.inquirer)
+  }
+
   // #region SharedArguments
   readonly pathResolver: PathResolver;
   readonly fsQueue: FSQueue;
