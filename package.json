@@ -14,7 +14,7 @@
     "start": "./cli/motherhen.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:setup": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --watch --no-watchman",
-    "test:setup:debug": "node --inspect --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --watch",
+    "test:setup:debug": "node --inspect --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --watch --no-watchman",
     "test:clean": "rm -rf test/checkouts",
     "test:create": "npm run tsc && ./cli/motherhen.js create --config=./test/.motherhen-config.json --project=default",
     "test:configure": "npm run tsc && ./cli/motherhen.js mach configure --config=./test/.motherhen-config.json --project=default",
