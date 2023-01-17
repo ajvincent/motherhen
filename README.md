@@ -95,4 +95,4 @@ Special thanks to [nodejs.org](https://nodejs.org) for a fantastic JavaScript co
 
 Of course, the largest thanks go out to [Mozilla](https://mozilla.org).  Twenty years, and a career I've built so far on your code.  I still have the red-star t-shirt from the Mozilla 1.0 release party in 2002, even if it doesn't fit anymore.
 
-[s/love/code/](https://www.youtube.com/watch?v=nUCoYcxNMBE)
+[s/love/code/g](https://www.youtube.com/watch?v=nUCoYcxNMBE)
