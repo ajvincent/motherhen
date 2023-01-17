@@ -50,7 +50,7 @@ export default class FirefoxWizard
 
   #sharedArguments: Readonly<SharedArguments>;
   #firefoxes: DictionaryMap<FirefoxJSON,     FirefoxJSONSerialized>;
-  #chooseTasks: Readonly<ChooseTasksResults>;
+  #chooseTasks: ChooseTasksResults;
   #firefoxData: FirefoxJSON;
 
   /**
@@ -69,6 +69,10 @@ export default class FirefoxWizard
     FirefoxWizard.#assert(
       !chooseTasks.quickStart,
       "quick start should never lead to a Firefox wizard"
+    );
+    FirefoxWizard.#assert(
+      !chooseTasks.userConfirmed,
+      "user confirmed should be reset to false"
     );
 
     this.#sharedArguments = sharedArguments;
@@ -206,6 +210,8 @@ export default class FirefoxWizard
     this.#sharedArguments.postSetupMessages.push(
       `Your ${key} project has been ${this.#chooseTasks.action}d.`
     );
+
+    this.#chooseTasks.userConfirmed = true;
   }
 
   /** Delete the user's project, upon a final confirmation. */
@@ -229,5 +235,7 @@ export default class FirefoxWizard
     this.#sharedArguments.postSetupMessages.push(
       `Your ${key} project has been deleted.`
     );
+
+    this.#chooseTasks.userConfirmed = true;
   }
 }

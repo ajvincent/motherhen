@@ -34,6 +34,7 @@ export default class FirefoxWizard {
     constructor(sharedArguments, chooseTasks) {
         FirefoxWizard.#assert(chooseTasks.isFirefox, "don't call a Firefox wizard with a non-Firefox choice");
         FirefoxWizard.#assert(!chooseTasks.quickStart, "quick start should never lead to a Firefox wizard");
+        FirefoxWizard.#assert(!chooseTasks.userConfirmed, "user confirmed should be reset to false");
         this.#sharedArguments = sharedArguments;
         this.#firefoxes = sharedArguments.configuration.firefoxes;
         this.#chooseTasks = chooseTasks;
@@ -115,6 +116,7 @@ export default class FirefoxWizard {
         this.#sharedArguments.configuration.firefoxes.set(key, this.#firefoxData);
         await this.#sharedArguments.fsQueue.writeConfiguration(this.#sharedArguments.configuration, ".motherhen-config.json");
         this.#sharedArguments.postSetupMessages.push(`Your ${key} project has been ${this.#chooseTasks.action}d.`);
+        this.#chooseTasks.userConfirmed = true;
     }
     /** Delete the user's project, upon a final confirmation. */
     async #delete() {
@@ -125,6 +127,7 @@ export default class FirefoxWizard {
         this.#firefoxes.delete(key);
         await this.#sharedArguments.fsQueue.writeConfiguration(this.#sharedArguments.configuration, ".motherhen-config.json");
         this.#sharedArguments.postSetupMessages.push(`Your ${key} project has been deleted.`);
+        this.#chooseTasks.userConfirmed = true;
     }
 }
 //# sourceMappingURL=Firefox.js.map

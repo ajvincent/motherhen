@@ -47,7 +47,7 @@ describe("Firefox wizard", () => {
       currentProjectKey: null,
       newProjectKey: "central-optimized",
       action: "create",
-      userConfirmed: true,
+      userConfirmed: false,
       newConfigurationParts: ConfigFileFormat.fromJSON(
         sharedArguments.pathResolver,
         ConfigFileFormat.blank()
@@ -86,6 +86,7 @@ describe("Firefox wizard", () => {
       `write configuration to ${path.join(temp.tempDir, ".motherhen-config.json")}`
     ]);
     expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(true);
   });
 
   it("create from an existing Firefox configuration is pretty simple", async () => {
@@ -128,6 +129,7 @@ describe("Firefox wizard", () => {
       `write configuration to ${path.join(temp.tempDir, ".motherhen-config.json")}`
     ]);
     expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(true);
   });
 
   it("updating an existing Firefox configuration works", async () => {
@@ -173,6 +175,7 @@ describe("Firefox wizard", () => {
       `write configuration to ${path.join(temp.tempDir, ".motherhen-config.json")}`
     ]);
     expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(true);
   });
 
   it("deleting an existing Firefox configuration works", async () => {
@@ -204,5 +207,108 @@ describe("Firefox wizard", () => {
       `write configuration to ${path.join(temp.tempDir, ".motherhen-config.json")}`
     ]);
     expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(true);
+  });
+
+  it("create with a blank configuration without user confirmation is a no-op", async () => {
+    inquirer.append([
+      ["vanillaTag", new FakeAnswers("release")],
+      ["buildType", new FakeAnswers("optimized")],
+      ["targetDirectory", new FakeAnswers(
+        path.join(temp.tempDir, "integrations/firefox-clean")
+      )],
+      ["ok", new FakeAnswers(false)],
+    ]);
+
+    await FirefoxWizard.run(sharedArguments, chooseTasks);
+
+    expect(sharedArguments.configuration.toJSON()).toEqual(ConfigFileFormat.blank());
+
+    expect(sharedArguments.fsQueue.pendingOperations()).toEqual([]);
+    expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(false);
+  });
+
+  it("updating an existing Firefox configuration without user confirmation is a no-op", async () => {
+    chooseTasks.currentProjectKey = "central-debug";
+    chooseTasks.newProjectKey = "central-debug";
+    chooseTasks.action = "update";
+
+    sharedArguments.configuration.firefoxes.set(
+      "central-debug",
+      FirefoxJSON.fromJSON(sharedArguments.pathResolver, {
+        "vanillaTag": "central",
+        "buildType": "debug",
+        "targetDirectory": "integrations/firefox-clean"
+      }),
+    );
+
+    inquirer.append([
+      ["vanillaTag", new FakeAnswers("release")],
+      ["buildType", new FakeAnswers("debug")],
+      ["targetDirectory", new FakeAnswers(
+        path.join(temp.tempDir, "integrations/firefox-clean")
+      )],
+      ["ok", new FakeAnswers(false)],
+    ]);
+
+    await FirefoxWizard.run(sharedArguments, chooseTasks);
+
+    const firefoxMap = sharedArguments.configuration.firefoxes;
+    expect(firefoxMap.size).toBe(1);
+    const firefox = firefoxMap.get("central-debug")?.toJSON();
+    expect(firefox).not.toBe(undefined);
+    firefoxMap.clear();
+
+    expect(sharedArguments.configuration.toJSON()).toEqual(ConfigFileFormat.blank());
+
+    if (firefox) {
+      expect(firefox.vanillaTag).toBe("central");
+      expect(firefox.buildType).toBe("debug");
+      expect(firefox.targetDirectory).toBe("integrations/firefox-clean");
+    }
+
+    expect(sharedArguments.fsQueue.pendingOperations()).toEqual([]);
+    expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(false);
+  });
+
+  it("deleting an existing Firefox configuration without user confirmation is a no-op", async () => {
+    chooseTasks.currentProjectKey = "central-debug";
+    chooseTasks.newProjectKey = null;
+    chooseTasks.action = "delete";
+
+    sharedArguments.configuration.firefoxes.set(
+      "central-debug",
+      FirefoxJSON.fromJSON(sharedArguments.pathResolver, {
+        "vanillaTag": "central",
+        "buildType": "debug",
+        "targetDirectory": "integrations/firefox-clean"
+      }),
+    );
+
+    inquirer.append([
+      ["ok", new FakeAnswers(false)],
+    ]);
+
+    await FirefoxWizard.run(sharedArguments, chooseTasks);
+
+    const firefoxMap = sharedArguments.configuration.firefoxes;
+    expect(firefoxMap.size).toBe(1);
+    const firefox = firefoxMap.get("central-debug")?.toJSON();
+    expect(firefox).not.toBe(undefined);
+    firefoxMap.clear();
+
+    expect(sharedArguments.configuration.toJSON()).toEqual(ConfigFileFormat.blank());
+
+    if (firefox) {
+      expect(firefox.vanillaTag).toBe("central");
+      expect(firefox.buildType).toBe("debug");
+      expect(firefox.targetDirectory).toBe("integrations/firefox-clean");
+    }
+
+    expect(sharedArguments.fsQueue.pendingOperations()).toEqual([]);
+    expect(inquirer.isEmpty()).toBe(true);
+    expect(chooseTasks.userConfirmed).toBe(false);
   });
 });
