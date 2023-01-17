@@ -30,7 +30,6 @@ describe("Choose tasks wizard", () => {
       pathResolver: PathResolver,
       temp: TempDirWithCleanupType;
 
-
   beforeEach(async () => {
     temp = await TempDirWithCleanup();
   });

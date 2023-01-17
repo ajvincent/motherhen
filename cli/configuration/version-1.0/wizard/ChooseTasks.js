@@ -2,6 +2,7 @@ import maybeLog from "./maybeLog.js";
 import SharedArgumentsImpl from "./SharedArguments.js";
 import ConfigurationSummary from "../json/Summary.js";
 import ConfigFileFormat from "../json/ConfigFileFormat.js";
+import InquirerConfirm from "./Confirm.js";
 export default class ChooseTasksWizard {
     /**
      * Ask the user for what tasks they want to do, to which existing and new projects.
@@ -322,15 +323,7 @@ export default class ChooseTasksWizard {
     }
     /** Confirm the user's choices with the user before proceeding. */
     async #confirmChoices() {
-        const { ok } = await this.#prompt([
-            {
-                name: "ok",
-                type: "confirm",
-                default: false,
-                message: "Are you okay with your choices so far?"
-            }
-        ]);
-        this.#chooseTasks.userConfirmed = ok;
+        this.#chooseTasks.userConfirmed = await InquirerConfirm(this.#sharedArguments);
     }
 }
 //# sourceMappingURL=ChooseTasks.js.map
