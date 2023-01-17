@@ -51,11 +51,11 @@ export default class FSQueue {
         this.#tasks.set(() => this.#withTemporaryPath(overridePath, task, context), description);
         return Promise.resolve();
     }
-    #withTemporaryPath(overridePath, task, context) {
+    async #withTemporaryPath(overridePath, task, context) {
         const currentPath = this.#pathResolver.getPath(false);
         this.#pathResolver.setPath(false, overridePath);
         try {
-            return task();
+            return await task();
         }
         catch (ex) {
             if (this.#enableWarnings && context) {

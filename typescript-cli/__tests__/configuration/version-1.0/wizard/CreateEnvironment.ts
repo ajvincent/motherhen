@@ -7,7 +7,9 @@ import TempDirWithCleanup, {
 } from "#cli/utilities/TempDirWithCleanup.js";
 
 import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
-import FakeInquirer, { FakeAnswers } from "#cli/utilities/FakeInquirer.js";
+import FakeInquirer, {
+  FakeAnswers
+} from "#cli/utilities/FakeInquirer.js";
 import type {
   SharedArguments
 } from "#cli/configuration/version-1.0/wizard/shared-types.js";

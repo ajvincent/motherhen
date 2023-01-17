@@ -105,7 +105,7 @@ export default class FSQueue
     return Promise.resolve();
   }
 
-  #withTemporaryPath(
+  async #withTemporaryPath(
     overridePath: string,
     task: PromiseQueueTask,
     context?: FSQueueContext
@@ -115,7 +115,7 @@ export default class FSQueue
     this.#pathResolver.setPath(false, overridePath);
 
     try {
-      return task();
+      return await task();
     }
     catch (ex) {
       if (this.#enableWarnings && context) {
