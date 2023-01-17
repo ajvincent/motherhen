@@ -32,22 +32,29 @@ import Driver, {
  */
 
 describe("Wizard Driver", () => {
-  let temp: TempDirWithCleanupType;
+  let workingTemp: TempDirWithCleanupType;
+  let motherhenTemp: TempDirWithCleanupType;
   let inquirer: FakeInquirer;
   let resolver: PathResolver;
 
   beforeEach(async () => {
-    temp = await TempDirWithCleanup();
+    workingTemp = await TempDirWithCleanup();
+    motherhenTemp = await TempDirWithCleanup();
     inquirer = new FakeInquirer;
 
-    const useAbsoluteProperty = new PathResolver.UseAbsolute(temp.tempDir, false);
+    const useAbsoluteProperty = new PathResolver.UseAbsolute(workingTemp.tempDir, false);
     resolver = new PathResolver(
       useAbsoluteProperty,
       false,
       "",
     );
   });
-  afterEach(async () => await temp.cleanupTempDir());
+  afterEach(async () => {
+    await Promise.all([
+      workingTemp.cleanupTempDir(),
+      motherhenTemp.cleanupTempDir(),
+    ]);
+  });
 
   // #region utilities
   function addOneQuestion(questionName: string, answer: unknown) : void
@@ -60,7 +67,7 @@ describe("Wizard Driver", () => {
   function setupCreateEnvironment() : void
   {
     inquirer.append([
-      ["existingDirectory", new FakeAnswers(temp.tempDir)],
+      ["existingDirectory", new FakeAnswers(workingTemp.tempDir)],
       ["pathToFile", new FakeAnswers(".motherhen-config.json")]
     ]);
   }
@@ -94,7 +101,7 @@ describe("Wizard Driver", () => {
   {
     const contents = JSON.stringify(configuration, null, 2) + "\n";
     await fs.writeFile(
-      path.join(temp.tempDir, ".motherhen-config.json"),
+      path.join(workingTemp.tempDir, ".motherhen-config.json"),
       contents,
       { encoding: "utf-8" }
     );
@@ -103,7 +110,8 @@ describe("Wizard Driver", () => {
   async function runDriver(useConfigFile: boolean) : Promise<void>
   {
     const args: DriverArguments = {
-      workingDirectory: temp.tempDir,
+      workingDirectory: workingTemp.tempDir,
+      motherhenWriteDirectory: motherhenTemp.tempDir,
       inquirer,
       suppressConsole: true
     };
@@ -114,7 +122,7 @@ describe("Wizard Driver", () => {
 
   async function readConfigFile() : Promise<ConfigFileFormat | null>
   {
-    const pathToFile = path.join(temp.tempDir, ".motherhen-config.json");
+    const pathToFile = path.join(workingTemp.tempDir, ".motherhen-config.json");
     if (!await fileExists(pathToFile, false)) {
       return null;
     }
@@ -137,7 +145,7 @@ describe("Wizard Driver", () => {
         ["vanillaTag", new FakeAnswers(settings.vanillaTag)],
         ["buildType", new FakeAnswers(settings.buildType)],
         ["targetDirectory", new FakeAnswers(
-          path.join(temp.tempDir, settings.targetDirectory)
+          path.join(workingTemp.tempDir, settings.targetDirectory)
         )],
       ]);
       addUserConfirm(true);

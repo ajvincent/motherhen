@@ -13,18 +13,42 @@ import FirefoxWizard from "./Firefox";
 
 export type DriverArguments = {
   /**
-   * The working directory for operations: Motherhen configuration file, integration directories.
+   * The working directory for operations: Motherhen configuration file,
+   * integration directories.
    */
   workingDirectory: string,
 
-  /** The actual Motherhen configuration location, appended to this.workingDirectory. */
+  /**
+   * The actual Motherhen configuration location, appended to the working
+   * directory.
+   */
   motherhenConfigLeaf?: string;
 
   /** Our user-prompting system. */
   inquirer: PartialInquirer;
 
-  /** Suppress messages to the console.  True for tests, false for internal use. */
+  /**
+   * Suppress messages to the console.  True for tests, false for real users.
+   *
+   * @internal
+   */
   suppressConsole: boolean;
+
+  /**
+   * Where to write source files, mozconfigs, etc.
+   *
+   * This is primarily for testing purposes: in a real user environment, this
+   * will be `projectRoot`.  In tests, this will allow me to not fill the
+   * Motherhen project with garbage.
+   *
+   * So why do we need a separate working directory?  Motherhen might not be
+   * the location of the user's Motherhen configuration file.  The working
+   * directory holds the configuration and the integrations.  Motherhen holds
+   * the sources, patches, mozconfigs, and the vanilla Mozilla repository.
+   *
+   * @internal
+   */
+  motherhenWriteDirectory: string;
 }
 
 /** This integrates several wizards together into a final command-line interface. */
