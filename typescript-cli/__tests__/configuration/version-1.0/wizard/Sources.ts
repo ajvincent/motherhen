@@ -222,7 +222,7 @@ describe("Sources wizard: ", () => {
     inquirer.append([
       ["userSelection", new FakeAnswers("add")],
       [
-        "newSourceKey",
+        "newKey",
         new FakeAnswers(
           "newKey",
         )
@@ -261,7 +261,7 @@ describe("Sources wizard: ", () => {
     inquirer.append([
       ["userSelection", new FakeAnswers("clone")],
       [
-        "newSourceKey",
+        "newKey",
         new FakeAnswers(
           "newKey",
         )
@@ -295,12 +295,12 @@ describe("Sources wizard: ", () => {
     await spotCheckMakefile();
   });
 
-  it("Edit from a quick-start configuration works", async () => {
+  it("Update from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["crackedEgg", "hatchedEgg"]);
     await setupSharedAndTasks(true);
 
     inquirer.append([
-      ["userSelection", new FakeAnswers("edit")],
+      ["userSelection", new FakeAnswers("update")],
       [
         "chooseSources",
         new FakeAnswers(
@@ -327,7 +327,7 @@ describe("Sources wizard: ", () => {
     inquirer.append([
       ["userSelection", new FakeAnswers("rename")],
       [
-        "newSourceKey",
+        "newKey",
         new FakeAnswers(
           "newKey",
         )
