@@ -4,7 +4,7 @@ const jestConfig = {
     "<rootDir>/typescript-cli/"
   ],
   testPathIgnorePatterns: [
-    "<rootDir>/typescript-cli/.*/fixtures"
+    "<rootDir>/typescript-cli/__tests__/.*/fixtures"
   ],
 
   preset: 'ts-jest/presets/default-esm',
