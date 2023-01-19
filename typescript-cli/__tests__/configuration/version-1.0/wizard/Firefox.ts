@@ -10,7 +10,7 @@ import type {
   SharedArguments,
   ChooseTasksResults,
 } from "#cli/configuration/version-1.0/wizard/shared-types.js";
-import SharedArgumentsImpl from "#cli/configuration/version-1.0/wizard/SharedArguments.js";
+import setupSharedAndTasks from "../fixtures/setupSharedAndTasks.js";
 
 import FakeInquirer, {
   FakeAnswers
@@ -35,25 +35,11 @@ describe("Firefox wizard", () => {
 
   beforeEach(async () => {
     inquirer = new FakeInquirer;
-    sharedArguments = await SharedArgumentsImpl.build(
-      inquirer,
-      temp.tempDir,
-      true
-    );
 
-    chooseTasks = {
-      quickStart: false,
-      isFirefox: true,
-      currentProjectKey: null,
-      newProjectKey: "central-optimized",
-      action: "create",
-      userConfirmed: false,
-      newConfigurationParts: ConfigFileFormat.fromJSON(
-        sharedArguments.pathResolver,
-        ConfigFileFormat.blank()
-      ),
-      copyExistingParts: new Set,
-    };
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, false));
+    chooseTasks.currentProjectKey = null;
+    chooseTasks.newProjectKey = "central-optimized",
+    chooseTasks.isFirefox = true;
   });
 
   it("create with a blank configuration is straight-forward", async () => {

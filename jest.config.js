@@ -3,6 +3,10 @@ const jestConfig = {
   roots: [
     "<rootDir>/typescript-cli/"
   ],
+  testPathIgnorePatterns: [
+    "<rootDir>/typescript-cli/.*/fixtures"
+  ],
+
   preset: 'ts-jest/presets/default-esm',
   transform: {
     '^.+\\.tsx?$': [

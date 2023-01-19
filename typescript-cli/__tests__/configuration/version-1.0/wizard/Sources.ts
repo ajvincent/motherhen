@@ -2,12 +2,12 @@
 import fs from "fs/promises";
 import path from "path";
 
-import ConfigFileFormat, { ConfigFileFormatSerialized } from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
+import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
 import type {
   SharedArguments,
   ChooseTasksResults,
 } from "#cli/configuration/version-1.0/wizard/shared-types.js";
-import SharedArgumentsImpl from "#cli/configuration/version-1.0/wizard/SharedArguments.js";
+import setupSharedAndTasks from "../fixtures/setupSharedAndTasks.js";
 
 import FakeInquirer, {
   FakeAnswers
@@ -24,8 +24,15 @@ import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
 import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 import { PromiseAllParallel } from "#cli/utilities/PromiseTypes";
+import saveConfigurationAndRead from "../fixtures/saveConfigurationAndRead.js";
 
 // #endregion preamble
+
+/**
+ * @remarks
+ *
+ * These tests also exercise the DictionaryBase class.
+ */
 
 describe("Sources wizard: ", () => {
   let sharedArguments: SharedArguments,
@@ -100,36 +107,6 @@ describe("Sources wizard: ", () => {
   }
 
   /**
-   * Set up the `sharedArguments` and `chooseTasks` variables for a test run.
-   * @param useConfigFile - true if we should use a Motherhen configuration file which we assume exists.
-   */
-  async function setupSharedAndTasks(
-    useConfigFile: boolean
-  ) : Promise<void>
-  {
-    sharedArguments = await SharedArgumentsImpl.build(
-      inquirer,
-      temp.tempDir,
-      true,
-      useConfigFile ? ".motherhen-config.json" : ""
-    );
-
-    chooseTasks = {
-      quickStart: false,
-      isFirefox: false,
-      currentProjectKey: "(default)",
-      newProjectKey: "(default)",
-      action: "create",
-      userConfirmed: false,
-      newConfigurationParts: ConfigFileFormat.fromJSON(
-        sharedArguments.pathResolver,
-        ConfigFileFormat.blank()
-      ),
-      copyExistingParts: new Set,
-    };
-  }
-
-  /**
    * Run the sources wizard, commit our changes to the file system, and get the resulting configuration.
    * @returns the configuration from the temporary directory.
    */
@@ -142,18 +119,7 @@ describe("Sources wizard: ", () => {
       temp.tempDir
     );
 
-    await sharedArguments.fsQueue.writeConfiguration(
-      sharedArguments.configuration,
-      ".motherhen-config.json"
-    );
-
-    await sharedArguments.fsQueue.commit();
-
-    const contents = await fs.readFile(pathToConfig, { encoding: "utf-8" });
-    return ConfigFileFormat.fromJSON(
-      sharedArguments.pathResolver,
-      JSON.parse(contents) as ConfigFileFormatSerialized
-    );
+    return await saveConfigurationAndRead(sharedArguments);
   }
 
   /**
@@ -193,7 +159,7 @@ describe("Sources wizard: ", () => {
   }
 
   it("Quick-start works", async () => {
-    await setupSharedAndTasks(false);
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, false));
     chooseTasks.quickStart = true;
     chooseTasks.newProjectKey = "hatchedegg-central-optimized";
 
@@ -217,7 +183,7 @@ describe("Sources wizard: ", () => {
 
   it("Create from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["crackedEgg"]);
-    await setupSharedAndTasks(true);
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
 
     inquirer.append([
       ["userSelection", new FakeAnswers("add")],
@@ -256,7 +222,7 @@ describe("Sources wizard: ", () => {
 
   it("Clone from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["crackedEgg"]);
-    await setupSharedAndTasks(true);
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
 
     inquirer.append([
       ["userSelection", new FakeAnswers("clone")],
@@ -297,7 +263,7 @@ describe("Sources wizard: ", () => {
 
   it("Update from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["crackedEgg", "hatchedEgg"]);
-    await setupSharedAndTasks(true);
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
 
     inquirer.append([
       ["userSelection", new FakeAnswers("update")],
@@ -322,7 +288,7 @@ describe("Sources wizard: ", () => {
 
   it("Rename from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["hatchedEgg"]);
-    await setupSharedAndTasks(true);
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
 
     inquirer.append([
       ["userSelection", new FakeAnswers("rename")],
@@ -356,7 +322,7 @@ describe("Sources wizard: ", () => {
         );
       }
 
-      await setupSharedAndTasks(true);
+      ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
 
       inquirer.append([
         ["userSelection", new FakeAnswers("delete")],
@@ -383,7 +349,7 @@ describe("Sources wizard: ", () => {
         );
       }
 
-      await setupSharedAndTasks(true);
+      ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
 
       inquirer.append([
         ["userSelection", new FakeAnswers("delete")],
