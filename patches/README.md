@@ -10,4 +10,4 @@ Motherhen follows this algorithm when it comes to patch files:
 2. Sort the results using JavaScript's built-in sort() method.
 3. Apply patches in the order they end up in.
 
-Therefore, we recommend against putting patch files in subdirectories of this directory.  Just denote the ordering of patches via a four-digit code at the beginning of the file name, and keep all patches in this directory.
+Therefore, I recommend against putting patch files in subdirectories of this directory.  Just denote the ordering of patches via a four-digit code at the beginning of the file name, and keep all patches in this directory.

@@ -41,6 +41,7 @@
   "homepage": "https://github.com/ajvincent/motherhen#readme",
   "dependencies": {
     "commander": "^9.4.1",
+    "fast-glob": "^3.2.12",
     "ini": "^3.0.1",
     "inquirer": "^9.1.4",
     "inquirer-file-tree-selection-prompt": "^2.0.5",

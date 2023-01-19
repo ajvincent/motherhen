@@ -3,7 +3,7 @@ import fs from "fs/promises";
 
 import projectRoot from "#cli/utilities/projectRoot.js";
 import { PromiseAllParallel } from "#cli/utilities/PromiseTypes.js";
-import readDirsDeep from "./readDirsDeep.js";
+import readDirsDeep from "#cli/utilities/readDirsDeep.js";
 
 {
   const tsPath = path.join(projectRoot, "typescript-cli");

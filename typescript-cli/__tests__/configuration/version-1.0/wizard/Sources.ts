@@ -18,13 +18,13 @@ import TempDirWithCleanup, {
 } from "#cli/utilities/TempDirWithCleanup.js";
 
 import PathResolver from "#cli/configuration/PathResolver";
+import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration.js";
+import ProjectJSON from "#cli/configuration/version-1.0/json/Project.js";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet.js";
+import { PromiseAllParallel } from "#cli/utilities/PromiseTypes.js";
+import saveConfigurationAndRead from "../fixtures/saveConfigurationAndRead.js";
 
 import SourcesWizard from "#cli/configuration/version-1.0/wizard/Sources.js";
-import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
-import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
-import StringSet from "#cli/configuration/version-1.0/json/StringSet";
-import { PromiseAllParallel } from "#cli/utilities/PromiseTypes";
-import saveConfigurationAndRead from "../fixtures/saveConfigurationAndRead.js";
 
 // #endregion preamble
 
@@ -263,7 +263,9 @@ describe("Sources wizard: ", () => {
 
   it("Update from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["crackedEgg", "hatchedEgg"]);
-    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(
+      inquirer, temp, true
+    ));
 
     inquirer.append([
       ["userSelection", new FakeAnswers("update")],
