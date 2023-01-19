@@ -1,5 +1,6 @@
 import FirefoxJSON from "../json/Firefox.js";
 import InquirerConfirm from "./Confirm.js";
+import { assert, assertFail } from "./assert.js";
 // #endregion preamble
 /** Update the Firefox-specific configuration. */
 export default class FirefoxWizard {
@@ -13,15 +14,6 @@ export default class FirefoxWizard {
         const wizard = new FirefoxWizard(sharedArguments, chooseTasks);
         await wizard.#run();
     }
-    static #assert(condition, message) {
-        if (!condition) {
-            return this.#assertFail(message);
-        }
-        return true;
-    }
-    static #assertFail(message) {
-        throw new Error("assertion failure, " + message);
-    }
     // #endregion static code
     #sharedArguments;
     #firefoxes;
@@ -32,9 +24,9 @@ export default class FirefoxWizard {
      * @param chooseTasks - the user's choices from the ChooseTasks wizard.
      */
     constructor(sharedArguments, chooseTasks) {
-        FirefoxWizard.#assert(chooseTasks.isFirefox, "don't call a Firefox wizard with a non-Firefox choice");
-        FirefoxWizard.#assert(!chooseTasks.quickStart, "quick start should never lead to a Firefox wizard");
-        FirefoxWizard.#assert(!chooseTasks.userConfirmed, "user confirmed should be reset to false");
+        assert(chooseTasks.isFirefox, "don't call a Firefox wizard with a non-Firefox choice");
+        assert(!chooseTasks.quickStart, "quick start should never lead to a Firefox wizard");
+        assert(!chooseTasks.userConfirmed, "user confirmed should be reset to false");
         this.#sharedArguments = sharedArguments;
         this.#firefoxes = sharedArguments.configuration.firefoxes;
         this.#chooseTasks = chooseTasks;
@@ -48,7 +40,7 @@ export default class FirefoxWizard {
             // Clone the current project, if it exists.
             if (chooseTasks.currentProjectKey) {
                 const parsed = this.#firefoxes.get(chooseTasks.currentProjectKey);
-                FirefoxWizard.#assert(parsed !== undefined, `currentProjectKey should point to a current project: "${chooseTasks.currentProjectKey}"`);
+                assert(parsed !== undefined, `currentProjectKey should point to a current project: "${chooseTasks.currentProjectKey}"`);
                 serialized = parsed.toJSON();
             }
             this.#firefoxData = FirefoxJSON.fromJSON(sharedArguments.pathResolver, serialized);
@@ -57,18 +49,18 @@ export default class FirefoxWizard {
         else if ((this.#chooseTasks.action === "update") ||
             (this.#chooseTasks.action === "delete")) {
             if (!this.#chooseTasks.currentProjectKey) {
-                FirefoxWizard.#assert(false, "currentProjectKey must exist for an update or delete command");
+                assert(false, "currentProjectKey must exist for an update or delete command");
                 return;
             }
-            FirefoxWizard.#assert((this.#chooseTasks.action === "delete") === (this.#chooseTasks.newProjectKey === null), "newProjectKey must be defined for create or update actions, but not for delete actions");
+            assert((this.#chooseTasks.action === "delete") === (this.#chooseTasks.newProjectKey === null), "newProjectKey must be defined for create or update actions, but not for delete actions");
             const parsed = sharedArguments.configuration.firefoxes.get(this.#chooseTasks.currentProjectKey);
             if (!parsed)
-                FirefoxWizard.#assertFail("currentProjectKey doesn't reflect an existing project");
+                assertFail("currentProjectKey doesn't reflect an existing project");
             this.#firefoxData = parsed;
         }
         // we shouldn't get here
         else {
-            FirefoxWizard.#assertFail(`unexpected action: ${this.#chooseTasks.action}`);
+            assertFail(`unexpected action: ${this.#chooseTasks.action}`);
         }
     }
     /** Delegate the user's action to the right method. */
@@ -80,7 +72,7 @@ export default class FirefoxWizard {
         if (this.#chooseTasks.action === "delete") {
             return this.#delete();
         }
-        FirefoxWizard.#assertFail(`unexpected action: ${this.#chooseTasks.action}`);
+        assertFail(`unexpected action: ${this.#chooseTasks.action}`);
     }
     /** Update the target Firefox project. */
     async #update() {

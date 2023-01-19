@@ -1,7 +1,14 @@
+// #region preamble
 import fs from "fs/promises";
 import path from "path";
 
+import replaceInFilePkg from "replace-in-file";
+const { replaceInFile } = replaceInFilePkg;
+
 import PathResolver from "./PathResolver.js";
+import fileExists from "#cli/utilities/fileExists.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
+
 type ConfigFileFormat = {
   formatVersion: string;
 }
@@ -16,6 +23,8 @@ type FSQueueContext = {
 
   [key: string]: unknown
 };
+
+// #endregion preamble
 
 export default class FSQueue
 {
@@ -81,6 +90,55 @@ export default class FSQueue
         contents
       },
     );
+  }
+
+  /**
+   * Build a source application directory, from Motherhen's `cleanroom/source` directory.
+   * @param targetSourcesDirectory - the "sources" directory location.  Normally `{$projectRoot}/sources`.
+   * @param sourceDirName - The source directory to create under the target sources.
+   * @param requiredSymbol - a flag to clear, signalling we've created a required sources directory.
+   */
+  buildSource(
+    targetSourcesDirectory: string,
+    sourceDirName: string,
+    requiredSymbol: symbol | undefined
+  ) : Promise<void>
+  {
+    if (requiredSymbol)
+      this.#requiredToCallOnce.delete(requiredSymbol);
+
+    const targetDir = path.join(
+      targetSourcesDirectory, sourceDirName
+    );
+
+    const templateDir = path.join(
+      projectRoot, "cleanroom/source"
+    );
+
+    this.#tasks.set(
+      async () => {
+        const parentDir = path.dirname(targetDir);
+        if (!await fileExists(parentDir, true)) {
+          await fs.mkdir(parentDir, { recursive: true });
+        }
+
+        await fs.cp(templateDir, targetDir, {
+          recursive: true
+        });
+
+        if (sourceDirName === "hatchedegg")
+          return;
+
+        await replaceInFile({
+          files: targetDir + "/**/*",
+          from: /hatchedegg/gm,
+          to: sourceDirName
+        });
+      },
+      `build source directory "${sourceDirName}"`
+    );
+
+    return Promise.resolve();
   }
 
   /**

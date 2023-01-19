@@ -10,6 +10,9 @@ import FirefoxJSON, {
 import { DictionaryMap } from "../json/Dictionary.js";
 
 import InquirerConfirm from "./Confirm.js";
+
+import { assert, assertFail } from "./assert.js";
+
 // #endregion preamble
 
 /** Update the Firefox-specific configuration. */
@@ -30,22 +33,6 @@ export default class FirefoxWizard
     await wizard.#run();
   }
 
-  static #assert(
-    condition: boolean,
-    message: string
-  ) : condition is true
-  {
-    if (!condition) {
-      return this.#assertFail(message);
-    }
-    return true;
-  }
-
-  static #assertFail(message: string) : never
-  {
-    throw new Error("assertion failure, " + message);
-  }
-
   // #endregion static code
 
   #sharedArguments: Readonly<SharedArguments>;
@@ -62,15 +49,15 @@ export default class FirefoxWizard
     chooseTasks: ChooseTasksResults
   )
   {
-    FirefoxWizard.#assert(
+    assert(
       chooseTasks.isFirefox,
       "don't call a Firefox wizard with a non-Firefox choice"
     );
-    FirefoxWizard.#assert(
+    assert(
       !chooseTasks.quickStart,
       "quick start should never lead to a Firefox wizard"
     );
-    FirefoxWizard.#assert(
+    assert(
       !chooseTasks.userConfirmed,
       "user confirmed should be reset to false"
     );
@@ -94,7 +81,7 @@ export default class FirefoxWizard
       // Clone the current project, if it exists.
       if (chooseTasks.currentProjectKey) {
         const parsed = this.#firefoxes.get(chooseTasks.currentProjectKey);
-        FirefoxWizard.#assert(
+        assert(
           parsed !== undefined,
           `currentProjectKey should point to a current project: "${chooseTasks.currentProjectKey}"`
         );
@@ -114,14 +101,14 @@ export default class FirefoxWizard
     )
     {
       if (!this.#chooseTasks.currentProjectKey) {
-        FirefoxWizard.#assert(
+        assert(
           false,
           "currentProjectKey must exist for an update or delete command"
         );
         return;
       }
 
-      FirefoxWizard.#assert(
+      assert(
         (this.#chooseTasks.action === "delete") === (this.#chooseTasks.newProjectKey === null),
         "newProjectKey must be defined for create or update actions, but not for delete actions"
       );
@@ -130,13 +117,13 @@ export default class FirefoxWizard
         this.#chooseTasks.currentProjectKey
       );
       if (!parsed)
-        FirefoxWizard.#assertFail("currentProjectKey doesn't reflect an existing project");
+        assertFail("currentProjectKey doesn't reflect an existing project");
       this.#firefoxData = parsed;
     }
 
     // we shouldn't get here
     else {
-      FirefoxWizard.#assertFail(`unexpected action: ${this.#chooseTasks.action}`);
+      assertFail(`unexpected action: ${this.#chooseTasks.action}`);
     }
   }
 
@@ -155,7 +142,7 @@ export default class FirefoxWizard
       return this.#delete();
     }
 
-    FirefoxWizard.#assertFail(`unexpected action: ${this.#chooseTasks.action}`);
+    assertFail(`unexpected action: ${this.#chooseTasks.action}`);
   }
 
   /** Update the target Firefox project. */

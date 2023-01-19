@@ -1,3 +1,5 @@
+// #region preamble
+
 import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
 import FirefoxJSON from "#cli/configuration/version-1.0/json/Firefox";
 import ChooseTasksWizard from "#cli/configuration/version-1.0/wizard/ChooseTasks.js";
@@ -22,6 +24,8 @@ import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
 import StringSet from "#cli/configuration/version-1.0/json/StringSet";
 import PatchesJSON from "#cli/configuration/version-1.0/json/Patches";
 import FileJSON from "#cli/configuration/version-1.0/json/File";
+
+// #endregion preamble
 
 describe("Choose tasks wizard", () => {
   let sharedArguments: SharedArguments,
