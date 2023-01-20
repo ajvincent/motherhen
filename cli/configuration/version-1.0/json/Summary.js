@@ -74,11 +74,11 @@ function getMotherhenSummary(config, projectKey, suspendWarnings) {
     }
     // mozconfig
     if (typeof project !== "string") {
-        const mozconfig = getDictionaryKey(config.mozconfigs, project.mozconfigKey, "mozconfigs", projectKey, true);
-        if (!maybeWarn(suspendWarnings, mozconfig)) {
+        const mozconfig = config.mozconfigs.get(project.mozconfigKey);
+        if (mozconfig) {
             rv = {
                 ...rv,
-                mozconfig: mozconfig.toJSON(),
+                mozconfig,
             };
             completionSet.delete("mozconfig");
         }

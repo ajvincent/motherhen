@@ -1,9 +1,5 @@
 // #region preamble
 
-import File, {
-  type FileJSONSerialized
-} from "./File.js";
-
 import {
   DictionaryBuilder,
   DictionaryMap,
@@ -13,6 +9,9 @@ import {
 
 import PathResolver from "../../PathResolver.js";
 import StringSet from "./StringSet.js";
+import StringMap, {
+  type StringDictionary
+} from "./StringMap.js"
 
 import PatchesJSON, {
   type PatchesJSONSerialized
@@ -46,7 +45,7 @@ export type ConfigFileFormatSerialized = {
   /* mozconfigs are automatically available in ${projectRoot}/mozconfigs.
      Only one mozconfig applies at a time.
   */
-  readonly mozconfigs:   StringIndexed<FileJSONSerialized>;
+  readonly mozconfigs:   StringDictionary;
 
   /*
   {
@@ -88,7 +87,7 @@ export type ConfigFileFormatParsed = {
 
   readonly sources:      DictionaryMap<StringSet,       string[]>;
   readonly patches:      DictionaryMap<PatchesJSON,     PatchesJSONSerialized>;
-  readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
+  readonly mozconfigs:   StringMap;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
   readonly firefoxes:    DictionaryMap<FirefoxJSON,     FirefoxJSONSerialized>;
@@ -101,7 +100,7 @@ implements ConfigFileFormatParsed
 
   readonly sources:      DictionaryMap<StringSet,       string[]>;
   readonly patches:      DictionaryMap<PatchesJSON,     PatchesJSONSerialized>;
-  readonly mozconfigs:   DictionaryMap<File,            FileJSONSerialized>;
+  readonly mozconfigs:   StringMap;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
   readonly firefoxes:    DictionaryMap<FirefoxJSON,     FirefoxJSONSerialized>;
@@ -146,7 +145,7 @@ implements ConfigFileFormatParsed
     if (!ClassesDictionary.patches.isJSON(value.patches))
       return false;
 
-    if (!ClassesDictionary.files.isJSON(value.mozconfigs))
+    if (!StringMap.isJSON(value.mozconfigs))
       return false;
 
     if (!ClassesDictionary.integrations.isJSON(value.integrations))
@@ -173,8 +172,8 @@ implements ConfigFileFormatParsed
     const patches = ClassesDictionary.patches.fromJSON(
       value.patches
     );
-    const mozconfigs = ClassesDictionary.files.fromJSON(
-      pathResolver, value.mozconfigs
+    const mozconfigs = StringMap.fromJSON(
+      value.mozconfigs
     );
     const integrations = ClassesDictionary.integrations.fromJSON(
       pathResolver, value.integrations
@@ -214,7 +213,6 @@ implements ConfigFileFormatParsed
 
 const ClassesDictionary = {
   stringSet:    DictionaryBuilder(StringSet),
-  files:        DictionaryResolverBuilder(File),
 
   patches:      DictionaryBuilder(PatchesJSON),
   integrations: DictionaryResolverBuilder(IntegrationJSON),

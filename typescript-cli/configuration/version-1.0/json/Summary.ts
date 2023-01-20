@@ -13,10 +13,6 @@ import FirefoxJSON, {
   type FirefoxJSONSerialized,
 } from "./Firefox";
 
-import File, {
-  type FileJSONSerialized
-} from "./File";
-
 import StringSet from "./StringSet";
 
 import PatchesJSON, {
@@ -181,17 +177,12 @@ function getMotherhenSummary(
 
   // mozconfig
   if (typeof project !== "string") {
-    const mozconfig = getDictionaryKey<
-      File, FileJSONSerialized
-    >
-    (
-      config.mozconfigs, project.mozconfigKey, "mozconfigs", projectKey, true
-    );
+    const mozconfig = config.mozconfigs.get(project.mozconfigKey);
 
-    if (!maybeWarn(suspendWarnings, mozconfig)) {
+    if (mozconfig) {
       rv = {
         ...rv,
-        mozconfig: mozconfig.toJSON(),
+        mozconfig,
       };
       completionSet.delete("mozconfig");
     }

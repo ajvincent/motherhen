@@ -19,11 +19,10 @@ import TempDirWithCleanup, {
 } from "#cli/utilities/TempDirWithCleanup.js";
 
 import PathResolver from "#cli/configuration/PathResolver.js";
-import ProjectJSON from "#cli/configuration/version-1.0/json/Project";
-import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration";
-import StringSet from "#cli/configuration/version-1.0/json/StringSet";
-import PatchesJSON from "#cli/configuration/version-1.0/json/Patches";
-import FileJSON from "#cli/configuration/version-1.0/json/File";
+import ProjectJSON from "#cli/configuration/version-1.0/json/Project.js";
+import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration.js";
+import StringSet from "#cli/configuration/version-1.0/json/StringSet.js";
+import PatchesJSON from "#cli/configuration/version-1.0/json/Patches.js";
 
 // #endregion preamble
 
@@ -420,16 +419,10 @@ describe("Choose tasks wizard", () => {
         })
       );
 
-      sharedArguments.configuration.mozconfigs.set(
-        "debug", FileJSON.fromJSON(
-          pathResolver, "cleanroom/mozconfigs/debug.mozconfig"
-        )
-      );
+      sharedArguments.configuration.mozconfigs.set("debug", "debug.mozconfig");
 
       sharedArguments.configuration.mozconfigs.set(
-        "optimized", FileJSON.fromJSON(
-          pathResolver, "cleanroom/mozconfigs/optimized.mozconfig"
-        )
+        "optimized", "optimized.mozconfig"
       );
     }
 

@@ -9,7 +9,6 @@ import ConfigurationSummary, {
   type MotherhenSummary,
 } from "#cli/configuration/version-1.0/json/Summary.js";
 
-import FileJSON from "#cli/configuration/version-1.0/json/File.js";
 import PatchesJSON from "#cli/configuration/version-1.0/json/Patches.js";
 import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration.js";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project.js";
@@ -83,12 +82,8 @@ describe("ConfigurationSummary", () => {
         })
       );
   
-      config.mozconfigs.set(
-        "debug", FileJSON.fromJSON(
-          pathResolver, "cleanroom/mozconfigs/debug.mozconfig"
-        )
-      );
-  
+      config.mozconfigs.set("debug", "debug.mozconfig");
+
       config.integrations.set(
         "central",
         IntegrationJSON.fromJSON(pathResolver, {
@@ -151,7 +146,7 @@ describe("ConfigurationSummary", () => {
           commitMode: "none",
           commitMessage: null,
         },
-        mozconfig: "cleanroom/mozconfigs/debug.mozconfig",
+        mozconfig: "debug.mozconfig",
       });
     });
 
@@ -185,7 +180,7 @@ describe("ConfigurationSummary", () => {
           isFirefox: false,
 
           applicationDirectory: "sources/hatchedEgg",
-          mozconfig: "cleanroom/mozconfigs/debug.mozconfig",
+          mozconfig: "debug.mozconfig",
         });
       });
 
@@ -224,7 +219,7 @@ describe("ConfigurationSummary", () => {
           vanillaTag: "central",
 
           applicationDirectory: "sources/hatchedEgg",
-          mozconfig: "cleanroom/mozconfigs/debug.mozconfig",
+          mozconfig: "debug.mozconfig",
           patches: {
             globs: ["patches/xpath-functions.diff"],
             commitMode: "none",
@@ -248,7 +243,7 @@ describe("ConfigurationSummary", () => {
           otherSourceDirectories: [
             "sources/crackedEgg"
           ],
-          mozconfig: "cleanroom/mozconfigs/debug.mozconfig",
+          mozconfig: "debug.mozconfig",
         });
       });
     })

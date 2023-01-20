@@ -1,7 +1,7 @@
 // #region preamble
-import File from "./File.js";
 import { DictionaryBuilder, DictionaryResolverBuilder, } from "./Dictionary.js";
 import StringSet from "./StringSet.js";
+import StringMap from "./StringMap.js";
 import PatchesJSON from "./Patches.js";
 import IntegrationJSON from "./Integration.js";
 import ProjectJSON from "./Project.js";
@@ -44,7 +44,7 @@ class ConfigFileFormat {
             return false;
         if (!ClassesDictionary.patches.isJSON(value.patches))
             return false;
-        if (!ClassesDictionary.files.isJSON(value.mozconfigs))
+        if (!StringMap.isJSON(value.mozconfigs))
             return false;
         if (!ClassesDictionary.integrations.isJSON(value.integrations))
             return false;
@@ -58,7 +58,7 @@ class ConfigFileFormat {
         const formatVersion = "1.0.0";
         const sources = ClassesDictionary.stringSet.fromJSON(value.sources);
         const patches = ClassesDictionary.patches.fromJSON(value.patches);
-        const mozconfigs = ClassesDictionary.files.fromJSON(pathResolver, value.mozconfigs);
+        const mozconfigs = StringMap.fromJSON(value.mozconfigs);
         const integrations = ClassesDictionary.integrations.fromJSON(pathResolver, value.integrations);
         const projects = ClassesDictionary.projects.fromJSON(value.projects);
         const firefoxes = ClassesDictionary.firefoxes.fromJSON(pathResolver, value.firefoxes);
@@ -87,7 +87,6 @@ class ConfigFileFormat {
 }
 const ClassesDictionary = {
     stringSet: DictionaryBuilder(StringSet),
-    files: DictionaryResolverBuilder(File),
     patches: DictionaryBuilder(PatchesJSON),
     integrations: DictionaryResolverBuilder(IntegrationJSON),
     projects: DictionaryBuilder(ProjectJSON),

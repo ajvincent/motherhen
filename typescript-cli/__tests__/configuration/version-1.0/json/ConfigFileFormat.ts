@@ -7,7 +7,6 @@ import PathResolver from "#cli/configuration/PathResolver.js";
 import projectRoot from "#cli/utilities/projectRoot.js";
 
 import { forceJSONType } from "#cli/configuration/version-1.0/json/JSON_Operations.js";
-import FileJSON from "#cli/configuration/version-1.0/json/File.js";
 import PatchesJSON from "#cli/configuration/version-1.0/json/Patches.js";
 import IntegrationJSON from "#cli/configuration/version-1.0/json/Integration.js";
 import ProjectJSON from "#cli/configuration/version-1.0/json/Project.js";
@@ -110,11 +109,7 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       })
     );
 
-    config.mozconfigs.set(
-      "debug", FileJSON.fromJSON(
-        pathResolver, "cleanroom/mozconfigs/debug.mozconfig"
-      )
-    );
+    config.mozconfigs.set("debug", "debug.mozconfig");
 
     config.integrations.set(
       "central",
@@ -195,7 +190,7 @@ function buildSerializedRef() : ConfigFileFormatSerialized
     },
 
     "mozconfigs": {
-      "debug": "cleanroom/mozconfigs/debug.mozconfig"
+      "debug": "debug.mozconfig"
     },
 
     "integrations": {
