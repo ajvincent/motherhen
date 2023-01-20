@@ -1,6 +1,5 @@
 // #region preamble
 
-import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
 import FirefoxJSON from "#cli/configuration/version-1.0/json/Firefox";
 import ChooseTasksWizard from "#cli/configuration/version-1.0/wizard/ChooseTasks.js";
 
@@ -69,7 +68,6 @@ describe("Choose tasks wizard", () => {
     expect(chooseTasks.action).toBe("create");
     expect(chooseTasks.userConfirmed).toBe(true);
 
-    expect(chooseTasks.newConfigurationParts.toJSON()).toEqual(ConfigFileFormat.blank());
     expect(chooseTasks.copyExistingParts.size).toBe(0);
 
     expect(inquirer.isEmpty()).toBe(true);
@@ -100,7 +98,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("create");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.newConfigurationParts.toJSON()).toEqual(ConfigFileFormat.blank());
       expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);
@@ -368,7 +365,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("create");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.newConfigurationParts.toJSON()).toEqual(ConfigFileFormat.blank());
       expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);

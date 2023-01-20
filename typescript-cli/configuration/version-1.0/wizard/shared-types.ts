@@ -32,7 +32,5 @@ export type ChooseTasksResults = {
   action: "create" | "update" | "delete",
   userConfirmed: boolean,
 
-  // I'll have each individual wizard handle creating and copying fields.
-  newConfigurationParts: ConfigFileFormat;
   copyExistingParts: Set<string>;
 };

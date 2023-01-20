@@ -1,6 +1,5 @@
 import { ChooseTasksResults, SharedArguments } from "#cli/configuration/version-1.0/wizard/shared-types";
 import SharedArgumentsImpl from "#cli/configuration/version-1.0/wizard/SharedArguments.js";
-import ConfigFileFormat from "#cli/configuration/version-1.0/json/ConfigFileFormat.js";
 import FakeInquirer from "#cli/utilities/FakeInquirer.js";
 import { TempDirWithCleanupType } from "#cli/utilities/TempDirWithCleanup.js";
 
@@ -35,10 +34,7 @@ export default async function setupSharedAndTasks(
     newProjectKey: "(default)",
     action: "create",
     userConfirmed: false,
-    newConfigurationParts: ConfigFileFormat.fromJSON(
-      sharedArguments.pathResolver,
-      ConfigFileFormat.blank()
-    ),
+
     copyExistingParts: new Set,
   };
 

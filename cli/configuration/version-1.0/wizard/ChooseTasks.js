@@ -1,7 +1,6 @@
 import maybeLog from "./maybeLog.js";
 import SharedArgumentsImpl from "./SharedArguments.js";
 import ConfigurationSummary from "../json/Summary.js";
-import ConfigFileFormat from "../json/ConfigFileFormat.js";
 import InquirerConfirm from "./Confirm.js";
 import { assertFail } from "./assert.js";
 export default class ChooseTasksWizard {
@@ -44,7 +43,6 @@ export default class ChooseTasksWizard {
             isFirefox: false,
             action: "bailout",
             userConfirmed: false,
-            newConfigurationParts: ConfigFileFormat.fromJSON(this.#sharedArguments.pathResolver, ConfigFileFormat.blank()),
             copyExistingParts: new Set,
         };
     }
