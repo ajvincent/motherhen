@@ -15,3 +15,11 @@ DIRS += [
 # The firefox setup does not allow for any imports after app on MacOS. Not sure 
 # if that applies here, but better safe than sorry
 DIRS += ["app"]
+
+
+# PP = preprocessor
+# JS_PREFERENCE_PP_FILES += [
+JS_PREFERENCE_FILES += [
+    "app/prefs/app-preferences.js",
+    "app/prefs/devtools.js",
+]

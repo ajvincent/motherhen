@@ -29,6 +29,8 @@ export class AppLauncher {
    * @see {@link https://searchfox.org/mozilla-central/source/toolkit/components/commandlines/nsICommandLineHandler.idl}
    */
   handle(cmdLine) {
+    console.log("AppLauncher hit");
+
     /** @type {nsIPrefBranch} */
     var prefs =
       Cc["@mozilla.org/preferences-service;1"].getService(nsIPrefBranch);
