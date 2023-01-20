@@ -31,6 +31,4 @@ export type ChooseTasksResults = {
   isFirefox: boolean;
   action: "create" | "update" | "delete",
   userConfirmed: boolean,
-
-  copyExistingParts: Set<string>;
 };

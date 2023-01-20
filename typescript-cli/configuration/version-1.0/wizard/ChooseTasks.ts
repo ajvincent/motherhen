@@ -86,8 +86,6 @@ export default class ChooseTasksWizard
       isFirefox: false,
       action: "bailout",
       userConfirmed: false,
-
-      copyExistingParts: new Set,
     };
   }
 
@@ -250,7 +248,6 @@ export default class ChooseTasksWizard
     if (this.#chooseTasks.action === "bailout")
       return;
 
-    await this.#maybeSelectCarryovers();
     await this.#confirmChoices();
   }
 
@@ -291,70 +288,6 @@ export default class ChooseTasksWizard
     );
   }
 
-  /** Select the parts of the Motherhen configuration we are _not_ going to edit or replace. */
-  async #maybeSelectCarryovers() : Promise<void>
-  {
-    const { action } = this.#chooseTasks;
-    let message: string;
-    if (action === "create") {
-      if (!this.#chooseTasks.currentProjectKey)
-        return;
-
-      if (this.#chooseTasks.newProjectKey)
-        message = message = `Which settings would you like to copy from the current project to the new project?`;
-      else
-        message = `Which settings should Motherhen use defaults for?`;
-    }
-    else if (action !== "update")
-      return;
-    else {
-      message = `Which settings would you like to keep as-is?`;
-    }
-
-    this.#printProjectSummary();
-
-    const {
-      copyExisting
-    } = await this.#prompt<{
-      copyExisting: string[]
-    }>
-    ([
-      {
-        name: "copyExisting",
-        type: "checkbox",
-        message,
-        choices: [
-          {
-            name: "Sets of source directories",
-            value: "sources",
-          },
-
-          {
-            name: "Sets of patches",
-            value: "patches",
-          },
-
-          {
-            name: "Basic mozconfig files (excluding application names)",
-            value: "mozconfigs",
-          },
-
-          {
-            name: "Integration settings: vanilla repository tag, choices of source sets, patch sets, and a working directory",
-            value: "integrations",
-          },
-
-          {
-            name: "Projects: choice of integration settings, mozconfig file, and application directory / name",
-            value: "projects",
-          }
-        ]
-      }
-    ]);
-
-    this.#chooseTasks.copyExistingParts = new Set(copyExisting);
-  }
-
   // #endregion Motherhen tasks
 
   // #region shared code between Firefox and Motherhen tasks
@@ -367,7 +300,7 @@ export default class ChooseTasksWizard
   {
     const choices: DistinctChoice[] = [
       {
-        name: `Create a new project as a copy`,
+        name: `Create a new project`,
         value: "create",
       },
       {
@@ -387,6 +320,14 @@ export default class ChooseTasksWizard
         value: "bailout"
       }
     ];
+
+    const { configuration } = this.#sharedArguments;
+    const map = this.#chooseTasks.isFirefox ?
+      configuration.firefoxes :
+      configuration.projects;
+    if (map.size < 2) {
+      choices.splice(3, 1); // remove the delete option
+    }
 
     const { action } = await this.#prompt<{
       action: ChooseTasksResults["action"]

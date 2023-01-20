@@ -68,8 +68,6 @@ describe("Choose tasks wizard", () => {
     expect(chooseTasks.action).toBe("create");
     expect(chooseTasks.userConfirmed).toBe(true);
 
-    expect(chooseTasks.copyExistingParts.size).toBe(0);
-
     expect(inquirer.isEmpty()).toBe(true);
   });
 
@@ -86,7 +84,7 @@ describe("Choose tasks wizard", () => {
         ["newProjectKey", new FakeAnswers("central-optimized")],
         ["ok", new FakeAnswers(true)],
       ]);
-  
+
       chooseTasks = await ChooseTasksWizard.run(
         sharedArguments
       );
@@ -97,8 +95,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(true);
       expect(chooseTasks.action).toBe("create");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -137,8 +133,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
-
       expect(inquirer.isEmpty()).toBe(true);
     });
 
@@ -168,8 +162,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(true);
       expect(chooseTasks.action).toBe("create");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -207,8 +199,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(true);
       expect(chooseTasks.action).toBe("delete");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -251,8 +241,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
-
       expect(inquirer.isEmpty()).toBe(true);
     });
 
@@ -293,8 +281,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(true);
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -339,8 +325,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
-
       expect(inquirer.isEmpty()).toBe(true);
     });
   });
@@ -364,8 +348,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(false);
       expect(chooseTasks.action).toBe("create");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -424,7 +406,6 @@ describe("Choose tasks wizard", () => {
         ["currentProject", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("create")],
         ["newProjectKey", new FakeAnswers("hatchedEgg-debug")],
-        ["copyExisting", new FakeAnswers(["sources", "mozconfigs"])],
         ["ok", new FakeAnswers(true)],
       ]);
 
@@ -439,10 +420,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("create");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.copyExistingParts.size).toBe(2);
-      expect(chooseTasks.copyExistingParts.has("sources")).toBe(true);
-      expect(chooseTasks.copyExistingParts.has("mozconfigs")).toBe(true);
-
       expect(inquirer.isEmpty()).toBe(true);
     });
 
@@ -453,7 +430,6 @@ describe("Choose tasks wizard", () => {
         ["isFirefox", new FakeAnswers(false)],
         ["currentProject", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
-        ["copyExisting", new FakeAnswers(["sources", "mozconfigs"])],
         ["ok", new FakeAnswers(true)],
       ]);
 
@@ -467,10 +443,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(false);
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(2);
-      expect(chooseTasks.copyExistingParts.has("sources")).toBe(true);
-      expect(chooseTasks.copyExistingParts.has("mozconfigs")).toBe(true);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -496,8 +468,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.action).toBe("delete");
       expect(chooseTasks.userConfirmed).toBe(true);
 
-      expect(chooseTasks.copyExistingParts.size).toBe(0);
-
       expect(inquirer.isEmpty()).toBe(true);
     });
 
@@ -512,7 +482,6 @@ describe("Choose tasks wizard", () => {
         ["isFirefox", new FakeAnswers(false)],
         ["currentProject", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
-        ["copyExisting", new FakeAnswers(["sources", "mozconfigs"])],
         ["ok", new FakeAnswers(true)],
       ]);
 
@@ -526,10 +495,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(false);
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(2);
-      expect(chooseTasks.copyExistingParts.has("sources")).toBe(true);
-      expect(chooseTasks.copyExistingParts.has("mozconfigs")).toBe(true);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -545,7 +510,6 @@ describe("Choose tasks wizard", () => {
         ["isFirefox", new FakeAnswers(false)],
         ["currentProject", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
-        ["copyExisting", new FakeAnswers(["sources", "mozconfigs"])],
         ["ok", new FakeAnswers(true)],
       ]);
 
@@ -559,10 +523,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(false);
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(2);
-      expect(chooseTasks.copyExistingParts.has("sources")).toBe(true);
-      expect(chooseTasks.copyExistingParts.has("mozconfigs")).toBe(true);
 
       expect(inquirer.isEmpty()).toBe(true);
     });
@@ -578,7 +538,6 @@ describe("Choose tasks wizard", () => {
         ["isFirefox", new FakeAnswers(false)],
         ["currentProject", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
-        ["copyExisting", new FakeAnswers(["sources", "mozconfigs"])],
         ["ok", new FakeAnswers(true)],
       ]);
 
@@ -592,10 +551,6 @@ describe("Choose tasks wizard", () => {
       expect(chooseTasks.isFirefox).toBe(false);
       expect(chooseTasks.action).toBe("update");
       expect(chooseTasks.userConfirmed).toBe(true);
-
-      expect(chooseTasks.copyExistingParts.size).toBe(2);
-      expect(chooseTasks.copyExistingParts.has("sources")).toBe(true);
-      expect(chooseTasks.copyExistingParts.has("mozconfigs")).toBe(true);
 
       expect(inquirer.isEmpty()).toBe(true);
     });

@@ -34,8 +34,6 @@ export default async function setupSharedAndTasks(
     newProjectKey: "(default)",
     action: "create",
     userConfirmed: false,
-
-    copyExistingParts: new Set,
   };
 
   return { sharedArguments, chooseTasks };
