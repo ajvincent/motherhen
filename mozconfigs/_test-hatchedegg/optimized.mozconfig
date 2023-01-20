@@ -1,9 +1,0 @@
-#
-# See http://www.mozilla.org/build/ for build instructions.
-#
-
-. ./branding.mozconfig
-. ../_buildModes/debug.mozconfig
-
-# Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../hatchedegg-opt

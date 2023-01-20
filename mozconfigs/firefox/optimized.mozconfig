@@ -2,7 +2,7 @@
 # See http://www.mozilla.org/build/ for build instructions.
 #
 
-. ../_buildModes/buildSymbols.mozconfig
+. ../mozconfigs/optimized.mozconfig
 
 # Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../fx-sym
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../fx-opt

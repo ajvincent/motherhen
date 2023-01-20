@@ -3,7 +3,7 @@
 #
 
 . ./branding.mozconfig
-. ../_buildModes/debug.mozconfig
+. ../mozconfigs/debug.mozconfig
 
 # Options for client.mk.
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../hatchedegg-debug
