@@ -3,7 +3,7 @@
 #
 
 . ./branding.mozconfig
-. ../mozconfigs/optimized.mozconfig
+. ../base/optimized.mozconfig
 
 # Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../hatchedegg-opt
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../builds/hatchedegg-opt

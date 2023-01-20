@@ -1,9 +1,22 @@
 # Mozconfigs
 
-## Motherhen reserves the "hatchedegg" name for testing
+## Integration layout
 
-Don't use the mozconfig files starting with `_test-hatchedegg`, please.  The setup wizard will generate appropriate mozconfig files for you.
+In the integration directory, the directory structure will be:
 
-Avoid using the `_buildModes` mozconfig files directly as well.  Your generated mozconfig files will import them.
+- builds
+  - hatchedegg-opt (object build)
+  - hatchedegg-debug (object build)
+- mozilla
+- configs
+  - base
+    - optimized.mozconfig
+    - debug.mozconfig
+    - buildSymbols.mozconfig
+  - project
+    - branding.mozconfig
+    - hatchedegg-optimized.mozconfig
+    - hatchedegg-debug.mozconfig
+    - hatchedegg-buildSymbols.mozconfig
 
-`_sanity-firefox` is a set of mozconfig files for making sure your Motherhen repository can compile "clean" Mozilla Firefox code.  The underlying code is a moving target, especially on the "central", "beta" and "release" tags, so making sure we can build a regular Firefox is a good verification step.
+Motherhen will set the MOZCONFIG environment variable in its interactions with `mach`, pointing to the appropriate project configuration.

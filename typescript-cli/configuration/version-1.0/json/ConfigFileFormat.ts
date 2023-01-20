@@ -9,9 +9,6 @@ import {
 
 import PathResolver from "../../PathResolver.js";
 import StringSet from "./StringSet.js";
-import StringMap, {
-  type StringDictionary
-} from "./StringMap.js"
 
 import PatchesJSON, {
   type PatchesJSONSerialized
@@ -42,11 +39,6 @@ export type ConfigFileFormatSerialized = {
   // Patch file globs and commit instructions under ${projectRoot}/patches
   readonly patches:      StringIndexed<PatchesJSONSerialized>;
 
-  /* mozconfigs are automatically available in ${projectRoot}/mozconfigs.
-     Only one mozconfig applies at a time.
-  */
-  readonly mozconfigs:   StringDictionary;
-
   /*
   {
     vanillaTag: "central", "beta", /^esr\d+/, "release", etc.
@@ -61,7 +53,7 @@ export type ConfigFileFormatSerialized = {
   /*
   {
     integrationKey: keyof this.integrations;
-    mozconfigKey: keyof this.mozconfigs;
+    mozconfig: a string, which the create command transforms to `${projectRoot}/mozconfigs/base/${mozconfig}-mozconfig`
     appDirKey: keyof this.sources;
   }
   */
@@ -87,7 +79,6 @@ export type ConfigFileFormatParsed = {
 
   readonly sources:      DictionaryMap<StringSet,       string[]>;
   readonly patches:      DictionaryMap<PatchesJSON,     PatchesJSONSerialized>;
-  readonly mozconfigs:   StringMap;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
   readonly firefoxes:    DictionaryMap<FirefoxJSON,     FirefoxJSONSerialized>;
@@ -100,7 +91,6 @@ implements ConfigFileFormatParsed
 
   readonly sources:      DictionaryMap<StringSet,       string[]>;
   readonly patches:      DictionaryMap<PatchesJSON,     PatchesJSONSerialized>;
-  readonly mozconfigs:   StringMap;
   readonly integrations: DictionaryMap<IntegrationJSON, IntegrationJSONSerialized>;
   readonly projects:     DictionaryMap<ProjectJSON,     ProjectJSONData>;
   readonly firefoxes:    DictionaryMap<FirefoxJSON,     FirefoxJSONSerialized>;
@@ -109,7 +99,6 @@ implements ConfigFileFormatParsed
   {
     this.sources      = configuration.sources;
     this.patches      = configuration.patches;
-    this.mozconfigs   = configuration.mozconfigs;
     this.integrations = configuration.integrations;
     this.projects     = configuration.projects;
     this.firefoxes    = configuration.firefoxes;
@@ -121,7 +110,6 @@ implements ConfigFileFormatParsed
       formatVersion: this.formatVersion,
       sources: this.sources.toJSON(),
       patches: this.patches.toJSON(),
-      mozconfigs: this.mozconfigs.toJSON(),
       integrations: this.integrations.toJSON(),
       projects: this.projects.toJSON(),
       firefoxes: this.firefoxes.toJSON(),
@@ -143,9 +131,6 @@ implements ConfigFileFormatParsed
       return false;
 
     if (!ClassesDictionary.patches.isJSON(value.patches))
-      return false;
-
-    if (!StringMap.isJSON(value.mozconfigs))
       return false;
 
     if (!ClassesDictionary.integrations.isJSON(value.integrations))
@@ -172,9 +157,6 @@ implements ConfigFileFormatParsed
     const patches = ClassesDictionary.patches.fromJSON(
       value.patches
     );
-    const mozconfigs = StringMap.fromJSON(
-      value.mozconfigs
-    );
     const integrations = ClassesDictionary.integrations.fromJSON(
       pathResolver, value.integrations
     );
@@ -189,7 +171,6 @@ implements ConfigFileFormatParsed
       formatVersion,
       sources,
       patches,
-      mozconfigs,
       integrations,
       projects,
       firefoxes,
@@ -203,7 +184,6 @@ implements ConfigFileFormatParsed
       formatVersion: "1.0.0",
       sources: {},
       patches: {},
-      mozconfigs: {},
       integrations: {},
       projects: {},
       firefoxes: {},

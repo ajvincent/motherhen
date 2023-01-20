@@ -154,7 +154,7 @@ function getMotherhenSummary(
   let integration: IntegrationJSON | string = "";
   let applicationDirectory = "";
   const completionSet = new Set([
-    "project", "mozconfig", "integration", "sources", "patches"
+    "project", "integration", "sources", "patches"
   ]);
 
   // project
@@ -168,25 +168,15 @@ function getMotherhenSummary(
     if (!maybeWarn(suspendWarnings, project)) {
       completionSet.delete("project");
       applicationDirectory = project.appDir;
+      const { mozconfig } = project;
       rv = {
         ...rv,
+        mozconfig,
         applicationDirectory,
       };
     }
   }
 
-  // mozconfig
-  if (typeof project !== "string") {
-    const mozconfig = config.mozconfigs.get(project.mozconfigKey);
-
-    if (mozconfig) {
-      rv = {
-        ...rv,
-        mozconfig,
-      };
-      completionSet.delete("mozconfig");
-    }
-  }
 
   // integration
   if (typeof project !== "string") {

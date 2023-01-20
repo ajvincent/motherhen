@@ -3,7 +3,7 @@
 #
 
 . ./branding.mozconfig
-. ../mozconfigs/buildSymbols.mozconfig
+. ../base/buildSymbols.mozconfig
 
 # Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../hatchedegg-sym
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../builds/hatchedegg-sym

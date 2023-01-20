@@ -39,7 +39,6 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
 
     expect(config.sources.size).toBe(0);
     expect(config.patches.size).toBe(0);
-    expect(config.mozconfigs.size).toBe(0);
     expect(config.integrations.size).toBe(0);
     expect(config.projects.size).toBe(0);
     expect(config.firefoxes.size).toBe(0);
@@ -67,9 +66,6 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
     )).toBe(false);
     expect(ConfigFileFormat.isJSON(
       buildWithoutProperty("patches")
-    )).toBe(false);
-    expect(ConfigFileFormat.isJSON(
-      buildWithoutProperty("mozconfigs")
     )).toBe(false);
     expect(ConfigFileFormat.isJSON(
       buildWithoutProperty("integrations")
@@ -109,8 +105,6 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       })
     );
 
-    config.mozconfigs.set("debug", "debug.mozconfig");
-
     config.integrations.set(
       "central",
       IntegrationJSON.fromJSON(pathResolver, {
@@ -135,7 +129,7 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       "hatchedEgg-central-debug",
       ProjectJSON.fromJSON({
         integrationKey: "central",
-        mozconfigKey: "debug",
+        mozconfig: "debug",
         appDir: "hatchedEgg"
       })
     );
@@ -144,7 +138,7 @@ describe("ConfigFileFormat (version 1.0.0)", () => {
       "hatchedEgg-beta-debug",
       ProjectJSON.fromJSON({
         integrationKey: "beta",
-        mozconfigKey: "debug",
+        mozconfig: "debug",
         appDir: "hatchedEgg"
       })
     );
@@ -189,10 +183,6 @@ function buildSerializedRef() : ConfigFileFormatSerialized
       },
     },
 
-    "mozconfigs": {
-      "debug": "debug.mozconfig"
-    },
-
     "integrations": {
       "central": {
         "vanillaTag": "central",
@@ -212,13 +202,13 @@ function buildSerializedRef() : ConfigFileFormatSerialized
     "projects": {
       "hatchedEgg-central-debug": {
         "integrationKey": "central",
-        "mozconfigKey": "debug",
+        "mozconfig": "debug",
         "appDir": "hatchedEgg"
       },
 
       "hatchedEgg-beta-debug": {
         "integrationKey": "beta",
-        "mozconfigKey": "debug",
+        "mozconfig": "debug",
         "appDir": "hatchedEgg"
       },
     },

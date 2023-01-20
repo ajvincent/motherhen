@@ -2,7 +2,7 @@
 # See http://www.mozilla.org/build/ for build instructions.
 #
 
-. ../mozconfigs/debug.mozconfig
+. ../base/debug.mozconfig
 
 # Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../fx-debug
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../builds/fx-debug

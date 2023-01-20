@@ -4,8 +4,8 @@ export type ProjectJSONData = {
   /** the integration dictionary key */
   integrationKey: string;
 
-  /** the mozconfig dictionary key */
-  mozconfigKey: string;
+  /** the mozconfig to find in `${projectRoot}/mozconfigs/base` */
+  mozconfig: string;
 
   /** a dictionary name under the sources dictionary value to treat as the application directory */
   appDir: string;
@@ -15,24 +15,24 @@ export default class ProjectJSON implements ProjectJSONData
 {
   integrationKey: string;
 
-  mozconfigKey: string;
+  mozconfig: string;
 
   appDir: string;
 
   /**
    * Provide a Project configuration.
    * @param integrationKey - the integration dictionary key
-   * @param mozconfigKey - the mozconfig dictionary key
+   * @param mozconfig - the mozconfig to find in `${projectRoot}/mozconfigs/base`
    * @param appDir - a dictionary key under sources to treat as the application directory
    */
   constructor(
     integrationKey: string,
-    mozconfigKey: string,
+    mozconfig: string,
     appDir: string,
   )
   {
     this.integrationKey = integrationKey;
-    this.mozconfigKey = mozconfigKey;
+    this.mozconfig = mozconfig;
     this.appDir = appDir;
   }
 
@@ -40,7 +40,7 @@ export default class ProjectJSON implements ProjectJSONData
   {
     return {
       integrationKey: this.integrationKey,
-      mozconfigKey: this.mozconfigKey,
+      mozconfig: this.mozconfig,
       appDir: this.appDir,
     };
   }
@@ -55,7 +55,7 @@ export default class ProjectJSON implements ProjectJSONData
     const value = unknownValue as ProjectJSONData;
     return (
       (typeof value.integrationKey === "string") &&
-      (typeof value.mozconfigKey === "string") &&
+      (typeof value.mozconfig === "string") &&
       (typeof value.appDir === "string")
     );
   }
@@ -66,7 +66,7 @@ export default class ProjectJSON implements ProjectJSONData
   {
     return new ProjectJSON(
       value.integrationKey,
-      value.mozconfigKey,
+      value.mozconfig,
       value.appDir,
     );
   }

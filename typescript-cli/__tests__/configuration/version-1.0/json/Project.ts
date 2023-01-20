@@ -15,13 +15,13 @@ describe("ProjectJSON", () => {
     project = new ProjectJSON("foo", "debug", "chicken");
 
     expect(project.integrationKey).toBe("foo");
-    expect(project.mozconfigKey).toBe("debug");
+    expect(project.mozconfig).toBe("debug");
     expect(project.appDir).toBe("chicken");
 
     const data = project.toJSON();
     expect(data).toEqual({
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
     });
   });
@@ -29,19 +29,19 @@ describe("ProjectJSON", () => {
   it ("static .isJSON() returns correct results", () => {
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
     })).toBe(true);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
       extra: true
     })).toBe(true);
 
     expect(ProjectJSON.isJSON({
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
     })).toBe(false);
 
@@ -52,31 +52,31 @@ describe("ProjectJSON", () => {
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
       integrationKey: true,
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
-      mozconfigKey: true,
+      mozconfig: true,
       appDir: "chicken",
     })).toBe(false);
 
     expect(ProjectJSON.isJSON({
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: true,
     })).toBe(false);
 
     // array, disallowed
     expect(ProjectJSON.isJSON([{
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
     }])).toBe(false);
   });
@@ -84,12 +84,12 @@ describe("ProjectJSON", () => {
   it("static .fromJSON() creates a project", () => {
     project = ProjectJSON.fromJSON({
       integrationKey: "foo",
-      mozconfigKey: "debug",
+      mozconfig: "debug",
       appDir: "chicken",
     });
 
     expect(project.integrationKey).toBe("foo");
-    expect(project.mozconfigKey).toBe("debug");
+    expect(project.mozconfig).toBe("debug");
     expect(project.appDir).toBe("chicken");
   });
 });

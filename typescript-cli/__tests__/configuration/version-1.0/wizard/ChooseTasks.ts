@@ -379,7 +379,7 @@ describe("Choose tasks wizard", () => {
       sharedArguments.configuration.projects.set(
         "crackedEgg-debug", ProjectJSON.fromJSON({
           integrationKey: "eggs",
-          mozconfigKey: "debug",
+          mozconfig: "debug",
           appDir: "crackedEgg",
         })
       );
@@ -387,7 +387,7 @@ describe("Choose tasks wizard", () => {
       sharedArguments.configuration.projects.set(
         "hatchedEgg-opt", ProjectJSON.fromJSON({
           integrationKey: "eggs",
-          mozconfigKey: "optimized",
+          mozconfig: "optimized",
           appDir: "hatchedEgg",
         })
       );
@@ -417,12 +417,6 @@ describe("Choose tasks wizard", () => {
           commitMode: "none",
           commitMessage: null,
         })
-      );
-
-      sharedArguments.configuration.mozconfigs.set("debug", "debug.mozconfig");
-
-      sharedArguments.configuration.mozconfigs.set(
-        "optimized", "optimized.mozconfig"
       );
     }
 

@@ -58,7 +58,7 @@ function getMotherhenSummary(config, projectKey, suspendWarnings) {
     let integration = "";
     let applicationDirectory = "";
     const completionSet = new Set([
-        "project", "mozconfig", "integration", "sources", "patches"
+        "project", "integration", "sources", "patches"
     ]);
     // project
     {
@@ -66,21 +66,12 @@ function getMotherhenSummary(config, projectKey, suspendWarnings) {
         if (!maybeWarn(suspendWarnings, project)) {
             completionSet.delete("project");
             applicationDirectory = project.appDir;
-            rv = {
-                ...rv,
-                applicationDirectory,
-            };
-        }
-    }
-    // mozconfig
-    if (typeof project !== "string") {
-        const mozconfig = config.mozconfigs.get(project.mozconfigKey);
-        if (mozconfig) {
+            const { mozconfig } = project;
             rv = {
                 ...rv,
                 mozconfig,
+                applicationDirectory,
             };
-            completionSet.delete("mozconfig");
         }
     }
     // integration

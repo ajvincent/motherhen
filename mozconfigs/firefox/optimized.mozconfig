@@ -2,7 +2,7 @@
 # See http://www.mozilla.org/build/ for build instructions.
 #
 
-. ../mozconfigs/optimized.mozconfig
+. ../base/optimized.mozconfig
 
 # Options for client.mk.
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../fx-opt
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../builds/fx-opt

@@ -81,8 +81,6 @@ describe("ConfigurationSummary", () => {
           commitMessage: null,
         })
       );
-  
-      config.mozconfigs.set("debug", "debug.mozconfig");
 
       config.integrations.set(
         "central",
@@ -108,16 +106,16 @@ describe("ConfigurationSummary", () => {
         "hatchedEgg-central-debug",
         ProjectJSON.fromJSON({
           integrationKey: "central",
-          mozconfigKey: "debug",
+          mozconfig: "debug",
           appDir: "sources/hatchedEgg"
         })
       );
-  
+
       config.projects.set(
         "hatchedEgg-beta-debug",
         ProjectJSON.fromJSON({
           integrationKey: "beta",
-          mozconfigKey: "debug",
+          mozconfig: "debug",
           appDir: "sources/hatchedEgg"
         })
       );
@@ -146,7 +144,7 @@ describe("ConfigurationSummary", () => {
           commitMode: "none",
           commitMessage: null,
         },
-        mozconfig: "debug.mozconfig",
+        mozconfig: "debug",
       });
     });
 
@@ -180,30 +178,7 @@ describe("ConfigurationSummary", () => {
           isFirefox: false,
 
           applicationDirectory: "sources/hatchedEgg",
-          mozconfig: "debug.mozconfig",
-        });
-      });
-
-      it("mozconfig", () => {
-        config.mozconfigs.delete("debug");
-        getSummary();
-
-        expect(summary).toEqual({
-          isComplete: false,
-          isFirefox: false,
-  
-          targetDirectory: pathResolver.getPath(true),
-          vanillaTag: "central",
-
-          applicationDirectory: "sources/hatchedEgg",
-          otherSourceDirectories: [
-            "sources/crackedEgg"
-          ],
-          patches: {
-            globs: ["patches/xpath-functions.diff"],
-            commitMode: "none",
-            commitMessage: null,
-          },
+          mozconfig: "debug",
         });
       });
 
@@ -219,7 +194,7 @@ describe("ConfigurationSummary", () => {
           vanillaTag: "central",
 
           applicationDirectory: "sources/hatchedEgg",
-          mozconfig: "debug.mozconfig",
+          mozconfig: "debug",
           patches: {
             globs: ["patches/xpath-functions.diff"],
             commitMode: "none",
@@ -243,7 +218,7 @@ describe("ConfigurationSummary", () => {
           otherSourceDirectories: [
             "sources/crackedEgg"
           ],
-          mozconfig: "debug.mozconfig",
+          mozconfig: "debug",
         });
       });
     })

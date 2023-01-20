@@ -75,7 +75,7 @@ describe("Sources wizard: ", () => {
     // Every configuration should have at least one project.
     config.projects.set("(default)", ProjectJSON.fromJSON({
       integrationKey: "(default)",
-      mozconfigKey: "optimized",
+      mozconfig: "optimized",
       appDir: "unknownDir"
     }));
 
