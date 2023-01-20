@@ -35,6 +35,7 @@ import InquirerConfirm from "./Confirm.js";
 
 // #endregion preamble
 
+/** Update the patches map in a configuration. */
 export default class PatchesWizard
 extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
 {
@@ -148,7 +149,9 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
     patchKey: string,
   )
   {
-    const dictionaryArguments: DictionaryWizardArguments<PatchesJSON, PatchesJSONSerialized> = {
+    const dictionaryArguments: DictionaryWizardArguments<
+      PatchesJSON, PatchesJSONSerialized
+    > = {
       sharedArguments,
       chooseTasks,
       dictionary: sharedArguments.configuration.patches,
@@ -158,8 +161,8 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
 
       parentDictionaryUpdater: (newKey: string, updateAll: boolean) => {
         if (updateAll) {
-          const { configuration } = this.sharedArguments;
-          configuration.integrations.forEach(integration => {
+          const { integrations } = this.sharedArguments.configuration;
+          integrations.forEach(integration => {
             if (integration.patchKey === this.dictionaryKey) {
               integration.patchKey = newKey;
             }
@@ -190,15 +193,22 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
     super(dictionaryArguments);
   }
 
+  /** A flag for when we must create a patch set (for initially blank configurations). */
+  #requiredPatches?: symbol;
+
   protected initializeWizard(): Promise<void>
   {
-    return Promise.resolve(); // nothing to really do here
+    if (this.sharedArguments.configuration.patches.size === 0) {
+      this.#requiredPatches = this.sharedArguments.fsQueue.addRequirement("patches");
+    }
+    return Promise.resolve();
   }
 
   protected doQuickStart(): Promise<void>
   {
     // there's really nothing to ask the user in this phase.
-    this.dictionaryElement.globs.add("**/*.patch");
+    (this.dictionaryElement as PatchesJSON).globs.add("**/*.patch");
+    this.sharedArguments.fsQueue.resolveRequirement(this.#requiredPatches);
     return Promise.resolve();
   }
 
@@ -206,7 +216,7 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
   {
     maybeLog(
       this.sharedArguments,
-      `Your current glob set is: ${JSON.stringify(this.dictionaryElement.globs)}`
+      `Your current glob set is: ${JSON.stringify((this.dictionaryElement as PatchesJSON).globs)}`
     );
     this.chooseTasks.userConfirmed = false;
     do {
@@ -225,6 +235,8 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
 
     await this.#promptCommitMode();
     await this.#promptCommitMessage();
+
+    this.sharedArguments.fsQueue.resolveRequirement(this.#requiredPatches);
   }
 
   /** Show the user which files match their glob array. */
@@ -239,7 +251,7 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
     }
 
     const matchSet = (await PatchesWizard.#scanGlobs(
-      this.dictionaryElement.globs.toJSON()
+      (this.dictionaryElement as PatchesJSON).globs.toJSON()
     ))[1];
 
     const filesOutput = files.map(
@@ -254,6 +266,7 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
 
   /** Ask for a new glob array. */
   async #promptGlobs() : Promise<void> {
+    const patches = this.dictionaryElement as PatchesJSON;
     const {
       globsString
     } = await this.prompt<{
@@ -263,15 +276,15 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
       {
         name: "globsString",
         type: "input",
-        default: JSON.stringify(this.dictionaryElement.globs),
+        default: JSON.stringify(patches.globs),
         message: "What globs pattern would you like to use instead?  If you don't want any changes, just hit Enter.",
         validate: PatchesWizard.#validateGlobs,
       }
     ]);
 
-    this.dictionaryElement.globs.clear();
+    patches.globs.clear();
     const userGlobs = JSON.parse(globsString) as string[];
-    userGlobs.forEach(userGlob => this.dictionaryElement.globs.add(userGlob));
+    userGlobs.forEach(userGlob => patches.globs.add(userGlob));
   }
 
   /** Ask the user to pick a commit mode. */
@@ -283,6 +296,7 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
       PatchesWizard.#commitModesDescriptions.entries()
     ).map(([value, name]) => { return { name, value }});
 
+    const patches = this.dictionaryElement as PatchesJSON
     const { commitMode } = await this.prompt<{
       commitMode: CommitMode
     }>
@@ -291,22 +305,23 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
         name: "commitMode",
         type: "list",
         choices,
-        default: this.dictionaryElement.commitMode,
+        default: patches.commitMode,
         message: "Which commit mode should we use for patches?"
       }
     ]);
 
-    this.dictionaryElement.commitMode = commitMode;
+    patches.commitMode = commitMode;
   }
 
   /** Ask the user to pick a commit message in the "atEnd" case. */
   async #promptCommitMessage() : Promise<void> {
-    if (this.dictionaryElement.commitMode !== "atEnd") {
-      this.dictionaryElement.commitMessage = null;
+    const patches = this.dictionaryElement as PatchesJSON;
+    if (patches.commitMode !== "atEnd") {
+      patches.commitMessage = null;
       return;
     }
 
-    const defaultMessage = this.dictionaryElement.commitMessage ?? "Apply Motherhen patches.";
+    const defaultMessage = patches.commitMessage ?? "Apply Motherhen patches.";
 
     const { commitMessage } = await this.prompt<{
       commitMessage: string
@@ -320,6 +335,6 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
       }
     ]);
 
-    this.dictionaryElement.commitMessage = commitMessage;
+    patches.commitMessage = commitMessage;
   }
 }

@@ -79,7 +79,9 @@ extends DictionaryWizardBase<StringSet, string[]>
     motherhenWriteDirectory: string,
   )
   {
-    const dictionaryArguments: DictionaryWizardArguments<StringSet, string[]> = {
+    const dictionaryArguments: DictionaryWizardArguments<
+      StringSet, string[]
+    > = {
       sharedArguments,
       chooseTasks,
       dictionary: sharedArguments.configuration.sources,
@@ -240,7 +242,7 @@ extends DictionaryWizardBase<StringSet, string[]>
       }
     ]);
 
-    this.dictionaryElement.add(newSourceDir);
+    (this.dictionaryElement as StringSet).add(newSourceDir);
     available.add(newSourceDir);
 
     await this.sharedArguments.fsQueue.buildSource(

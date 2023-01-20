@@ -37,15 +37,15 @@ export default class DictionaryWizardBase {
         this.#dictionaryTasksMap = wizardArguments.dictionaryTasksMap;
         this.#elementConstructor = wizardArguments.elementConstructor;
         this.prompt = SharedArgumentsImpl.getPrompt(this.sharedArguments);
+    }
+    /** The true entry point to the wizard. */
+    async run() {
         if (this.dictionary.has(this.dictionaryKey))
             this.dictionaryElement = this.dictionary.get(this.dictionaryKey);
         else {
             this.dictionaryElement = this.#elementConstructor(null);
             this.dictionary.set(this.dictionaryKey, this.dictionaryElement);
         }
-    }
-    /** The true entry point to the wizard. */
-    async run() {
         await this.initializeWizard();
         await this.checkInvariants();
         if (this.chooseTasks.quickStart) {

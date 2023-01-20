@@ -17,6 +17,10 @@ export default class FSQueue {
         this.#requiredToCallOnce.add(requirement);
         return requirement;
     }
+    resolveRequirement(requiredSymbol) {
+        if (requiredSymbol)
+            this.#requiredToCallOnce.delete(requiredSymbol);
+    }
     /** A map of pending tasks to descriptions of the task. */
     #tasks = new Map;
     #started = false;
@@ -53,8 +57,7 @@ export default class FSQueue {
      * @param requiredSymbol - a flag to clear, signalling we've created a required sources directory.
      */
     buildSource(targetSourcesDirectory, sourceDirName, requiredSymbol) {
-        if (requiredSymbol)
-            this.#requiredToCallOnce.delete(requiredSymbol);
+        this.resolveRequirement(requiredSymbol);
         const targetDir = path.join(targetSourcesDirectory, sourceDirName);
         const templateDir = path.join(projectRoot, "cleanroom/source");
         this.#tasks.set(async () => {

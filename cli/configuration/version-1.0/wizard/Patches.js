@@ -18,6 +18,7 @@ import readDirsDeep from "#cli/utilities/readDirsDeep.js";
 import maybeLog from "./maybeLog.js";
 import InquirerConfirm from "./Confirm.js";
 // #endregion preamble
+/** Update the patches map in a configuration. */
 export default class PatchesWizard extends DictionaryWizardBase {
     // #region static code
     /**
@@ -101,8 +102,8 @@ export default class PatchesWizard extends DictionaryWizardBase {
             dictionaryTasksMap: PatchesWizard.#tasksMap,
             parentDictionaryUpdater: (newKey, updateAll) => {
                 if (updateAll) {
-                    const { configuration } = this.sharedArguments;
-                    configuration.integrations.forEach(integration => {
+                    const { integrations } = this.sharedArguments.configuration;
+                    integrations.forEach(integration => {
                         if (integration.patchKey === this.dictionaryKey) {
                             integration.patchKey = newKey;
                         }
@@ -126,12 +127,18 @@ export default class PatchesWizard extends DictionaryWizardBase {
         };
         super(dictionaryArguments);
     }
+    /** A flag for when we must create a patch set (for initially blank configurations). */
+    #requiredPatches;
     initializeWizard() {
-        return Promise.resolve(); // nothing to really do here
+        if (this.sharedArguments.configuration.patches.size === 0) {
+            this.#requiredPatches = this.sharedArguments.fsQueue.addRequirement("patches");
+        }
+        return Promise.resolve();
     }
     doQuickStart() {
         // there's really nothing to ask the user in this phase.
         this.dictionaryElement.globs.add("**/*.patch");
+        this.sharedArguments.fsQueue.resolveRequirement(this.#requiredPatches);
         return Promise.resolve();
     }
     async updateDictionary() {
@@ -147,6 +154,7 @@ export default class PatchesWizard extends DictionaryWizardBase {
         } while (!this.chooseTasks.userConfirmed);
         await this.#promptCommitMode();
         await this.#promptCommitMessage();
+        this.sharedArguments.fsQueue.resolveRequirement(this.#requiredPatches);
     }
     /** Show the user which files match their glob array. */
     async #printPatchSelections() {
@@ -161,40 +169,43 @@ export default class PatchesWizard extends DictionaryWizardBase {
     }
     /** Ask for a new glob array. */
     async #promptGlobs() {
+        const patches = this.dictionaryElement;
         const { globsString } = await this.prompt([
             {
                 name: "globsString",
                 type: "input",
-                default: JSON.stringify(this.dictionaryElement.globs),
+                default: JSON.stringify(patches.globs),
                 message: "What globs pattern would you like to use instead?  If you don't want any changes, just hit Enter.",
                 validate: PatchesWizard.#validateGlobs,
             }
         ]);
-        this.dictionaryElement.globs.clear();
+        patches.globs.clear();
         const userGlobs = JSON.parse(globsString);
-        userGlobs.forEach(userGlob => this.dictionaryElement.globs.add(userGlob));
+        userGlobs.forEach(userGlob => patches.globs.add(userGlob));
     }
     /** Ask the user to pick a commit mode. */
     async #promptCommitMode() {
         const choices = Array.from(PatchesWizard.#commitModesDescriptions.entries()).map(([value, name]) => { return { name, value }; });
+        const patches = this.dictionaryElement;
         const { commitMode } = await this.prompt([
             {
                 name: "commitMode",
                 type: "list",
                 choices,
-                default: this.dictionaryElement.commitMode,
+                default: patches.commitMode,
                 message: "Which commit mode should we use for patches?"
             }
         ]);
-        this.dictionaryElement.commitMode = commitMode;
+        patches.commitMode = commitMode;
     }
     /** Ask the user to pick a commit message in the "atEnd" case. */
     async #promptCommitMessage() {
-        if (this.dictionaryElement.commitMode !== "atEnd") {
-            this.dictionaryElement.commitMessage = null;
+        const patches = this.dictionaryElement;
+        if (patches.commitMode !== "atEnd") {
+            patches.commitMessage = null;
             return;
         }
-        const defaultMessage = this.dictionaryElement.commitMessage ?? "Apply Motherhen patches.";
+        const defaultMessage = patches.commitMessage ?? "Apply Motherhen patches.";
         const { commitMessage } = await this.prompt([
             {
                 name: "commitMessage",
@@ -203,7 +214,7 @@ export default class PatchesWizard extends DictionaryWizardBase {
                 message: "What commit message should I use?"
             }
         ]);
-        this.dictionaryElement.commitMessage = commitMessage;
+        patches.commitMessage = commitMessage;
     }
 }
 //# sourceMappingURL=Patches.js.map

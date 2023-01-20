@@ -45,7 +45,7 @@ async function pickFileToCreate(inquirer, params) {
             }
         }
     ]);
-    const fullPath = path.normalize(path.join(existingDirectory, pathToFile));
+    const fullPath = path.normalize(path.resolve(existingDirectory, pathToFile));
     let directory = path.dirname(fullPath);
     while (!await fileExists(directory, true)) {
         uncreatedDirs.unshift(directory);
@@ -53,7 +53,7 @@ async function pickFileToCreate(inquirer, params) {
     }
     uncreatedDirs.sort();
     return {
-        pathToFile: path.normalize(path.resolve(existingDirectory, pathToFile)),
+        pathToFile: fullPath,
         uncreatedDirs
     };
 }

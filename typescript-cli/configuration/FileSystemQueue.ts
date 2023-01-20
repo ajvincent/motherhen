@@ -42,6 +42,12 @@ export default class FSQueue
     return requirement;
   }
 
+  resolveRequirement(requiredSymbol: symbol | undefined) : void
+  {
+    if (requiredSymbol)
+      this.#requiredToCallOnce.delete(requiredSymbol);
+  }
+
   /** A map of pending tasks to descriptions of the task. */
   readonly #tasks = new Map<PromiseQueueTask, string>;
   #started = false;
@@ -104,8 +110,7 @@ export default class FSQueue
     requiredSymbol: symbol | undefined
   ) : Promise<void>
   {
-    if (requiredSymbol)
-      this.#requiredToCallOnce.delete(requiredSymbol);
+    this.resolveRequirement(requiredSymbol);
 
     const targetDir = path.join(
       targetSourcesDirectory, sourceDirName

@@ -107,7 +107,7 @@ abstract class DictionaryWizardBase<
   protected dictionaryKey: string;
 
   /** The actual dictionary element the user may want to update.  This belongs to the subclass. */
-  protected dictionaryElement: Parsed;
+  protected dictionaryElement?: Parsed;
 
   /** A shortcut for the prompting service. */
   protected readonly prompt: Prompt;
@@ -133,18 +133,18 @@ abstract class DictionaryWizardBase<
     this.#elementConstructor = wizardArguments.elementConstructor;
 
     this.prompt = SharedArgumentsImpl.getPrompt(this.sharedArguments);
+  }
 
+  /** The true entry point to the wizard. */
+  protected async run() : Promise<void>
+  {
     if (this.dictionary.has(this.dictionaryKey))
       this.dictionaryElement = this.dictionary.get(this.dictionaryKey) as Parsed;
     else {
       this.dictionaryElement = this.#elementConstructor(null);
       this.dictionary.set(this.dictionaryKey, this.dictionaryElement);
     }
-  }
 
-  /** The true entry point to the wizard. */
-  protected async run() : Promise<void>
-  {
     await this.initializeWizard();
 
     await this.checkInvariants();
@@ -297,7 +297,7 @@ ${JSON.stringify(this.dictionary, null, 2)}
 
     let newParsed: Parsed;
     if (asClone) {
-      newParsed = this.#elementConstructor(this.dictionaryElement);
+      newParsed = this.#elementConstructor(this.dictionaryElement as Parsed);
     }
     else {
       newParsed = this.#elementConstructor(null);
@@ -311,7 +311,7 @@ ${JSON.stringify(this.dictionary, null, 2)}
   {
     const newKey = await this.#pickNewKey();
 
-    this.dictionary.set(newKey, this.dictionaryElement);
+    this.dictionary.set(newKey, this.dictionaryElement as Parsed);
 
     if (this.#parentDictionaryUpdater) {
       this.#parentDictionaryUpdater(newKey, true);
