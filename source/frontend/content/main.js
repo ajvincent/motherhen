@@ -1,9 +1,6 @@
-const { XPCOMUtils } = ChromeUtils.importESModule(
-  "resource://gre/modules/XPCOMUtils.sys.mjs"
-);
-
-XPCOMUtils.defineLazyModuleGetters(this, {
-  DevtoolsServer: "resource://app/modules/DevtoolsServer.jsm",
+let lazy = {};
+ChromeUtils.defineESModuleGetters(lazy, {
+  DevtoolsServer: "resource://app/modules/DevtoolsServer.sys.mjs",
 });
 
 function showMore() {
@@ -11,7 +8,7 @@ function showMore() {
 }
 
 function startDevtools() {
-  const devtools = DevtoolsServer.get();
+  const devtools = lazy.DevtoolsServer.get();
   devtools.start();
 
   const instructions = document.getElementById("devtools-instructions");
