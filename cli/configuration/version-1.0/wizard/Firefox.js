@@ -58,10 +58,6 @@ export default class FirefoxWizard {
                 assertFail("currentProjectKey doesn't reflect an existing project");
             this.#firefoxData = parsed;
         }
-        // we shouldn't get here
-        else {
-            assertFail(`unexpected action: ${this.#chooseTasks.action}`);
-        }
     }
     /** Delegate the user's action to the right method. */
     async #run() {
@@ -72,7 +68,6 @@ export default class FirefoxWizard {
         if (this.#chooseTasks.action === "delete") {
             return this.#delete();
         }
-        assertFail(`unexpected action: ${this.#chooseTasks.action}`);
     }
     /** Update the target Firefox project. */
     async #update() {

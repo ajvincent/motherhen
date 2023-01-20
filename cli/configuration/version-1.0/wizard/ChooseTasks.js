@@ -3,6 +3,7 @@ import SharedArgumentsImpl from "./SharedArguments.js";
 import ConfigurationSummary from "../json/Summary.js";
 import ConfigFileFormat from "../json/ConfigFileFormat.js";
 import InquirerConfirm from "./Confirm.js";
+import { assertFail } from "./assert.js";
 export default class ChooseTasksWizard {
     /**
      * Ask the user for what tasks they want to do, to which existing and new projects.
@@ -12,7 +13,15 @@ export default class ChooseTasksWizard {
     static async run(sharedArguments) {
         const wizard = new ChooseTasksWizard(sharedArguments);
         await wizard.#run();
-        return wizard.#chooseTasks;
+        if ((wizard.#chooseTasks.action === "bailout") ||
+            (wizard.#chooseTasks.action === "read")) {
+            assertFail(wizard.#chooseTasks.action + "should not be a resulting action");
+        }
+        const { action } = wizard.#chooseTasks;
+        return {
+            ...wizard.#chooseTasks,
+            action
+        };
     }
     /** Shared arguments between all wizards here. */
     #sharedArguments;

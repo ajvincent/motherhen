@@ -76,7 +76,7 @@ extends DictionaryWizardBase<IntegrationJSON, IntegrationJSONSerialized>
   /**
    * @param sharedArguments - Shared arguments between all wizards here.
    * @param chooseTasks - the user's choices from the ChooseTasks wizard.
-   * @param integrationKey - the user's initial patch key, from the appropriate integration settings.
+   * @param integrationKey - the user's initial integration key, from the appropriate integration settings.
    */
   private constructor(
     sharedArguments: SharedArguments,

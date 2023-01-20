@@ -14,11 +14,16 @@ import ConfigurationSummary from "../json/Summary.js";
 import ConfigFileFormat from "../json/ConfigFileFormat.js";
 
 import InquirerConfirm from "./Confirm.js";
+import { assertFail } from "./assert.js";
 
 // #endregion preamble
 
 type Prompt = SharedArguments["inquirer"]["prompt"];
 type Summary = Partial<ReturnType<typeof ConfigurationSummary>>;
+
+type ChooseTasksResultsInternal = Omit<ChooseTasksResults, "action"> & {
+  action: "create" | "read" | "update" | "delete" | "bailout",
+};
 
 export default class ChooseTasksWizard
 {
@@ -33,7 +38,18 @@ export default class ChooseTasksWizard
   {
     const wizard = new ChooseTasksWizard(sharedArguments);
     await wizard.#run();
-    return wizard.#chooseTasks;
+
+    if ((wizard.#chooseTasks.action === "bailout") ||
+        (wizard.#chooseTasks.action === "read"))
+    {
+      assertFail(wizard.#chooseTasks.action + "should not be a resulting action");
+    }
+
+    const { action } = wizard.#chooseTasks;
+    return {
+      ...wizard.#chooseTasks,
+      action
+    }
   }
 
   /** Shared arguments between all wizards here. */
@@ -43,7 +59,7 @@ export default class ChooseTasksWizard
   readonly #prompt: Prompt;
 
   /** The in-progress tasks we're working on. */
-  readonly #chooseTasks: ChooseTasksResults;
+  readonly #chooseTasks: ChooseTasksResultsInternal;
 
   // #region entry and exit code
 

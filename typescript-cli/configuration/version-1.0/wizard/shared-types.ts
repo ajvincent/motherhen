@@ -29,7 +29,7 @@ export type ChooseTasksResults = {
   currentProjectKey: string | null,
   newProjectKey: string | null,
   isFirefox: boolean;
-  action: "create" | "read" | "update" | "delete" | "bailout",
+  action: "create" | "update" | "delete",
   userConfirmed: boolean,
 
   // I'll have each individual wizard handle creating and copying fields.
