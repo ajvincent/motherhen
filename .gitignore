@@ -17,3 +17,6 @@ cli/**/*.d.ts
 
 # the default location to configure a project
 .motherhen-config.json
+
+# Disabled per user request.
+!.motherhen-config.json

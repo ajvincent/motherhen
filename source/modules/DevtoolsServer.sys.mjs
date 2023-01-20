@@ -2,13 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
-const { useDistinctSystemPrincipalLoader } = ChromeUtils.import(
-  "resource://devtools/shared/loader/Loader.jsm"
-);
-
-const EXPORTED_SYMBOLS = ["DevtoolsServer"];
+import { useDistinctSystemPrincipalLoader } from "resource://devtools/shared/loader/DistinctSystemPrincipalLoader.sys.mjs";
 
 let singletonInstance;
 
@@ -41,7 +35,7 @@ let singletonInstance;
  * devtools.start(); // Will warn and do nothing
  * ```
  */
-class DevtoolsServer {
+export class DevtoolsServer {
   /**
    * @param {number} [port] The port you want to open the devtools on.
    * @param {boolean} [silent] If true, instructions will not be logged to the console.
