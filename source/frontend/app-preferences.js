@@ -1,4 +1,4 @@
-pref("toolkit.defaultChromeURI", "chrome://hatchedegg/content/main.xhtml");
+pref("app.content", "chrome://hatchedegg/content/main.xhtml");
 
 /* debugging prefs, disable these before you deploy your application! */
 pref("browser.dom.window.dump.enabled", true);
