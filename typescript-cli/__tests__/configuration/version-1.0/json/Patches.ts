@@ -16,6 +16,7 @@ describe("Patches", () => {
 
   let serialized: PatchesJSONSerialized;
   beforeEach(() => {
+    // this returns a ["**/*.patch"] globs set.
     serialized = PatchesJSON.blank();
     serialized.globs.push("*.patch");
   });
@@ -42,7 +43,8 @@ describe("Patches", () => {
       expect(parsed.commitMode).toBe(mode);
       expect(parsed.commitMessage).toBe(message);
 
-      expect(parsed.globs.size).toBe(1);
+      expect(parsed.globs.size).toBe(2);
+      expect(parsed.globs.has("**/*.patch")).toBe(true);
       expect(parsed.globs.has("*.patch")).toBe(true);
     });
   });

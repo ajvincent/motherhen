@@ -40,7 +40,8 @@ export default class PatchesJSON {
     }
     static blank() {
         return {
-            globs: [],
+            // This is a deliberate non-empty array, because users could accidentally miss patches in the wizard.
+            globs: ["**/*.patch"],
             commitMode: "none",
             commitMessage: null,
         };
