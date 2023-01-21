@@ -265,5 +265,5 @@ describe("FakeInquirer", () => {
 
     expect(validationCount).toBe(2);
     expect(thirdResult.name).toBe("Jane Doe");
-  }, 1000 * 60 * 60);
+  });
 });
