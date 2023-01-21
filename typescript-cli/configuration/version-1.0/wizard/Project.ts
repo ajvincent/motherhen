@@ -153,7 +153,9 @@ key, the mozconfig file, and the application directory to build from.
       project.appDir = sources[0];
     }
 
+    this.#printSummary();
     this.sharedArguments.fsQueue.resolveRequirement(this.#requiredProject);
+    this.chooseTasks.userConfirmed = true;
   }
 
   protected async updateDictionary(): Promise<void>
@@ -161,11 +163,16 @@ key, the mozconfig file, and the application directory to build from.
     this.chooseTasks.userConfirmed = false;
     const project = this.dictionaryElement as ProjectJSON;
     do {
+
       await this.#pickIntegrationKey(project);
       await this.#pickMozconfig(project);
       await this.#pickAppDir(project);
+
       this.dictionary.set(this.dictionaryKey, project);
-      await this.#printSummaryAndConfirm();
+
+      this.#printSummary();
+      await this.#finalConfirmation();
+
     } while (!this.chooseTasks.userConfirmed);
 
     this.sharedArguments.fsQueue.resolveRequirement(this.#requiredProject);
@@ -284,8 +291,9 @@ I am using the application directory "${choices[0]}" as the only option availabl
     project.appDir = appDir;
   }
 
-  /** Last step!  Make sure everything looks good for the overall configuration. */
-  async #printSummaryAndConfirm() : Promise<void> {
+  /** Show the user what we have right now. */
+  #printSummary() : void
+  {
     const summary = ConfigurationSummary(
       this.sharedArguments.configuration,
       this.chooseTasks.newProjectKey as string,
@@ -300,9 +308,13 @@ I am using the application directory "${choices[0]}" as the only option availabl
       `
 Here is your overall project summary:
 ${JSON.stringify(summary, null, 2)}
-      `.trim()
+      `.trim() + "\n"
     );
+  }
 
+  /** Last step!  Make sure everything looks good for the overall configuration. */
+  async #finalConfirmation() : Promise<void>
+  {
     this.chooseTasks.userConfirmed = await InquirerConfirm(
       this.sharedArguments,
       "Is this project summary correct?"

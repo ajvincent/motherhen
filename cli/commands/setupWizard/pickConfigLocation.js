@@ -6,6 +6,9 @@ import pickFileToCreate from "./pickFileToCreate.js";
  */
 export default async function pickConfigLocation() {
     console.log("\n" + `
+Welcome to Motherhen's setup wizard!  I'm going to walk you through several
+steps to update your Motherhen configuration.
+
 First, I need to find an existing Motherhen configuration file, or a location
 to create one.  Don't worry about the files and directories not existing: this
 will only edit or create the Motherhen configuration file, and only at the end

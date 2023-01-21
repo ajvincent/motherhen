@@ -149,17 +149,31 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
     patchKey: string,
   )
   {
+
+    let introduction = `
+Motherhen provides some patches we believe are necessary to build an
+application, at least for now.  You may also have some patches you maintain in
+the patches directory.
+    `.trim() + "\n\n";
+
+    if (chooseTasks.quickStart) {
+      introduction += `
+I'm applying a globs pattern of ["**/*.patch"] for you.
+      `.trim();
+    }
+    else {
+      introduction += `
+In this part, you'll write the globs pattern for the patches to apply, and how
+Motherhen should commit your patches (if at all).
+      `.trim();
+    }
+
     const dictionaryArguments: DictionaryWizardArguments<
       PatchesJSON, PatchesJSONSerialized
     > = {
       sharedArguments,
       chooseTasks,
-      introduction: `
-Motherhen provides some patches we believe are necessary to build an
-application, at least for now.  You may also have some patches you maintain in
-the patches directory.  In this part, you'll write the globs pattern for the
-patches to apply, and how Motherhen should commit your patches (if at all).
-      `,
+      introduction,
       dictionary: sharedArguments.configuration.patches,
       dictionaryName: "patches",
       initialDictionaryKey: patchKey,
