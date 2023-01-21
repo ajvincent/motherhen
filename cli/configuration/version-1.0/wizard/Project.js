@@ -59,6 +59,10 @@ export default class ProjectWizard extends DictionaryWizardBase {
         const dictionaryArguments = {
             sharedArguments,
             chooseTasks,
+            introduction: `
+We're almost done!  Now it's time to configure the project: the integration
+key, the mozconfig file, and the application directory to build from.
+      `,
             dictionary: sharedArguments.configuration.projects,
             dictionaryName: "projects",
             initialDictionaryKey: chooseTasks.newProjectKey,
@@ -76,10 +80,6 @@ export default class ProjectWizard extends DictionaryWizardBase {
             },
         };
         super(dictionaryArguments);
-        maybeLog(this.sharedArguments, `
-We're almost done!  Now it's time to configure the project: the integration
-key, the mozconfig file, and the application directory to build.
-      `.trim() + "\n");
     }
     /** A flag for when we must create a project definition (for initially blank configurations). */
     #requiredProject;

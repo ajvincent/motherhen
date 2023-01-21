@@ -154,6 +154,12 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
     > = {
       sharedArguments,
       chooseTasks,
+      introduction: `
+Motherhen provides some patches we believe are necessary to build an
+application, at least for now.  You may also have some patches you maintain in
+the patches directory.  In this part, you'll write the globs pattern for the
+patches to apply, and how Motherhen should commit your patches (if at all).
+      `,
       dictionary: sharedArguments.configuration.patches,
       dictionaryName: "patches",
       initialDictionaryKey: patchKey,

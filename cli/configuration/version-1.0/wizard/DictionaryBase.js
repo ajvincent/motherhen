@@ -37,6 +37,7 @@ export default class DictionaryWizardBase {
         this.#dictionaryTasksMap = wizardArguments.dictionaryTasksMap;
         this.#elementConstructor = wizardArguments.elementConstructor;
         this.prompt = SharedArgumentsImpl.getPrompt(this.sharedArguments);
+        maybeLog(this.sharedArguments, `\n${wizardArguments.introduction.trim()}\n`);
     }
     /** The true entry point to the wizard. */
     async run() {

@@ -89,6 +89,16 @@ extends DictionaryWizardBase<IntegrationJSON, IntegrationJSONSerialized>
     > = {
       sharedArguments,
       chooseTasks,
+      introduction: `
+So far, so good!  Now we're getting into the most important part, writing the
+integration repository's configuration.  This includes:
+
+- the "vanilla" bookmark, or tag, to base your code on from mozilla-unified,
+- the source directories set to install in the integration repository,
+- the patches to apply, and
+- the actual location (relative to your configuration file) where Motherhen
+  should generate the integration repository.
+      `,
       dictionary: sharedArguments.configuration.integrations,
       dictionaryName: "integrations",
       initialDictionaryKey: integrationKey,

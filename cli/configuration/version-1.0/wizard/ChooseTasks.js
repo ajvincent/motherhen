@@ -44,6 +44,10 @@ export default class ChooseTasksWizard {
             action: "bailout",
             userConfirmed: false,
         };
+        const introduction = `
+Before we dive into the details, I need you to tell me what project you want to work with.
+    `.trim();
+        maybeLog(this.#sharedArguments, `\n${introduction}\n`);
     }
     /** Query the user for all task decisions, looping until the user confirms. */
     async #run() {
@@ -67,7 +71,7 @@ export default class ChooseTasksWizard {
             {
                 type: "confirm",
                 name: "doQuickStart",
-                message: "Would you like Motherhen to set up an initial project for you in the integrations directory with some default settings?",
+                message: "Would you like me to set up an initial project for you with some default settings?",
                 default: true,
             }
         ]);

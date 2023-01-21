@@ -41,25 +41,28 @@ export type DictionaryWizardArguments<
   Serialized,
 > = {
   /** Shared arguments between all wizards here. */
-  sharedArguments: SharedArguments;
+  readonly sharedArguments: SharedArguments;
 
   /** the user's choices from the ChooseTasks wizard. */
-  chooseTasks: ChooseTasksResults;
+  readonly chooseTasks: ChooseTasksResults;
+
+  /** A human-readable introduction for each wizard. */
+  readonly introduction: string;
 
   /** The dictionary under the configuration file. */
-  dictionary: DictionaryMap<Parsed, Serialized>;
+  readonly dictionary: DictionaryMap<Parsed, Serialized>;
 
   /** The name of the dictionary, for inquirer and logging use. */
   dictionaryName: string;
 
   /** The initial dictionary key, for looking up the dictionary element. */
-  initialDictionaryKey: string;
+  readonly initialDictionaryKey: string;
 
   /** A map of task choices and their English-language descriptions. */
-  dictionaryTasksMap: ReadonlyMap<DictionaryTasks, string>;
+  readonly dictionaryTasksMap: ReadonlyMap<DictionaryTasks, string>;
 
   /** A method for updating the parent dictionary. */
-  parentDictionaryUpdater?: ParentDictionaryUpdater;
+  readonly parentDictionaryUpdater?: ParentDictionaryUpdater;
 
   /** When we need to replace an element of the dictionary, use this. */
   elementConstructor(
@@ -133,6 +136,11 @@ abstract class DictionaryWizardBase<
     this.#elementConstructor = wizardArguments.elementConstructor;
 
     this.prompt = SharedArgumentsImpl.getPrompt(this.sharedArguments);
+
+    maybeLog(
+      this.sharedArguments,
+      `\n${wizardArguments.introduction.trim()}\n`
+    );
   }
 
   /** The true entry point to the wizard. */

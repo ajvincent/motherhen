@@ -84,6 +84,20 @@ extends DictionaryWizardBase<StringSet, string[]>
     > = {
       sharedArguments,
       chooseTasks,
+      introduction: `
+Motherhen allows you to have multiple source directories in your integration
+repository.  In your Motherhen repository, these directories will live in the
+"sources" directory.  In the integration repository, these directories will be
+symbolic links under the hg-ignored "motherhen" directory.
+
+Each source directory is potentially a new Mozilla-based application.  It's up
+to you if you want to use them as such, or just refer to them in a DIRS variable
+from a "moz.build" file.  You will have to select one source directory as your
+application directory later (in the project configuration), so Motherhen knows
+what application to build.
+
+In this part, I'll help you manage your source directories.
+      `,
       dictionary: sharedArguments.configuration.sources,
       dictionaryName: "sources",
       initialDictionaryKey: sourceKey,
