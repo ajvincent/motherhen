@@ -37,6 +37,8 @@ class FakeInquirer implements PartialInquirer
 {
   #questionsQueue: QuestionAndAnswer[] = [];
 
+  #passCount = 0;
+
   append(questions: QuestionAndAnswer[]) : void
   {
     this.#questionsQueue.push(...questions);
@@ -90,15 +92,15 @@ class FakeInquirer implements PartialInquirer
       return;
 
     if (this.#questionsQueue.length === 0) {
-      throw new Error(`No fake answers for question "${name}"!`);
+      throw new Error(`No fake answers for question "${name}" at index ${this.#passCount}!`);
     }
 
     const [expectedNextName, fakeAnswers] = this.#questionsQueue[0];
     if (name !== expectedNextName)
-      throw new Error(`expected question "${expectedNextName}", received "${name}"`);
+      throw new Error(`expected question "${expectedNextName}", received "${name}" at index ${this.#passCount}`);
 
     if (!fakeAnswers)
-      throw new Error(`No fake answers for question "${name}"!`);
+      throw new Error(`No fake answers for question "${name}" at index ${this.#passCount}!`);
     this.#questionsQueue.shift();
 
     if (question.validate) {
@@ -119,10 +121,11 @@ class FakeInquirer implements PartialInquirer
       fakeAnswers.validatePass.length
     )
     {
-      throw new Error(`Validation test answers are present for a question with no validate method: "${name}"`);
+      throw new Error(`Validation test answers are present for a question with no validate method: "${name}" at index ${this.#passCount}`);
     }
 
     answers[name] = fakeAnswers.answer as T[string];
+    this.#passCount++;
   }
 
   async #validateAnswer<
@@ -147,9 +150,9 @@ class FakeInquirer implements PartialInquirer
     throw new Error(
       `validation should have ${
         shouldPass ? "passed" : "failed"
-      } on question ${name} with ${
+      } on question "${name}" with ${
         isFinal ? "final " : ""
-      }answer "${String(answer)}"`
+      }answer "${String(answer)}" at index ${this.#passCount}`
     );
   }
 }

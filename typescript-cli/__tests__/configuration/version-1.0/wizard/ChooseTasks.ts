@@ -117,7 +117,7 @@ describe("Choose tasks wizard", () => {
       );
 
       inquirer.append([
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -146,7 +146,7 @@ describe("Choose tasks wizard", () => {
       );
 
       inquirer.append([
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("create")],
         ["newProjectKey", new FakeAnswers("fx-debug-central")],
         ["ok", new FakeAnswers(true)],
@@ -184,7 +184,7 @@ describe("Choose tasks wizard", () => {
       );
 
       inquirer.append([
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("delete")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -221,11 +221,11 @@ describe("Choose tasks wizard", () => {
       );
 
       inquirer.append([
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("bailout")],
 
         ["isFirefox", new FakeAnswers(true)],
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -262,11 +262,11 @@ describe("Choose tasks wizard", () => {
       );
 
       inquirer.append([
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("read")],
 
         ["isFirefox", new FakeAnswers(true)],
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -303,13 +303,13 @@ describe("Choose tasks wizard", () => {
       );
 
       inquirer.append([
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("delete")],
 
         ["ok", new FakeAnswers(false)],
 
         ["isFirefox", new FakeAnswers(true)],
-        ["currentProject", new FakeAnswers("fx-opt-central")],
+        ["currentProjectKey", new FakeAnswers("fx-opt-central")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -403,7 +403,7 @@ describe("Choose tasks wizard", () => {
 
       inquirer.append([
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("create")],
         ["newProjectKey", new FakeAnswers("hatchedEgg-debug")],
         ["ok", new FakeAnswers(true)],
@@ -428,7 +428,7 @@ describe("Choose tasks wizard", () => {
 
       inquirer.append([
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -452,7 +452,7 @@ describe("Choose tasks wizard", () => {
 
       inquirer.append([
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("delete")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -476,11 +476,11 @@ describe("Choose tasks wizard", () => {
 
       inquirer.append([
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("bailout")],
 
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -504,11 +504,11 @@ describe("Choose tasks wizard", () => {
 
       inquirer.append([
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("read")],
 
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);
@@ -531,12 +531,12 @@ describe("Choose tasks wizard", () => {
       buildFakeConfiguration();
       inquirer.append([
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("delete")],
         ["ok", new FakeAnswers(false)],
 
         ["isFirefox", new FakeAnswers(false)],
-        ["currentProject", new FakeAnswers("hatchedEgg-opt")],
+        ["currentProjectKey", new FakeAnswers("hatchedEgg-opt")],
         ["action", new FakeAnswers("update")],
         ["ok", new FakeAnswers(true)],
       ]);

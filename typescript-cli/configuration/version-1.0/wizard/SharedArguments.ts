@@ -25,11 +25,11 @@ export default class SharedArgumentsImpl implements SharedArguments
     relativePathToConfig?: string
   ) : Promise<SharedArguments>
   {
-    const config = new SharedArgumentsImpl(inquirer, pathToDirectory, suppressConsole);
+    const shared = new SharedArgumentsImpl(inquirer, pathToDirectory, suppressConsole);
     if (relativePathToConfig) {
-      await config.#loadConfiguration(relativePathToConfig);
+      await shared.#loadConfiguration(relativePathToConfig);
     }
-    return config;
+    return shared;
   }
 
   static getPrompt(sharedArguments: SharedArguments) : PartialInquirer["prompt"]

@@ -11,11 +11,11 @@ export default class SharedArgumentsImpl {
      * @param relativePathToConfig - if provided, the path to the configuration file.
      */
     static async build(inquirer, pathToDirectory, suppressConsole, relativePathToConfig) {
-        const config = new SharedArgumentsImpl(inquirer, pathToDirectory, suppressConsole);
+        const shared = new SharedArgumentsImpl(inquirer, pathToDirectory, suppressConsole);
         if (relativePathToConfig) {
-            await config.#loadConfiguration(relativePathToConfig);
+            await shared.#loadConfiguration(relativePathToConfig);
         }
-        return config;
+        return shared;
     }
     static getPrompt(sharedArguments) {
         return sharedArguments.inquirer.prompt.bind(sharedArguments.inquirer);

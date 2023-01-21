@@ -11,6 +11,7 @@ export class FakeAnswers {
 }
 export default class FakeInquirer {
     #questionsQueue = [];
+    #passCount = 0;
     append(questions) {
         this.#questionsQueue.push(...questions);
     }
@@ -34,13 +35,13 @@ export default class FakeInquirer {
         if ((name in answers) && !question.askAnswered)
             return;
         if (this.#questionsQueue.length === 0) {
-            throw new Error(`No fake answers for question "${name}"!`);
+            throw new Error(`No fake answers for question "${name}" at index ${this.#passCount}!`);
         }
         const [expectedNextName, fakeAnswers] = this.#questionsQueue[0];
         if (name !== expectedNextName)
-            throw new Error(`expected question "${expectedNextName}", received "${name}"`);
+            throw new Error(`expected question "${expectedNextName}", received "${name}" at index ${this.#passCount}`);
         if (!fakeAnswers)
-            throw new Error(`No fake answers for question "${name}"!`);
+            throw new Error(`No fake answers for question "${name}" at index ${this.#passCount}!`);
         this.#questionsQueue.shift();
         if (question.validate) {
             await PromiseAllSequence(fakeAnswers.validateFail, async (answer) => {
@@ -53,9 +54,10 @@ export default class FakeInquirer {
         }
         else if (fakeAnswers.validateFail.length ||
             fakeAnswers.validatePass.length) {
-            throw new Error(`Validation test answers are present for a question with no validate method: "${name}"`);
+            throw new Error(`Validation test answers are present for a question with no validate method: "${name}" at index ${this.#passCount}`);
         }
         answers[name] = fakeAnswers.answer;
+        this.#passCount++;
     }
     async #validateAnswer(question, name, answer, answers, shouldPass, isFinal) {
         if (!question.validate)
@@ -63,7 +65,7 @@ export default class FakeInquirer {
         const result = await question.validate(answer, answers);
         if ((result === true) === shouldPass)
             return;
-        throw new Error(`validation should have ${shouldPass ? "passed" : "failed"} on question ${name} with ${isFinal ? "final " : ""}answer "${String(answer)}"`);
+        throw new Error(`validation should have ${shouldPass ? "passed" : "failed"} on question "${name}" with ${isFinal ? "final " : ""}answer "${String(answer)}" at index ${this.#passCount}`);
     }
 }
 //# sourceMappingURL=FakeInquirer.js.map

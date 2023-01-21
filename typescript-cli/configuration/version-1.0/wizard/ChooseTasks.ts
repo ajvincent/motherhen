@@ -220,13 +220,13 @@ Before we dive into the details, I need you to tell me what project you want to 
     );
 
     const {
-      currentProject
+      currentProjectKey
     } = await this.#prompt<{
-      currentProject: string
+      currentProjectKey: string
     }>
     ([
       {
-        name: "currentProject",
+        name: "currentProjectKey",
         type: "list",
         message: "Which project would you like to work with?",
         choices: names.concat(
@@ -236,7 +236,7 @@ Before we dive into the details, I need you to tell me what project you want to 
     ]);
 
     this.#chooseTasks.currentProjectKey = (
-      currentProject.startsWith("(") ? null : currentProject
+      currentProjectKey.startsWith("(") ? null : currentProjectKey
     );
   }
 
@@ -265,34 +265,33 @@ Before we dive into the details, I need you to tell me what project you want to 
    */
   async #selectCurrentMotherhenProject() : Promise<void>
   {
-    const names = Array.from(
+    const choices = Array.from(
       this.#sharedArguments.configuration.projects.keys()
     );
-    if (!names.length) {
+    if (!choices.length) {
       this.#chooseTasks.currentProjectKey = null;
       this.#chooseTasks.action = "create";
       return;
     }
 
-    names.sort();
+    choices.sort();
+
     const {
-      currentProject
+      currentProjectKey
     } = await this.#prompt<{
-      currentProject: string
+      currentProjectKey: string
     }>
     ([
       {
-        name: "currentProject",
+        name: "currentProjectKey",
         type: "list",
         message: "Choose a current project",
-        choices: names.concat(
-          "(start a new one)"
-        ),
+        choices,
       }
     ]);
 
     this.#chooseTasks.currentProjectKey = (
-      currentProject.startsWith("(") ? null : currentProject
+      currentProjectKey.startsWith("(") ? null : currentProjectKey
     );
   }
 

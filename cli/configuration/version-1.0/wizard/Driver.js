@@ -84,7 +84,7 @@ export default class Driver {
         await ProjectWizard.run(shared, tasks);
         if (!tasks.userConfirmed)
             assertFail("how did we get to the end without user confirmation?");
-        const destination = path.join(writeDir, this.#arguments.motherhenConfigLeaf ?? ".motherhen-config.json");
+        const destination = path.join(this.#arguments.workingDirectory, this.#arguments.motherhenConfigLeaf ?? ".motherhen-config.json");
         await shared.fsQueue.writeConfiguration(shared.configuration, destination);
     }
     /** Final text for the user. */

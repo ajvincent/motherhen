@@ -182,7 +182,7 @@ abstract class DictionaryWizardBase<
   /** Make sure we haven't violated any invariants between tasks. */
   protected checkInvariants() : Promise<void> {
     if (this.dictionary.get(this.dictionaryKey) !== this.dictionaryElement) {
-      assertFail(`writing to the wrong ${this.#dictionaryName} set!`);
+      assertFail(`writing to the wrong ${this.#dictionaryName} set!  Expected: ${this.dictionaryKey}`);
     }
     return Promise.resolve();
   }
@@ -316,6 +316,7 @@ ${JSON.stringify(this.dictionary, null, 2)}
     }
 
     this.dictionary.set(newKey, newParsed);
+    this.dictionaryElement = newParsed;
   }
 
   /** Rename an existing dictionary key, preserving the dictionary entries. */

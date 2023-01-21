@@ -134,15 +134,15 @@ Before we dive into the details, I need you to tell me what project you want to 
         names.sort();
         const summaries = Object.fromEntries(names.map(key => [key, this.#getSummary(key, true)]));
         maybeLog(this.#sharedArguments, `Here is a summary of your current Firefox projects:\n${JSON.stringify(summaries, null, 2)}`);
-        const { currentProject } = await this.#prompt([
+        const { currentProjectKey } = await this.#prompt([
             {
-                name: "currentProject",
+                name: "currentProjectKey",
                 type: "list",
                 message: "Which project would you like to work with?",
                 choices: names.concat("(start a new one)"),
             }
         ]);
-        this.#chooseTasks.currentProjectKey = (currentProject.startsWith("(") ? null : currentProject);
+        this.#chooseTasks.currentProjectKey = (currentProjectKey.startsWith("(") ? null : currentProjectKey);
     }
     // #endregion Firefox tasks
     // #region Motherhen tasks
@@ -162,22 +162,22 @@ Before we dive into the details, I need you to tell me what project you want to 
      * If there are none, default to creating one later.
      */
     async #selectCurrentMotherhenProject() {
-        const names = Array.from(this.#sharedArguments.configuration.projects.keys());
-        if (!names.length) {
+        const choices = Array.from(this.#sharedArguments.configuration.projects.keys());
+        if (!choices.length) {
             this.#chooseTasks.currentProjectKey = null;
             this.#chooseTasks.action = "create";
             return;
         }
-        names.sort();
-        const { currentProject } = await this.#prompt([
+        choices.sort();
+        const { currentProjectKey } = await this.#prompt([
             {
-                name: "currentProject",
+                name: "currentProjectKey",
                 type: "list",
                 message: "Choose a current project",
-                choices: names.concat("(start a new one)"),
+                choices,
             }
         ]);
-        this.#chooseTasks.currentProjectKey = (currentProject.startsWith("(") ? null : currentProject);
+        this.#chooseTasks.currentProjectKey = (currentProjectKey.startsWith("(") ? null : currentProjectKey);
     }
     // #endregion Motherhen tasks
     // #region shared code between Firefox and Motherhen tasks

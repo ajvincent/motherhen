@@ -75,7 +75,7 @@ describe("FakeInquirer", () => {
           default: false
         }
       ]);
-    }).rejects.toThrow(`No fake answers for question "confirmWrite"!`);
+    }).rejects.toThrow(`No fake answers for question "confirmWrite" at index 0!`);
   });
 
   it("runs validation checks", async () => {
@@ -134,7 +134,7 @@ describe("FakeInquirer", () => {
         }
       }
     ])).rejects.toThrow(
-      `validation should have passed on question name with final answer "Leeroy Jenkins"`
+      `validation should have passed on question "name" with final answer "Leeroy Jenkins" at index 0`
     );
   });
 
@@ -157,7 +157,7 @@ describe("FakeInquirer", () => {
         }
       }
     ])).rejects.toThrow(
-      `validation should have passed on question name with answer "Leeroy Jenkins"`
+      `validation should have passed on question "name" with answer "Leeroy Jenkins" at index 0`
     );
   });
 
@@ -180,7 +180,7 @@ describe("FakeInquirer", () => {
         }
       }
     ])).rejects.toThrow(
-      `validation should have failed on question name with answer "Jane Doe"`
+      `validation should have failed on question "name" with answer "Jane Doe" at index 0`
     );
   });
 

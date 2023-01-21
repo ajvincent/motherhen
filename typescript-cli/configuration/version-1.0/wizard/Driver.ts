@@ -185,7 +185,7 @@ export default class Driver {
       assertFail("how did we get to the end without user confirmation?");
 
     const destination = path.join(
-      writeDir,
+      this.#arguments.workingDirectory,
       this.#arguments.motherhenConfigLeaf ?? ".motherhen-config.json"
     );
     await shared.fsQueue.writeConfiguration(

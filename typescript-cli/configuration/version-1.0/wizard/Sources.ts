@@ -199,6 +199,7 @@ In this part, I'll help you manage your source directories.
           name: "chooseSources",
           type: "checkbox",
           choices,
+          message: "What source directories do you want?"
         }
       ]);
 
