@@ -1,11 +1,33 @@
 {
-  "default": {
-    "vanilla": {
-      "tag": "central"
-    },
-    "integration": {
-      "path": "./checkouts/mozilla-hatchedEgg",
-      "mozconfig": "./newapp-sym.mozconfig"
+  "formatVersion": "1.0.0",
+  "sources": {
+    "(default)": [
+      "hatchedegg"
+    ]
+  },
+  "patches": {
+    "(default)": {
+      "globs": [
+        "**/*.patch"
+      ],
+      "commitMode": "none",
+      "commitMessage": null
     }
-  }
+  },
+  "integrations": {
+    "(default)": {
+      "vanillaTag": "release",
+      "sourceKey": "(default)",
+      "patchKey": "(default)",
+      "targetDirectory": "integrations/release"
+    }
+  },
+  "projects": {
+    "default": {
+      "integrationKey": "(default)",
+      "mozconfig": "optimized",
+      "appDir": "hatchedegg"
+    }
+  },
+  "firefoxes": {}
 }
