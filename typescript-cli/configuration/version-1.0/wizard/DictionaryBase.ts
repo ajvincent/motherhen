@@ -160,10 +160,14 @@ abstract class DictionaryWizardBase<
 
       if (skipConfirm)
         continue;
-      this.chooseTasks.userConfirmed = await InquirerConfirm(
-        this.sharedArguments,
-        `Are you finished with changes to ${this.#dictionaryName} keys?`
-      );
+
+      // projects has a final summary confirmation message of its own.
+      if (this.#dictionaryName !== "projects") {
+        this.chooseTasks.userConfirmed = await InquirerConfirm(
+          this.sharedArguments,
+          `Are you finished with changes to ${this.#dictionaryName} keys?`
+        );
+      }
     } while (!this.chooseTasks.userConfirmed);
   }
 
@@ -396,6 +400,8 @@ ${JSON.stringify(this.dictionary, null, 2)}
         message: `What new ${this.#dictionaryName} key do you want?`,
         validate(newKey: string) : true | string
         {
+          if (newKey.trim() === "")
+            return "White-space and empty keys are not allowed";
           if (existingKeys.includes(newKey))
             return "This key name already exists";
           return true;

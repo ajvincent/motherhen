@@ -325,7 +325,9 @@ export default class ChooseTasksWizard
     const map = this.#chooseTasks.isFirefox ?
       configuration.firefoxes :
       configuration.projects;
-    if (map.size < 2) {
+
+    /* Because of Motherhen's complex configuration, I disallow deleting a project here. */
+    if ((map.size < 2) || !this.#chooseTasks.isFirefox) {
       choices.splice(3, 1); // remove the delete option
     }
 
