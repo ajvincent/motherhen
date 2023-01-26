@@ -1,7 +1,7 @@
 import path from "path";
 
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
-import fileExists from "./tools/fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 import projectRoot from "#cli/utilities/projectRoot.js";
 
 import type { CommandSettings } from "./tools/CommandSettings-type";

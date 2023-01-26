@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import projectRoot from "#cli/utilities/projectRoot.js";
-import fileExists from "./tools/fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 import { assertFail } from "#cli/configuration/version-1.0/wizard/assert.js";
 /**
  * @param config - the configuration to use.

@@ -17,7 +17,7 @@ import { Command } from 'commander';
 
 import getConfiguration from "./commands/tools/Configuration.js";
 
-import getModuleDefault from "./commands/tools/getModuleDefault.js";
+import getModuleDefault from "./utilities/getModuleDefault.js";
 import projectRoot from "./utilities/projectRoot.js";
 
 import type { CommandSettings } from "./commands/tools/CommandSettings-type.js";

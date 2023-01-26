@@ -6,7 +6,7 @@ import ini from "ini";
 import wget from "wget-improved";
 import FastGlob from "fast-glob";
 import { execAsync } from "./childProcessAsync.js";
-import fileExists from "./fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 import projectRoot from "#cli/utilities/projectRoot.js";
 import { PromiseAllParallel, PromiseAllSequence } from "#cli/utilities/PromiseTypes.js";
 const hg = await which("hg");

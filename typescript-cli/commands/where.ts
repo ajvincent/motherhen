@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs/promises";
 
 import projectRoot from "#cli/utilities/projectRoot.js";
-import fileExists from "./tools/fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 import type {
   FirefoxSummary,
   MotherhenSummary,

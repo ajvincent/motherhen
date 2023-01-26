@@ -8,7 +8,7 @@ import wget from "wget-improved";
 import FastGlob from "fast-glob";
 
 import { execAsync } from "./childProcessAsync.js";
-import fileExists from "./fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 
 import projectRoot from "#cli/utilities/projectRoot.js";
 

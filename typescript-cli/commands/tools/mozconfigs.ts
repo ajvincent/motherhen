@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 
-import fileExists from "./fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 import projectRoot from "#cli/utilities/projectRoot.js";
 
 import type {

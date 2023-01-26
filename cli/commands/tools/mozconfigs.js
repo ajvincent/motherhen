@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs/promises";
-import fileExists from "./fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
 import projectRoot from "#cli/utilities/projectRoot.js";
 export default async function installMozconfig(targetDirectory, config) {
     const mozconfigsDir = path.join(targetDirectory, "mozconfigs", config.isFirefox ? "firefox" : config.applicationDirectory);
