@@ -77,7 +77,7 @@ export default class Driver {
         const initialIntegrationKey = (initialProject?.integrationKey ?? "(default)");
         const initialIntegration = config.integrations.get(initialIntegrationKey);
         const initialSourceKey = initialIntegration?.sourceKey ?? "(default)", initialPatchKey = initialIntegration?.patchKey ?? "(default)";
-        const writeDir = this.#arguments.motherhenWriteDirectory;
+        const writeDir = shared.pathResolver.getPath(true);
         await SourcesWizard.run(shared, tasks, initialSourceKey, writeDir);
         await PatchesWizard.run(shared, tasks, initialPatchKey);
         await IntegrationWizard.run(shared, tasks, initialIntegrationKey);

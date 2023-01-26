@@ -174,7 +174,7 @@ export default class Driver {
     const initialSourceKey = initialIntegration?.sourceKey ?? "(default)",
           initialPatchKey = initialIntegration?.patchKey ?? "(default)";
 
-    const writeDir = this.#arguments.motherhenWriteDirectory;
+    const writeDir = shared.pathResolver.getPath(true);
 
     await SourcesWizard.run(shared, tasks, initialSourceKey, writeDir);
     await PatchesWizard.run(shared, tasks, initialPatchKey);

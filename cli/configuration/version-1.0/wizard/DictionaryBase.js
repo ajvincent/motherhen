@@ -118,6 +118,8 @@ export default class DictionaryWizardBase {
             case "readAll":
                 this.#readDictionary();
                 return true;
+            case "accept":
+                return false;
             case "clone":
             case "add":
                 await this.#cloneOrAddKey(taskName === "clone");

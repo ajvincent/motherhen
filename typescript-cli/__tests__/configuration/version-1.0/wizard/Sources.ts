@@ -220,6 +220,25 @@ describe("Sources wizard: ", () => {
     await spotCheckMakefile();
   });
 
+  it("Accept from a quick-start configuration works", async () => {
+    await writeInitialConfiguration(["crackedEgg"]);
+    ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));
+
+    inquirer.append([
+      ["userSelection", new FakeAnswers("accept")],
+      ["ok", new FakeAnswers(true)],
+    ]);
+
+    const config = await runWizardAndWrite();
+    expect(config.sources.size).toBe(1);
+    checkSourceMap(config, "(default)", ["crackedEgg"]);
+
+    /* Since we didn't actually create a new source file, this would fail.
+    await spotCheckMakefile();
+    */
+  });
+
+
   it("Clone from a quick-start configuration works", async () => {
     await writeInitialConfiguration(["crackedEgg"]);
     ({ sharedArguments, chooseTasks } = await setupSharedAndTasks(inquirer, temp, true));

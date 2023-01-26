@@ -61,6 +61,7 @@ extends DictionaryWizardBase<PatchesJSON, PatchesJSONSerialized>
   /** The dictionary tasks map. */
   static #tasksMap: ReadonlyMap<DictionaryTasks, string> = new Map([
     ["readAll", `Print all patch configurations to the console`],
+    ["accept", `Accept the patch configuration as-is`],
     ["update", `Update the patch configuration list, including possibly adding new patch configurations`],
     ["add", `Add a new patch key and use it`],
     ["clone", `Clone into a new patch key and update the patch configurations of the clone`],

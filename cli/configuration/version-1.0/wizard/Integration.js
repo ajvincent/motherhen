@@ -24,6 +24,7 @@ export default class IntegrationWizard extends DictionaryWizardBase {
     /** The dictionary tasks map. */
     static #tasksMap = new Map([
         ["readAll", `Print all integrations to the console`],
+        ["accept", `Accept the integration as-is`],
         ["update", `Update the integration configuration`],
         ["add", `Add a new integration and use it`],
         ["clone", `Clone into a new integration and update the clone`],

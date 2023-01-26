@@ -198,7 +198,7 @@ export default class FSQueue
 
     if (this.#requiredToCallOnce.size > 0) {
       if (this.#enableWarnings) {
-        console.warn(Array.from(this.#requiredToCallOnce.values()).join(", "));
+        console.warn(Array.from(this.#requiredToCallOnce.values()).map(String).join(", "));
       }
       throw new Error("You have required tasks to execute!");
     }

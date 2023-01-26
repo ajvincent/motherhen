@@ -24,6 +24,7 @@ export default class SourcesWizard extends DictionaryWizardBase {
     /** The dictionary tasks map. */
     static #tasksMap = new Map([
         ["readAll", `Print all sources to the console`],
+        ["accept", `Accept the source dictionary as-is`],
         ["update", `Update the source directory list, including possibly adding new source directories`],
         ["add", `Add a new source key and use it`],
         ["clone", `Clone into a new source key and update the source directories of the clone`],

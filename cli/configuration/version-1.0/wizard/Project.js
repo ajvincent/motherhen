@@ -29,6 +29,7 @@ export default class ProjectWizard extends DictionaryWizardBase {
     /** The dictionary tasks map. */
     static #tasksMap = new Map([
         ["readAll", `Print all projects to the console`],
+        ["accept", `Accept the project configuration as-is`],
         ["update", `Update the project configuration`],
     ]);
     /** The available mozconfigs. */

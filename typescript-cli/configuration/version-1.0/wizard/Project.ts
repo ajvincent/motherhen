@@ -53,6 +53,7 @@ extends DictionaryWizardBase<ProjectJSON, ProjectJSONData>
   /** The dictionary tasks map. */
   static #tasksMap: ReadonlyMap<DictionaryTasks, string> = new Map([
     ["readAll", `Print all projects to the console`],
+    ["accept", `Accept the project configuration as-is`],
     ["update", `Update the project configuration`],
   ]);
 

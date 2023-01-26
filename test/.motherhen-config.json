@@ -20,11 +20,22 @@
       "sourceKey": "(default)",
       "patchKey": "(default)",
       "targetDirectory": "integrations/release"
+    },
+    "central": {
+      "vanillaTag": "central",
+      "sourceKey": "(default)",
+      "patchKey": "(default)",
+      "targetDirectory": "integrations/central"
     }
   },
   "projects": {
     "default": {
       "integrationKey": "(default)",
+      "mozconfig": "optimized",
+      "appDir": "hatchedegg"
+    },
+    "central": {
+      "integrationKey": "central",
       "mozconfig": "optimized",
       "appDir": "hatchedegg"
     }

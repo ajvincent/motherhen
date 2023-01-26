@@ -18,6 +18,7 @@ type Prompt = SharedArguments["inquirer"]["prompt"];
 /** Our basic list of tasks. */
 export type DictionaryTasks = (
   "readAll" |
+  "accept" |
   "update" |
   "add" |
   "clone" |
@@ -255,6 +256,9 @@ abstract class DictionaryWizardBase<
       case "readAll":
         this.#readDictionary();
         return true;
+
+      case "accept":
+        return false;
 
       case "clone":
       case "add":
