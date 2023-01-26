@@ -77,8 +77,6 @@ I use [semantic versioning](https://semver.org) to define the configuration form
 
 - [JSON_Operations.ts](version-1.0/json/JSON_Operations.ts) provides some basic types and a couple utility functions.
 - [StringSet.ts](version-1.0/json/StringSet.ts) defines JSON support for `Set<string>` as `string[]`.
-- [StringMap.ts](version-1.0/json/StringMap.ts) defines JSON support for `Map<string, string>` as `{ [key: string] : string }`.  Unused at present.
-- [ElementSet.ts](version-1.0/json/ElementSet.ts) is a wrapper for a `Set<T>` where `T` is an object type.  Unused at present.
 - [Dictionary.ts](version-1.0/json/Dictionary.ts) is a wrapper for a `Map<string, T>` where `T` is an object type, possibly with passing in `PathResolver` instances to `T`'s `fromJSON()` methods.
 - [Patches.ts](version-1.0/json/Patches.ts) defines patch files and how to apply them.
 - [Integration.ts](version-1.0/json/Integration.ts) defines the `Integration` data structure.
