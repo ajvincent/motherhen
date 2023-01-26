@@ -29,5 +29,16 @@
       "appDir": "hatchedegg"
     }
   },
-  "firefoxes": {}
+  "firefoxes": {
+    "optimized": {
+      "vanillaTag": "release",
+      "buildType": "optimized",
+      "targetDirectory": "integrations/firefox-clean"
+    },
+    "central-optimized": {
+      "vanillaTag": "central",
+      "buildType": "optimized",
+      "targetDirectory": "integrations/firefox-central"
+    }
+  }
 }

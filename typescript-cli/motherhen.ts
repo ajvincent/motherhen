@@ -15,17 +15,20 @@ import path from "path";
 
 import { Command } from 'commander';
 
-import getConfiguration, {
-  type Configuration,
-} from "./commands/tools/Configuration.js";
+import getConfiguration from "./commands/tools/Configuration.js";
 
 import getModuleDefault from "./commands/tools/getModuleDefault.js";
 import projectRoot from "./utilities/projectRoot.js";
 
 import type { CommandSettings } from "./commands/tools/CommandSettings-type.js";
+import {
+  assertCompleteSummary,
+  type FirefoxSummary,
+  type MotherhenSummary
+} from "./configuration/version-1.0/json/Summary.js";
 
 type CommandModule = (
-  config: Configuration,
+  config: Required<FirefoxSummary | MotherhenSummary>,
   settings: CommandSettings,
   userArgs: string[],
 ) => Promise<void>;
@@ -50,7 +53,10 @@ program
   .option(
     "--project [project]",
     "The project to use from the Motherhen configuration.",
-    "default"
+  )
+  .option(
+    "--firefox [project]",
+    "The Firefox project to use from the Motherhen configuration.",
   )
   .version(version);
 
@@ -58,6 +64,11 @@ program
   .command("setup")
   .description("Create or edit an existing Motherhen configuration.")
   .action(async () => {
+    const options = program.opts();
+
+    if (options.project && options.firefox)
+      throw new Error("The --project and --firefox options are mutually exclusive: use one or the other.");
+
     const setupMotherhen = await getModuleDefault<
       () => Promise<void>
     >(path.join(projectRoot, "cli/commands/setup.js"));
@@ -91,14 +102,31 @@ function bindCommand(
       void(garbage);
 
       const options = program.opts();
+
+      if (options.project && options.firefox)
+        throw new Error("The --project and --firefox options are mutually exclusive: use one or the other.");
+      else if (!options.project && !options.firefox)
+        options.project = "default";
+
       const settings: CommandSettings = {
         relativePathToConfig: options.config as string,
-        project: options.project as string
+        project: (options.project ?? options.firefox) as string,
+        isFirefox: Boolean(options.firefox),
       };
 
       const configuration = await getConfiguration(settings);
+
+      assertCompleteSummary(configuration);
+      if (!configuration.isComplete)
+        throw new Error(`The configuration at ${settings.relativePathToConfig} for project ${settings.project} is not complete!  Please rerun the setup wizard to complete it.`)
+
       const command = await getCommandDefault<CommandModule>(commandName);
-      await command(configuration, settings, parsedCommand.args);
+
+      await command(
+        configuration as Required<FirefoxSummary | MotherhenSummary>,
+        settings,
+        parsedCommand.args
+      );
     });
 }
 

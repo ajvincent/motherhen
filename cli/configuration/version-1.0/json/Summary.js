@@ -1,3 +1,5 @@
+import FirefoxJSON from "./Firefox.js";
+import { assertFail } from "../wizard/assert.js";
 // #endregion interfaces
 // #region implementations
 /**
@@ -15,6 +17,29 @@ export default function ConfigurationSummary(config, projectKey, isFirefox, susp
         return getFirefoxSummary(config, projectKey, suspendWarnings);
     }
     return getMotherhenSummary(config, projectKey, suspendWarnings);
+}
+export function assertCompleteSummary(config) {
+    if (!config.isComplete)
+        return false;
+    if (!config.targetDirectory)
+        assertFail("configuration missing a target directory");
+    if (!config.vanillaTag)
+        assertFail("configuration missing a vanilla tag");
+    if (config.isFirefox) {
+        const { buildType } = config;
+        if (!FirefoxJSON.buildTypes.has(buildType))
+            assertFail("configuration has an invalid build type");
+        return true;
+    }
+    if (!config.applicationDirectory)
+        assertFail("configuration missing an application directory");
+    if (!config.otherSourceDirectories)
+        assertFail("configuration missing other source directories array");
+    if (!config.patches)
+        assertFail("configuration missing patches setting");
+    if (!config.mozconfig)
+        assertFail("configuration missing mozconfig setting");
+    return true;
 }
 /**
  * Summarize a single Firefox configuration.

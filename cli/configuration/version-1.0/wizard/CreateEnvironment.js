@@ -1,3 +1,4 @@
+import path from "path";
 import pickConfigLocation from "./pickConfigLocation.js";
 import fileExists from "#cli/utilities/fileExists.js";
 import SharedArgumentsImpl from "./SharedArguments.js";
@@ -10,7 +11,7 @@ import SharedArgumentsImpl from "./SharedArguments.js";
 export default async function CreateEnvironment(inquirer, pathToStartDirectory, suppressConsole = false) {
     const configLocation = await pickConfigLocation(inquirer, pathToStartDirectory, suppressConsole);
     const configExists = await fileExists(configLocation.pathToFile, false);
-    const shared = await SharedArgumentsImpl.build(inquirer, pathToStartDirectory, suppressConsole, configExists ? configLocation.pathToFile : "");
+    const shared = await SharedArgumentsImpl.build(inquirer, path.dirname(configLocation.pathToFile), suppressConsole, configExists ? configLocation.pathToFile : "");
     return shared;
 }
 //# sourceMappingURL=CreateEnvironment.js.map

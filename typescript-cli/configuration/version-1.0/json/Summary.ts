@@ -7,21 +7,23 @@ import { JSONBase } from "./JSON_Operations.js";
 
 import ProjectJSON, {
   type ProjectJSONData,
-} from "./Project";
+} from "./Project.js";
 
 import FirefoxJSON, {
   type FirefoxJSONSerialized,
-} from "./Firefox";
+} from "./Firefox.js";
 
-import StringSet from "./StringSet";
+import StringSet from "./StringSet.js";
 
 import PatchesJSON, {
   type PatchesJSONSerialized
-} from "./Patches";
+} from "./Patches.js";
 
 import IntegrationJSON, {
   type IntegrationJSONSerialized
-} from "./Integration";
+} from "./Integration.js";
+
+import { assertFail } from "../wizard/assert.js";
 
 // #endregion preamble
 
@@ -90,6 +92,37 @@ export default function ConfigurationSummary(
     return getFirefoxSummary(config, projectKey, suspendWarnings);
   }
   return getMotherhenSummary(config, projectKey, suspendWarnings);
+}
+
+export function assertCompleteSummary(
+  config: FirefoxSummary | MotherhenSummary
+) : config is Required<FirefoxSummary | MotherhenSummary>
+{
+  if (!config.isComplete)
+    return false;
+  if (!config.targetDirectory)
+    assertFail("configuration missing a target directory");
+  if (!config.vanillaTag)
+    assertFail("configuration missing a vanilla tag");
+
+  if (config.isFirefox) {
+    const { buildType } = config as FirefoxJSONSerialized;
+    if (!FirefoxJSON.buildTypes.has(buildType))
+    assertFail("configuration has an invalid build type");
+
+    return true;
+  }
+
+  if (!config.applicationDirectory)
+    assertFail("configuration missing an application directory");
+  if (!config.otherSourceDirectories)
+    assertFail("configuration missing other source directories array");
+  if (!config.patches)
+    assertFail("configuration missing patches setting");
+  if (!config.mozconfig)
+    assertFail("configuration missing mozconfig setting");
+
+  return true;
 }
 
 /**
@@ -176,7 +209,6 @@ function getMotherhenSummary(
       };
     }
   }
-
 
   // integration
   if (typeof project !== "string") {

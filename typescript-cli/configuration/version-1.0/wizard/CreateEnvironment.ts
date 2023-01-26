@@ -1,3 +1,5 @@
+import path from "path";
+
 import type {
   PartialInquirer,
   SharedArguments
@@ -24,9 +26,10 @@ export default async function CreateEnvironment(
   );
 
   const configExists = await fileExists(configLocation.pathToFile, false);
+
   const shared = await SharedArgumentsImpl.build(
     inquirer,
-    pathToStartDirectory,
+    path.dirname(configLocation.pathToFile),
     suppressConsole,
     configExists ? configLocation.pathToFile : ""
   );

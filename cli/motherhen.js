@@ -14,6 +14,7 @@ import { Command } from 'commander';
 import getConfiguration from "./commands/tools/Configuration.js";
 import getModuleDefault from "./commands/tools/getModuleDefault.js";
 import projectRoot from "./utilities/projectRoot.js";
+import { assertCompleteSummary } from "./configuration/version-1.0/json/Summary.js";
 // #endregion preamble
 //#region main program
 const { version } = JSON.parse(await fs.readFile(path.join(projectRoot, "package.json"), { encoding: "utf-8" }));
@@ -22,12 +23,16 @@ program
     .name("Motherhen")
     .description("New applications using Mozilla source code and infrastructure")
     .option("--config [config]", "The relative path to the Motherhen configuration.", ".motherhen-config.json")
-    .option("--project [project]", "The project to use from the Motherhen configuration.", "default")
+    .option("--project [project]", "The project to use from the Motherhen configuration.")
+    .option("--firefox [project]", "The Firefox project to use from the Motherhen configuration.")
     .version(version);
 program
     .command("setup")
     .description("Create or edit an existing Motherhen configuration.")
     .action(async () => {
+    const options = program.opts();
+    if (options.project && options.firefox)
+        throw new Error("The --project and --firefox options are mutually exclusive: use one or the other.");
     const setupMotherhen = await getModuleDefault(path.join(projectRoot, "cli/commands/setup.js"));
     await setupMotherhen();
 });
@@ -50,11 +55,19 @@ function bindCommand(commandName, description) {
         .action(async (garbage, parsedCommand) => {
         void (garbage);
         const options = program.opts();
+        if (options.project && options.firefox)
+            throw new Error("The --project and --firefox options are mutually exclusive: use one or the other.");
+        else if (!options.project && !options.firefox)
+            options.project = "default";
         const settings = {
             relativePathToConfig: options.config,
-            project: options.project
+            project: (options.project ?? options.firefox),
+            isFirefox: Boolean(options.firefox),
         };
         const configuration = await getConfiguration(settings);
+        assertCompleteSummary(configuration);
+        if (!configuration.isComplete)
+            throw new Error(`The configuration at ${settings.relativePathToConfig} for project ${settings.project} is not complete!  Please rerun the setup wizard to complete it.`);
         const command = await getCommandDefault(commandName);
         await command(configuration, settings, parsedCommand.args);
     });

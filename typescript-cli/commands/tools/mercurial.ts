@@ -5,13 +5,20 @@ import path from "path";
 import which from "which";
 import ini from "ini";
 import wget from "wget-improved";
+import FastGlob from "fast-glob";
 
-import { type Configuration } from "./Configuration.js";
 import { execAsync } from "./childProcessAsync.js";
 import fileExists from "./fileExists.js";
 
 import projectRoot from "#cli/utilities/projectRoot.js";
-import getProjectDirFromMozconfig from "./projectDirFromMozconfig.js";
+
+import type {
+  FirefoxSummary,
+  MotherhenSummary
+} from "#cli/configuration/version-1.0/json/Summary.js";
+import { PromiseAllParallel, PromiseAllSequence } from "#cli/utilities/PromiseTypes.js";
+import { CommandSettings } from "./CommandSettings-type.js";
+
 const hg = await which("hg");
 // #endregion preamble
 
@@ -24,16 +31,14 @@ const hg = await which("hg");
  * @see {@link https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial_bundles.html}
  */
 export async function cloneVanillaHg(
-  vanilla: Configuration["vanilla"]
+  pathToVanilla: string,
+  vanillaTag: string,
 ) : Promise<void>
 {
-  const basePath = path.dirname(vanilla.path);
-  await fs.mkdir(basePath, { recursive: true });
-
-  const localPathToBundle = await cloneUnified(vanilla, basePath);
+  const localPathToBundle = await cloneUnified(pathToVanilla);
 
   try {
-    await pullAndUpdate(vanilla);
+    await pullAndUpdate(pathToVanilla, vanillaTag);
   }
   finally {
     console.log("Cleanup");
@@ -46,24 +51,33 @@ export async function cloneVanillaHg(
  * @param config - the project configuration.
  */
 export async function createIntegrationHg(
-  config: Configuration
+  vanillaRepo: string,
+  integrationRepo: string,
+  config: Required<FirefoxSummary | MotherhenSummary>,
+  settings: CommandSettings
 ) : Promise<void>
 {
-  await pullAndUpdate(config.vanilla);
-  const projectDir = await getProjectDirFromMozconfig(config.integration);
-
-  await fs.mkdir(config.integration.path, { recursive: true });
+  await pullAndUpdate(vanillaRepo, config.vanillaTag);
   console.log("Checking for the non-existence of the project directory in the vanilla repository");
   {
-    const mustNotExist = path.join( config.vanilla.path, projectDir );
+    const mustNotExist = path.join(vanillaRepo, "motherhen");
 
     if (await fileExists(mustNotExist))
-      throw new Error(`Directory must not exist: ${mustNotExist}`);
+      throw new Error(`Motherhen must not exist in the vanilla repository: ${mustNotExist}`);
   }
 
-  await addSymbolicLinks(config.integration, projectDir);
-  await copyVanilla(config.vanilla, config.integration);
-  await applyProject(config.integration, projectDir);
+  if (!config.isFirefox) {
+    const motherhenDir = path.join(integrationRepo, "motherhen")
+    await fs.mkdir(motherhenDir, { recursive : true });
+    await ignoreMotherhen(integrationRepo);
+    await addSymbolicLinks(integrationRepo, config, settings);
+  }
+
+  await copyVanilla(vanillaRepo, integrationRepo);
+
+  if (!config.isFirefox) {
+    await applyPatches(integrationRepo, config);
+  }
 }
 
 // #endregion Exported functions.
@@ -77,8 +91,7 @@ export async function createIntegrationHg(
  * @returns the location of the hg bundle file for later cleanup.
  */
 async function cloneUnified(
-  vanilla: Configuration["vanilla"],
-  basePath: string,
+  pathToVanilla: string,
 ) : Promise<string>
 {
   type BundleData = {
@@ -88,6 +101,9 @@ async function cloneUnified(
       }
     }
   };
+
+  const basePath = path.dirname(pathToVanilla);
+  await fs.mkdir(basePath, { recursive: true });
 
   const localPathToBundle = path.normalize(path.resolve(
     basePath, "mozilla-unified-bundle.hg"
@@ -113,7 +129,7 @@ async function cloneUnified(
   console.log("Initializing hg repository...")
   await execAsync(
     hg,
-    [ "init", path.basename(vanilla.path) ],
+    [ "init", path.join(basePath, "mozilla-unified") ],
     { cwd: basePath }
   );
 
@@ -123,12 +139,12 @@ async function cloneUnified(
   await execAsync(
     hg,
     [ "unbundle", localPathToBundle ],
-    { cwd: vanilla.path }
+    { cwd: pathToVanilla }
   );
 
   console.log("Updating .hg/hgrc");
   await fs.writeFile(
-    path.join(vanilla.path, ".hg/hgrc"),
+    path.join(pathToVanilla, ".hg/hgrc"),
     `
 [paths]
 default = https://hg.mozilla.org/mozilla-unified/
@@ -144,21 +160,34 @@ default = https://hg.mozilla.org/mozilla-unified/
  * @param vanilla - the "vanilla" repository metadata.
  */
 async function pullAndUpdate(
-  vanilla: Configuration["vanilla"]
+  pathToVanilla: string,
+  vanillaTag: string,
 ) : Promise<void>
 {
   console.log("Updating vanilla repository");
   await execAsync(
     hg,
     ["pull"],
-    { cwd: vanilla.path }
+    { cwd: pathToVanilla }
   );
 
-  console.log(`Updating to ${vanilla.tag}`);
+  console.log(`Updating to ${vanillaTag}`);
   await execAsync(
     hg,
-    ["update", "--rev", vanilla.tag],
-    { cwd: vanilla.path }
+    ["update", "--rev", vanillaTag],
+    { cwd: pathToVanilla }
+  );
+}
+
+async function ignoreMotherhen(
+  integrationRepo: string,
+) : Promise<void>
+{
+  console.log(`Adding "motherhen" to the integration repository's .hgignore`);
+  await fs.appendFile(
+    path.join(integrationRepo, ".hgignore"),
+    "\n\nmotherhen\n",
+    { encoding: "utf-8" }
   );
 }
 
@@ -167,63 +196,65 @@ async function pullAndUpdate(
  * @param integration - the "integration" repository metadata.
  */
 async function addSymbolicLinks(
-  integration: Configuration["integration"],
-  projectDir: string
+  integrationRepo: string,
+  config: Required<MotherhenSummary>,
+  settings: CommandSettings,
 ) : Promise<void>
 {
   console.log(`Adding symbolic links to this Motherhen project`);
-  const sourceDir = path.resolve(projectRoot, "source");
-  const pathToSource = path.relative(integration.path, sourceDir);
+  const sourcesDir = path.resolve(projectRoot, settings.relativePathToConfig, "..", "sources");
+  const motherhenDir = path.join(integrationRepo, "motherhen");
 
-  await fs.symlink(
-    pathToSource,
-    path.join(integration.path, projectDir),
-    "dir"
-  );
+  const dirNames = [
+    config.applicationDirectory,
+    ...config.otherSourceDirectories
+  ];
 
-  const mozconfigTarget = path.join(integration.path, ".mozconfig");
-  const mozconfigSource = path.relative(
-    path.dirname(mozconfigTarget), integration.mozconfig
-  );
-
-  await fs.symlink(mozconfigSource, mozconfigTarget, "file");
+  await PromiseAllParallel(dirNames, async dirName => {
+    await fs.symlink(
+      path.join(sourcesDir, dirName),
+      path.join(motherhenDir, dirName),
+      "dir"
+    );
+  });
 }
 
 /**
  * Copy the vanilla repository to the integration folder and update .hg/hgrc for the latter.
- * @param vanilla - the "vanilla" repository metadata.
- * @param integration - the "integration" repository metadata.
+
  */
 async function copyVanilla(
-  vanilla: Configuration["vanilla"],
-  integration: Configuration["integration"],
+  vanillaRepo: string,
+  integrationRepo: string,
 ) : Promise<void>
 {
   console.log(`Copying from vanilla repository to the integration repository. This may take a while. (Started at ${
     (new Date()).toLocaleTimeString()
   })`);
 
-  const topFiles = await fs.readdir(vanilla.path);
+  const topFiles = await fs.readdir(vanillaRepo);
   await Promise.all(topFiles.map(
     topFile => fs.cp(
-      path.join(vanilla.path, topFile),
-      path.join(integration.path, topFile),
+      path.join(vanillaRepo, topFile),
+      path.join(integrationRepo, topFile),
       { recursive: true }
     )
   ));
 
-  const pathToIni = path.join(integration.path, ".hg/hgrc");
+  const pathToIni = path.join(integrationRepo, ".hg/hgrc");
   const iniConfig = ini.parse(await fs.readFile(
     pathToIni, {encoding: "utf-8"}
   ));
 
-  (iniConfig.paths as { default : string }).default = vanilla.path;
+  (iniConfig.paths as { default : string }).default = vanillaRepo;
   await fs.writeFile(
     pathToIni,
     ini.stringify(iniConfig),
     { encoding: "utf-8" }
   );
 }
+
+const patchAsPromise = which("patch");
 
 /**
  * Apply Motherhen patches and ignore the project in the integration repository.
@@ -233,33 +264,52 @@ async function copyVanilla(
  * @see {@link https://www.mercurial-scm.org/doc/hg.1.html#import}
  * @see {@link https://www.mercurial-scm.org/doc/hg.1.html#qimport}
  */
-async function applyProject(
-  integration: Configuration["integration"],
-  projectDir: string,
+async function applyPatches(
+  integrationRepo: string,
+  config: Required<MotherhenSummary>
 ) : Promise<void>
 {
-  const patch = await which("patch");
-
-  console.log("Adding this Motherhen project to the integration repository's .hgignore");
-  await fs.appendFile(
-    path.join(integration.path, ".hgignore"),
-    "\n\n" + `
-# Motherhen project
-${projectDir}
-    `.trim() + "\n",
-    { encoding: "utf-8" }
+  const patchRoot = path.join(projectRoot, "patches");
+  const patchFiles = await FastGlob(
+    config.patches.globs,
+    {
+      cwd: path.join(projectRoot, "patches")
+    }
   );
-
-  console.log("Applying custom patches");
-  const patchDir = path.join(projectRoot, "patches");
-  const patchFiles = await fs.readdir(patchDir);
   patchFiles.sort();
-  for (const patchFile of patchFiles) {
+
+  await PromiseAllSequence(patchFiles, async patchFile => {
+    patchFile = path.resolve(patchRoot, patchFile);
+    if ((config.patches.commitMode === "none") ||
+        (config.patches.commitMode === "atEnd"))
+    {
+      const patchCmd = await patchAsPromise;
+      await execAsync(
+        patchCmd,
+        [ "-p1", "--forward", "-i", patchFile],
+        { cwd: integrationRepo }
+      );
+    }
+    else
+    {
+      await execAsync(
+        hg,
+        [config.patches.commitMode, "-p1", patchFile],
+        { cwd: integrationRepo }
+      );
+    }
+  });
+
+  if (config.patches.commitMode === "atEnd") {
     await execAsync(
-      patch,
-      [ "-p1", "--forward", "-i", path.join(patchDir, patchFile)],
-      { cwd: integration.path }
+      hg, ["add"], { cwd: integrationRepo }
+    );
+    await execAsync(
+      hg,
+      ["commit", "-m", config.patches.commitMessage as string ],
+      { cwd: integrationRepo }
     );
   }
 }
+
 // #endregion task functions
