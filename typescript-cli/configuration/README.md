@@ -92,12 +92,18 @@ All of these are either controllers for the JSON data model files above, or util
 ### Format version 1.0.0 for wizards
 
 - [shared-types.ts](version-1.0/wizard/shared-types.ts) defines internal types the other modules share amongst themselves.
-- [SharedArguments.ts](version-1.0/wizard/SharedArguments.ts) implements a shared type for wizards, carrying the base `PathResolver` and `FileSystemQueue`, among other things.
+- [assert.ts](version-1.0/wizard/assert.ts) defines some internal assertion functions.  If we fail one of these assertions, file a bug on Motherhen!
+- [SharedArguments.ts](version-1.0/wizard/SharedArguments.ts) implements a shared type for wizards, carrying the base `PathResolver` and `FileSystemQueue`, among other thi
 - [pickConfigLocation.ts](version-1.0/wizard/pickConfigLocation.ts) helps the user define where the Motherhen configuration file should live.
 - [pickFileToCreate.ts](version-1.0/wizard/pickFileToCreate.ts) is a command-line file picker, where the final file may not exist.
 - [maybeLog.ts](version-1.0/wizard/maybeLog.ts) logs to the console, _if_ tests haven't requested a suspension via `SharedArguments`.
 - [Confirm.ts](version-1.0/wizard/Confirm.ts) is a simple "Do you really want to do this?" confirmation prompt.
 - [CreateEnvironment.ts](version-1.0/wizard/CreateEnvironment.ts) ties `pickConfigLocation` to `SharedArguments`.
 - [ChooseTasks.ts](version-1.0/wizard/ChooseTasks.ts) asks the user to decide at a top-level what they want to do.  This guides the selection of what later CLI modules to invoke.
+- [DictionaryBase.ts](version-1.0/wizard/DictionaryBase.ts) is a helper class for converting from stringified JSON object dictionaries to parsed maps of data classes, and vice versa.
+- [Sources.ts](version-1.0/wizard/Sources.ts) represents the source code directories.
+- [Patches.ts](version-1.0/wizard/Patches.ts) represents the patch sets.
+- [Integration.ts](version-1.0/wizard/Integration.ts) represents integration repository settings.
+- [Project.ts](version-1.0/wizard/Project.ts) represents project settings.
 - [Firefox.ts](version-1.0/wizard/Firefox.ts) manages Firefox verification build settings.
 - [Driver.ts](version-1.0/wizard/Driver.ts) is the controller, transitioning between CLI modules and feeding them their arguments.
