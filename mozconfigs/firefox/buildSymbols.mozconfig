@@ -4,3 +4,4 @@
 
 # Options for client.mk.
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../builds/fx-sym
+ac_add_options --enable-bootstrap
