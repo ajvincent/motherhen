@@ -107,7 +107,8 @@ describe("ConfigurationSummary", () => {
         ProjectJSON.fromJSON({
           integrationKey: "central",
           mozconfig: "debug",
-          appDir: "sources/hatchedEgg"
+          appDir: "sources/hatchedEgg",
+          displayAppName: "Hatched Egg",
         })
       );
 
@@ -116,7 +117,8 @@ describe("ConfigurationSummary", () => {
         ProjectJSON.fromJSON({
           integrationKey: "beta",
           mozconfig: "debug",
-          appDir: "sources/hatchedEgg"
+          appDir: "sources/hatchedEgg",
+          displayAppName: "Hatched Egg",
         })
       );
     });
@@ -136,6 +138,7 @@ describe("ConfigurationSummary", () => {
         vanillaTag: "central",
 
         applicationDirectory: "sources/hatchedEgg",
+        displayAppName: "Hatched Egg",
         otherSourceDirectories: [
           "sources/crackedEgg"
         ],
@@ -178,6 +181,7 @@ describe("ConfigurationSummary", () => {
           isFirefox: false,
 
           applicationDirectory: "sources/hatchedEgg",
+          displayAppName: "Hatched Egg",
           mozconfig: "debug",
         });
       });
@@ -194,6 +198,7 @@ describe("ConfigurationSummary", () => {
           vanillaTag: "central",
 
           applicationDirectory: "sources/hatchedEgg",
+          displayAppName: "Hatched Egg",
           mozconfig: "debug",
           patches: {
             globs: ["patches/xpath-functions.diff"],
@@ -215,6 +220,7 @@ describe("ConfigurationSummary", () => {
           vanillaTag: "central",
 
           applicationDirectory: "sources/hatchedEgg",
+          displayAppName: "Hatched Egg",
           otherSourceDirectories: [
             "sources/crackedEgg"
           ],

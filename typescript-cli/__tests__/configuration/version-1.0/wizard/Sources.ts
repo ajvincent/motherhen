@@ -76,7 +76,8 @@ describe("Sources wizard: ", () => {
     config.projects.set("(default)", ProjectJSON.fromJSON({
       integrationKey: "(default)",
       mozconfig: "optimized",
-      appDir: "unknownDir"
+      appDir: "unknownDir",
+      displayAppName: "Hatched Egg",
     }));
 
     // Every project should have at least one integration.

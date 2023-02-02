@@ -32,12 +32,14 @@
     "default": {
       "integrationKey": "(default)",
       "mozconfig": "optimized",
-      "appDir": "hatchedegg"
+      "appDir": "hatchedegg",
+      "displayAppName": "Hatched Egg (release)"
     },
     "central": {
       "integrationKey": "central",
       "mozconfig": "optimized",
-      "appDir": "hatchedegg"
+      "appDir": "hatchedegg",
+      "displayAppName": "Hatched Egg (central)"
     }
   },
   "firefoxes": {

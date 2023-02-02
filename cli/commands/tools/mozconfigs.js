@@ -21,7 +21,8 @@ export default async function installMozconfig(targetDirectory, config) {
         const cleanroomPath = path.join(projectRoot, "cleanroom/mozconfigs/hatchedegg");
         contents += await fs.readFile(path.join(cleanroomPath, "branding.mozconfig"), { encoding: "utf-8" });
         contents += await fs.readFile(path.join(cleanroomPath, leafName), { encoding: "utf-8" });
-        contents = contents.replace(/hatchedegg/gmi, config.applicationDirectory);
+        contents = contents.replace(/hatchedegg/gm, config.applicationDirectory);
+        contents = contents.replace(/MOZ_APP_DISPLAYNAME=".*"/, `MOZ_APP_DISPLAYNAME="${config.displayAppName}"`);
     }
     await fs.mkdir(path.dirname(targetFile), { recursive: true });
     await fs.writeFile(targetFile, contents, { encoding: "utf-8" });

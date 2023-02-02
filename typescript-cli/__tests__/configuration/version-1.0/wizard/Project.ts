@@ -100,6 +100,7 @@ describe("Project wizard", () => {
 
     inquirer.append([
       ["mozconfig", new FakeAnswers("optimized")],
+      ["displayAppName", new FakeAnswers("Hatched Egg")],
     ]);
 
     const config = await runWizardAndWrite();
@@ -111,7 +112,8 @@ describe("Project wizard", () => {
       expect(project.toJSON()).toEqual({
         "integrationKey": "(default)",
         "mozconfig": "optimized",
-        "appDir": "hatchedEgg"
+        "appDir": "hatchedEgg",
+        "displayAppName": "Hatched Egg",
       });
     }
   });
@@ -120,6 +122,7 @@ describe("Project wizard", () => {
     inquirer.append([
       ["userSelection", new FakeAnswers("update")],
       ["mozconfig", new FakeAnswers("debug")],
+      ["displayAppName", new FakeAnswers("Hatched Egg")],
       ["ok", new FakeAnswers(true)],
     ])
 
@@ -132,7 +135,8 @@ describe("Project wizard", () => {
       expect(project.toJSON()).toEqual({
         "integrationKey": "(default)",
         "mozconfig": "debug",
-        "appDir": "hatchedEgg"
+        "appDir": "hatchedEgg",
+        "displayAppName": "Hatched Egg"
       });
     }
   });
@@ -170,6 +174,7 @@ describe("Project wizard", () => {
       ["integrationKey", new FakeAnswers("(default)")],
       ["mozconfig", new FakeAnswers("debug")],
       ["appDir", new FakeAnswers("hatchedEgg")],
+      ["displayAppName", new FakeAnswers("Hatched Egg")],
       ["ok", new FakeAnswers(true)],
     ])
 
@@ -182,7 +187,8 @@ describe("Project wizard", () => {
       expect(project.toJSON()).toEqual({
         "integrationKey": "(default)",
         "mozconfig": "debug",
-        "appDir": "hatchedEgg"
+        "appDir": "hatchedEgg",
+        "displayAppName": "Hatched Egg",
       });
     }
   });

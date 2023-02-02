@@ -32,7 +32,8 @@ Motherhen relies on a somewhat convoluted JSON structure for its configuration. 
     "hatchedegg-release-opt": {
       "integrationKey": "hatchedegg-release",
       "mozconfig": "optimized",
-      "appDir": "hatchedegg"
+      "appDir": "hatchedegg",
+      "displayAppName": "Hatched Egg"
     }
   },
   "firefoxes": {
@@ -54,6 +55,7 @@ So how does this work?  A project key defines:
   - the target directory where the repository and all build artifacts will go, relative to the Motherhen configuration's location
 - a "mozconfig" name, which specifies the Mozilla configuration (minus the application name and directory)
 - an application directory among the source directories in `mozilla/motherhen`, which is the project we're trying to build.
+- a product name, or "display application name", which is what the end-user sees when they run the program.
 
 There are also "Firefox verification settings", which you may occasionally need (especially if you're working off the "central" bookmark of mozilla-unified, or something even _more_ unstable), because a build bustage might not be your fault.  This is the `firefoxes` section above.
 

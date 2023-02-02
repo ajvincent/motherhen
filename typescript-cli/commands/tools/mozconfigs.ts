@@ -46,7 +46,12 @@ async function installMozconfig(
     contents += await fs.readFile(
       path.join(cleanroomPath, leafName), { encoding: "utf-8" }
     );
-    contents = contents.replace(/hatchedegg/gmi, config.applicationDirectory)
+
+    contents = contents.replace(/hatchedegg/gm, config.applicationDirectory);
+    contents = contents.replace(
+      /MOZ_APP_DISPLAYNAME=".*"/,
+      `MOZ_APP_DISPLAYNAME="${config.displayAppName}"`
+    );
   }
 
   await fs.mkdir(path.dirname(targetFile),{ recursive: true });

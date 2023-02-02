@@ -157,6 +157,7 @@ describe("Wizard Driver", () => {
     addOneQuestion("existingDirectory", motherhenTemp.tempDir);
     addOneQuestion("pathToFile", "integrations/release");
     addOneQuestion("mozconfig", "optimized");
+    addOneQuestion("displayAppName", "Hatched Egg");
 
     await runDriver(false);
 
@@ -192,7 +193,8 @@ describe("Wizard Driver", () => {
         "default": {
           "integrationKey": "(default)",
           "mozconfig": "optimized",
-          "appDir": "hatchedEgg"
+          "appDir": "hatchedEgg",
+          "displayAppName": "Hatched Egg",
         }
       },
       "firefoxes": {}
@@ -367,6 +369,7 @@ describe("Wizard Driver", () => {
       // projects
       addUserSelection("update");
       addOneQuestion("mozconfig", "optimized");
+      addOneQuestion("displayAppName", "Hatched Egg");
       addUserConfirm(true);
       // #endregion questions
 
@@ -401,7 +404,8 @@ describe("Wizard Driver", () => {
           "hatchedEgg": {
             "integrationKey": "(default)",
             "mozconfig": "optimized",
-            "appDir": "hatchedEgg"
+            "appDir": "hatchedEgg",
+            "displayAppName": "Hatched Egg"
           }
         },
         "firefoxes": {}
@@ -439,7 +443,8 @@ describe("Wizard Driver", () => {
           "hatchedEgg": {
             "integrationKey": "(default)",
             "mozconfig": "optimized",
-            "appDir": "hatchedEgg"
+            "appDir": "hatchedEgg",
+            "displayAppName": "Hatched Egg",
           }
         },
         "firefoxes": {}
@@ -486,6 +491,7 @@ describe("Wizard Driver", () => {
       addOneQuestion("integrationKey", "beta");
       addOneQuestion("mozconfig", "buildSymbols");
       addOneQuestion("appDir", "boiledEgg");
+      addOneQuestion("displayAppName", "Boiled Egg")
       addUserConfirm(true);
 
       // #endregion questions
@@ -531,12 +537,15 @@ describe("Wizard Driver", () => {
           "hatchedEgg": {
             "integrationKey": "(default)",
             "mozconfig": "optimized",
-            "appDir": "hatchedEgg"
+            "appDir": "hatchedEgg",
+            "displayAppName": "Hatched Egg",
+
           },
           "boiledEgg": {
             "integrationKey": "beta",
             "mozconfig": "buildSymbols",
-            "appDir": "boiledEgg"
+            "appDir": "boiledEgg",
+            "displayAppName": "Boiled Egg",
           }
         },
         "firefoxes": {}

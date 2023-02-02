@@ -33,6 +33,8 @@ export function assertCompleteSummary(config) {
     }
     if (!config.applicationDirectory)
         assertFail("configuration missing an application directory");
+    if (!config.displayAppName)
+        assertFail("configuration missing a display application name");
     if (!config.otherSourceDirectories)
         assertFail("configuration missing other source directories array");
     if (!config.patches)
@@ -96,6 +98,7 @@ function getMotherhenSummary(config, projectKey, suspendWarnings) {
                 ...rv,
                 mozconfig,
                 applicationDirectory,
+                displayAppName: project.displayAppName,
             };
         }
     }

@@ -77,6 +77,7 @@ key, the mozconfig file, and the application directory to build from.
                     integrationKey: "",
                     mozconfig: "",
                     appDir: "",
+                    displayAppName: "",
                 });
             },
         };
@@ -97,6 +98,7 @@ key, the mozconfig file, and the application directory to build from.
             project.integrationKey = keys[0];
         }
         await this.#pickMozconfig(project);
+        await this.#getDisplayName(project);
         {
             const sourceSets = Array.from(this.sharedArguments.configuration.sources.values());
             const firstSourceSet = sourceSets[0];
@@ -114,6 +116,7 @@ key, the mozconfig file, and the application directory to build from.
             await this.#pickIntegrationKey(project);
             await this.#pickMozconfig(project);
             await this.#pickAppDir(project);
+            await this.#getDisplayName(project);
             this.dictionary.set(this.dictionaryKey, project);
             this.#printSummary();
             await this.#finalConfirmation();
@@ -201,6 +204,26 @@ I am using the application directory "${choices[0]}" as the only option availabl
             }
         ]);
         project.appDir = appDir;
+    }
+    /**
+     * Get a display name for the program.
+     * @param project - the project owning the integration key.
+     */
+    async #getDisplayName(project) {
+        const { displayAppName } = await this.prompt([
+            {
+                name: "displayAppName",
+                type: "input",
+                message: "What product name would you like your application to have for the end users?",
+                default: project.displayAppName,
+                validate(displayAppName) {
+                    if (displayAppName.trim() === "")
+                        return "Your product name must have non-whitespace characters in it...";
+                    return true;
+                }
+            }
+        ]);
+        project.displayAppName = displayAppName;
     }
     /** Show the user what we have right now. */
     #printSummary() {

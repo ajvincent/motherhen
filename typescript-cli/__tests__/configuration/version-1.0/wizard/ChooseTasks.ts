@@ -359,6 +359,7 @@ describe("Choose tasks wizard", () => {
           integrationKey: "eggs",
           mozconfig: "debug",
           appDir: "crackedEgg",
+          displayAppName: "Cracked Egg",
         })
       );
 
@@ -367,6 +368,7 @@ describe("Choose tasks wizard", () => {
           integrationKey: "eggs",
           mozconfig: "optimized",
           appDir: "hatchedEgg",
+          displayAppName: "Hatched Egg",
         })
       );
 

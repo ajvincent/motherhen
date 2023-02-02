@@ -66,6 +66,9 @@ export interface MotherhenSummary extends BaseSummary
 
   /** Where is our mozconfig file? */
   mozconfig?: string;
+
+  /** What is our application's product name? */
+  displayAppName?: string;
 }
 // #endregion interfaces
 
@@ -108,13 +111,15 @@ export function assertCompleteSummary(
   if (config.isFirefox) {
     const { buildType } = config as FirefoxJSONSerialized;
     if (!FirefoxJSON.buildTypes.has(buildType))
-    assertFail("configuration has an invalid build type");
+      assertFail("configuration has an invalid build type");
 
     return true;
   }
 
   if (!config.applicationDirectory)
     assertFail("configuration missing an application directory");
+  if (!config.displayAppName)
+    assertFail("configuration missing a display application name");
   if (!config.otherSourceDirectories)
     assertFail("configuration missing other source directories array");
   if (!config.patches)
@@ -206,6 +211,7 @@ function getMotherhenSummary(
         ...rv,
         mozconfig,
         applicationDirectory,
+        displayAppName: project.displayAppName,
       };
     }
   }
