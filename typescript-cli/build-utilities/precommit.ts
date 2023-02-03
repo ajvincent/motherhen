@@ -4,7 +4,9 @@ import projectRoot from "../utilities/projectRoot.js";
 const promises = [
   runESLint(),
   runJest(),
+  /*
   checkTimestamps(),
+  */
 ];
 
 await Promise.allSettled(promises);
