@@ -2,12 +2,22 @@ import { fork } from "child_process";
 import projectRoot from "../utilities/projectRoot.js";
 
 const promises = [
+  runIsRepoClean(),
   runESLint(),
   runJest(),
 ];
 
 await Promise.allSettled(promises);
 await Promise.all(promises);
+
+function runIsRepoClean() : Promise<void>
+{
+  return forkProcess(
+    [],
+    "cli/build-utilities/isRepoClean.js",
+    [],
+  );
+}
 
 function runESLint() : Promise<void>
 {

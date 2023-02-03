@@ -15,4 +15,5 @@ jobs:
         with:
           node-version: '18'
       - run: npm install --save-dev
+      - run: npm run tsc
       - run: npm run precommit

@@ -1,11 +1,15 @@
 import { fork } from "child_process";
 import projectRoot from "../utilities/projectRoot.js";
 const promises = [
+    runIsRepoClean(),
     runESLint(),
     runJest(),
 ];
 await Promise.allSettled(promises);
 await Promise.all(promises);
+function runIsRepoClean() {
+    return forkProcess([], "cli/build-utilities/isRepoClean.js", []);
+}
 function runESLint() {
     return forkProcess([], "node_modules/eslint/bin/eslint.js", ["--max-warnings=0", "typescript-cli"]);
 }
