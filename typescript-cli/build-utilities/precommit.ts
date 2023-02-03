@@ -4,9 +4,6 @@ import projectRoot from "../utilities/projectRoot.js";
 const promises = [
   runESLint(),
   runJest(),
-  /*
-  checkTimestamps(),
-  */
 ];
 
 await Promise.allSettled(promises);
@@ -30,17 +27,6 @@ function runJest() : Promise<void>
     ["--no-cache", "--all", "--no-watchman"],
   )
 }
-
-/*
-function checkTimestamps() : Promise<void>
-{
-  return forkProcess(
-    [],
-    "cli/build-utilities/checkTimestamps.js",
-    [],
-  );
-}
-*/
 
 function forkProcess(
   execArgv: string[],
