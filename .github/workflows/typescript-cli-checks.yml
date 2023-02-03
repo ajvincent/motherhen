@@ -1,7 +1,9 @@
 name: typescript-cli-checks
 on:
   push:
-    paths: 'typescript-cli/**/*'
+    paths: [
+      'typescript-cli/**/*'
+    ]
 jobs:
   typescript-cli:
     runs-on: ubuntu-latest
