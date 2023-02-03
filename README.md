@@ -1,5 +1,7 @@
 # Motherhen: a "new Mozilla Application" template project
 
+![Motherhen screenshot](screenshot.png)
+
 If you want to use [Mozilla](https://www.mozilla.org)'s [source code](https://searchfox.org) to create a new application, with compiled code and/or tests, you should start here.  This is a template for the absolute minimum code you need for starting a new application source tree from the mozilla-unified repository.
 
 ## Concepts
@@ -8,8 +10,8 @@ If you want to use [Mozilla](https://www.mozilla.org)'s [source code](https://se
 - Motherhen uses _two_ local copies of Mozilla code.  
     1. A "vanilla", or "clean room", repository of the [mozilla-unified](https://hg.mozilla.org/mozilla-unified/) repository.  This one you should not touch:  the idea is it doesn't have any of your (or Motherhen's) changes in it, so we can always rely on it as canonical Mozilla code.  I create this using your operating system's `hg` command and Mozilla's [Mercurial bundles](https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial_bundles.html).  By default, it lives in `cleanroom/mozilla-unified`, and is a git-ignored directory.
     2. An "integration" repository, which is a clone of the "vanilla" repository.  This is where your build happens:
-        - The "source" directory of this project Motherhen adds as a symbolic link in the "integration" repository, so your code edits happen here.
-        - Motherhen applies patches (as few as necessary) to the "integration" repository so that your project can at least compile and run.
+        - The "sources" directory of this project contains individual projects, similar to [comm-central](https://searchfox.org/comm-central/source) holding several projects as [the `comm` directory under mozilla-central](https://developer.thunderbird.net/thunderbird-development/getting-started#get-the-source).  Motherhen uses to create symbolic links in the "integration" repository, so your code edits happen here.
+        - Motherhen applies patches (as few as necessary) to the "integration" repository so your project can at least compile and run.
         - From here on, _you_ own the "integration" repository and your copy of the Motherhen template!
 
 ## Caveat emptor, or "Not everything works!"
