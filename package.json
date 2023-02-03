@@ -23,8 +23,7 @@
     "test:package": "npm run tsc && ./cli/motherhen.js mach package --config=./test/.motherhen-config.json --project=default",
     "test:where": "npm run tsc && ./cli/motherhen.js where --config=./test/.motherhen-config.json --project=default",
     "tsc": "rm -rf ./cli/*/* && tsc",
-    "precommit": "node --trace-uncaught ./cli/build-utilities/precommit.js",
-    "prepare": "husky install"
+    "precommit": "node --trace-uncaught ./cli/build-utilities/precommit.js"
   },
   "repository": {
     "type": "git",
@@ -62,7 +61,6 @@
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.30.0",
     "eslint-plugin-tsdoc": "^0.2.17",
-    "husky": "^8.0.0",
     "jest": "^29.3.1",
     "ts-jest": "^29.0.3",
     "ts-jest-resolver": "^2.0.0",
