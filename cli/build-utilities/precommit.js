@@ -16,9 +16,16 @@ function runJest() {
     // node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js --no-cache --all
     return forkProcess(["--experimental-vm-modules", "--no-warnings"], "node_modules/jest/bin/jest.js", ["--no-cache", "--all", "--no-watchman"]);
 }
-function checkTimestamps() {
-    return forkProcess([], "cli/build-utilities/checkTimestamps.js", []);
+/*
+function checkTimestamps() : Promise<void>
+{
+  return forkProcess(
+    [],
+    "cli/build-utilities/checkTimestamps.js",
+    [],
+  );
 }
+*/
 function forkProcess(execArgv, pathToExec, args) {
     const p = new Promise((resolve, reject) => {
         const child = fork(pathToExec, args, {

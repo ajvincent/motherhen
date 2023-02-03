@@ -31,6 +31,7 @@ function runJest() : Promise<void>
   )
 }
 
+/*
 function checkTimestamps() : Promise<void>
 {
   return forkProcess(
@@ -39,6 +40,7 @@ function checkTimestamps() : Promise<void>
     [],
   );
 }
+*/
 
 function forkProcess(
   execArgv: string[],
