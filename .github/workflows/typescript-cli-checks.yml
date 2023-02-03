@@ -2,6 +2,8 @@ name: typescript-cli-checks
 on:
   push:
     paths: [
+      '.github/workflows',
+      'cli/**/*',
       'typescript-cli/**/*'
     ]
 jobs:
