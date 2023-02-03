@@ -35,4 +35,4 @@ function forkProcess(execArgv, pathToExec, args) {
     });
     return p.then(console.log);
 }
-//# sourceMappingURL=precommit.js.map
+//# sourceMappingURL=onPush_cli.js.map

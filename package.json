@@ -23,7 +23,7 @@
     "test:package": "npm run tsc && ./cli/motherhen.js mach package --config=./test/.motherhen-config.json --project=default",
     "test:where": "npm run tsc && ./cli/motherhen.js where --config=./test/.motherhen-config.json --project=default",
     "tsc": "rm -rf ./cli/*/* && tsc",
-    "precommit": "node --trace-uncaught ./cli/build-utilities/precommit.js"
+    "onpush-cli": "node --trace-uncaught ./cli/build-utilities/onPush_cli.js"
   },
   "repository": {
     "type": "git",
