@@ -1,0 +1,7 @@
+# Enables sccache to speed up builds
+ac_add_options --with-ccache=sccache
+
+# Options for 'configure' (same as command-line options).
+ac_add_options --enable-tests
+ac_add_options --enable-debug
+ac_add_options --enable-bootstrap

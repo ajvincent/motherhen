@@ -1,20 +1,37 @@
 # Motherhen: a "new Mozilla Application" template project
 
-If you want to use [Mozilla](https://www.mozilla.org)'s [source code](https://searchfox.org) to create a new application, with compiled code and/or tests, you should start here.  This is a template for the absolute minimum code you need for starting a new application source tree from the mozilla-unified repository.
+![Motherhen screenshot](screenshot.png)
+
+If you want to use [Mozilla](https://www.mozilla.org)'s [source code](https://searchfox.org) to create a new application, with your own user interface, compiled code and/or tests, you should start here.  This is a template for the absolute minimum code you need for starting a new application source tree from the mozilla-unified repository.
 
 ## Concepts
 
 - Motherhen is a potential replacement for Mozilla Firefox's least-known feature, the `-app` command-line argument.  This little feature allows you to replace the user interface ("chrome" before Google Chrome existed) with your own.  Motherhen goes quite a bit further, giving you most of what you need to start a new application from scratch, using Mozilla's build infrastructure, toolkit and API's.
 - Motherhen uses _two_ local copies of Mozilla code.  
-    1. A "vanilla", or "clean room", repository of the [mozilla-unified](https://hg.mozilla.org/mozilla-unified/) repository.  This one you should not touch:  the idea is it doesn't have any of your (or Motherhen's) changes in it, so we can always rely on it as canonical Mozilla code.  I create this using your operating system's `hg` command and Mozilla's [Mercurial bundles](https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial_bundles.html).  By default, it lives in `.cleanroom/mozilla-unified`, where `.cleanroom` is a git-ignored directory.
+    1. A "vanilla", or "clean room", repository of the [mozilla-unified](https://hg.mozilla.org/mozilla-unified/) repository.  This one you should not touch:  the idea is it doesn't have any of your (or Motherhen's) changes in it, so we can always rely on it as canonical Mozilla code.  I create this using your operating system's `hg` command and Mozilla's [Mercurial bundles](https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial_bundles.html).  By default, it lives in `cleanroom/mozilla-unified`, and is a git-ignored directory.
     2. An "integration" repository, which is a clone of the "vanilla" repository.  This is where your build happens:
-        - The "source" directory of this project Motherhen adds as a symbolic link in the "integration" repository, so your code edits happen here.
-        - Motherhen applies patches (as few as necessary) to the "integration" repository so that your project can at least compile and run.
+        - The "sources" directory of this project contains individual projects, similar to [comm-central](https://searchfox.org/comm-central/source) holding several projects as [the `comm` directory under mozilla-central](https://developer.thunderbird.net/thunderbird-development/getting-started#get-the-source).  Motherhen uses the "sources" directory to create symbolic links in the "integration" repository, so your code edits happen here.
+        - Motherhen applies patches (as few as necessary) to the "integration" repository so your project can at least compile and run.
         - From here on, _you_ own the "integration" repository and your copy of the Motherhen template!
+
+## Features
+
+Motherhen supports, out of the box:
+
+- Configuring and creating an integration repository.
+- Invoking `mach` in the integration repository.
+- Multiple Mozilla source tags.
+  - You can test your project code against [any valid mozilla-unified tag](https://hg.mozilla.org/mozilla-unified/tags) (release, beta, ESR, or central for example) as you see fit from the same Motherhen repository.
+  - This allows for checking for regressions between major Firefox releases!
+- Multiple project source directories, so you can build more than one application.
+- Multiple patch sets to apply to Mozilla's code.
+- Verification builds of stock Mozilla Firefox code.
+
+Most of the details are in [the configuration file format README](typescript-cli/configuration).
 
 ## Caveat emptor, or "Not everything works!"
 
-I've tested this _manually_ in early January, 2023 against mozilla-central, and here's what I see:
+I've tested this _manually_ in early February, 2023 against mozilla-central, and here's what I see:
 
 | | Linux | MacOS | Windows |
 |-|-------|-------|---------|
@@ -32,21 +49,22 @@ I don't have a Windows development computer anymore.  (January 2023)  [Please, h
 
 1. In GitHub, create a new repository by using this repository as a template.
 2. Clone your repository locally.
-3. `npm run install -P`.
-4. Create a .mozconfig file.  See [test/newapp-sym.mozconfig](test/newapp-sym.mozconfig) for an example.  For now, leave the project name and app basename as "hatchedegg".
-5. `npm run setup` will launch a command-line wizard to guide you through crafting a Motherhen configuration file.  This wizard will eventually ask you for a new project name, and replace "hatchedegg" with it if you give it one.
-6. The wizard will give you a command at the end to run, like `./cli/motherhen.js create --config=./test/.motherhen-config.json`.  Run this command to set up your integration repository, where Mozilla code and your code will be joined together.
-7. `./cli/motherhen.js mach configure --config=./test/.motherhen-config.json` to configure your integration repository.
-8. `./cli/motherhen.js mach build --config=./test/.motherhen-config.json` to compile your project.
-9. `./cli/motherhen.js mach run --config=./test/.motherhen-config.json` to launch your code.
-10. `./cli/motherhen.js mach package --config=./test/.motherhen-config.json` (Linux only for now) to create a package for others to use.
+3. `npm install --save-prod`.
+4. `npm run setup` will launch a command-line wizard to guide you through crafting a Motherhen configuration file.  This wizard will eventually ask you for a new project name, and replace "hatchedegg" with it if you give it one.
+5. The wizard will give you a command at the end to run, like `./cli/motherhen.js create`.  Run this command to set up your integration repository, where Mozilla code and your code will be joined together.
+6. `./cli/motherhen.js mach configure` to configure your integration repository.
+7. `./cli/motherhen.js mach build` to compile your project.
+8. `./cli/motherhen.js mach run` to launch your code.
+9. `./cli/motherhen.js mach package` (Linux only for now) to create a package for others to use.
 
 ## Other useful commands and options
 
 - `./cli/motherhen.js mach` is your gateway to the `mach` program.
 - `./cli/motherhen.js where` tells you where your integration and "vanilla" repositories are.
+- `--config=(path/to/configuration)` lets you specify an alternate Motherhen configuration file, if you so desire.
 - `--project=(project name)` lets you choose a project other than your default.
   - Think testing your project against mozilla-beta, instead of mozilla-release.  This means you can check your project against multiple versions of Mozilla's source code, including "ESR" builds.
+- `--firefox=(firefox project)` lets you work with a Firefox verification build instead.  It is mutually exclusive with the `--project` option.
 - `./cli/motherhen.js help` or `npm run help` will get you basic help information.
 
 ## Motherhen's own testing and development
@@ -55,6 +73,7 @@ Don't do this, unless you're working on fixing bugs in Motherhen itself.  [packa
 
 ```bash
 npm install --save-dev
+npm run test:setup
 npm run test:create
 npm run test:where
 npm run test:configure
@@ -90,9 +109,13 @@ Many thanks to the creators and contributors of these great npm projects:
   - [inquirer-interrupted-prompt](https://github.com/lnquy065/inquirer-interrupted-prompt) for bailing out of the wizard with the Escape key
   - [inquirer-file-tree-selection-prompt](https://github.com/anc95/inquirer-file-tree-selection) for an intuitive file-picker from the command line
 - [replace-in-file](https://github.com/adamreisnz/replace-in-file) for quickly replacing the "hatchedegg" identifier
+- [fast-glob](https://github.com/mrmlnc/fast-glob) for finding patch files
+- [jest](https://jestjs.io/) for unit-testing the CLI code
+  - [ts-jest](https://kulshekhar.github.io/ts-jest/) for writing tests as TypeScript
+  - [ts-jest-resolver](https://github.com/VitorLuizC/ts-jest-resolver) for supporting `.js` extensions in `ts-jest`-based tests.
 
 Special thanks to [nodejs.org](https://nodejs.org) for a fantastic JavaScript command-line application.
 
 Of course, the largest thanks go out to [Mozilla](https://mozilla.org).  Twenty years, and a career I've built so far on your code.  I still have the red-star t-shirt from the Mozilla 1.0 release party in 2002, even if it doesn't fit anymore.
 
-[s/love/code/](https://www.youtube.com/watch?v=nUCoYcxNMBE)
+[s/love/code/g](https://www.youtube.com/watch?v=nUCoYcxNMBE)

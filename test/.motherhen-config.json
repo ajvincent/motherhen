@@ -1,11 +1,57 @@
 {
-  "default": {
-    "vanilla": {
-      "tag": "central"
+  "formatVersion": "1.0.0",
+  "sources": {
+    "(default)": [
+      "hatchedegg"
+    ]
+  },
+  "patches": {
+    "(default)": {
+      "globs": [
+        "**/*.patch"
+      ],
+      "commitMode": "none",
+      "commitMessage": null
+    }
+  },
+  "integrations": {
+    "(default)": {
+      "vanillaTag": "release",
+      "sourceKey": "(default)",
+      "patchKey": "(default)",
+      "targetDirectory": "integrations/release"
     },
-    "integration": {
-      "path": "./checkouts/mozilla-hatchedEgg",
-      "mozconfig": "./newapp-sym.mozconfig"
+    "central": {
+      "vanillaTag": "central",
+      "sourceKey": "(default)",
+      "patchKey": "(default)",
+      "targetDirectory": "integrations/central"
+    }
+  },
+  "projects": {
+    "default": {
+      "integrationKey": "(default)",
+      "mozconfig": "optimized",
+      "appDir": "hatchedegg",
+      "displayAppName": "Hatched Egg (release)"
+    },
+    "central": {
+      "integrationKey": "central",
+      "mozconfig": "optimized",
+      "appDir": "hatchedegg",
+      "displayAppName": "Hatched Egg (central)"
+    }
+  },
+  "firefoxes": {
+    "optimized": {
+      "vanillaTag": "release",
+      "buildType": "optimized",
+      "targetDirectory": "integrations/firefox-clean"
+    },
+    "central-optimized": {
+      "vanillaTag": "central",
+      "buildType": "optimized",
+      "targetDirectory": "integrations/firefox-central"
     }
   }
 }

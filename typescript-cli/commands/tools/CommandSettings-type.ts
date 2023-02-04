@@ -1,4 +1,5 @@
 export type CommandSettings = {
   relativePathToConfig: string,
-  project: string
+  project: string,
+  isFirefox: boolean,
 };

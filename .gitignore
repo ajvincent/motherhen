@@ -1,19 +1,18 @@
-# a temporary directory for test-build checkouts
-test/checkouts
+/node_modules
 
-# an object directory for test-compiled Mozilla code
-test/objdir
+/cli/**/*.mjs.map
+/cli/**/*.d.mts
+/cli/**/*.js.map
+/cli/**/*.d.ts
 
-node_modules
-
-cli/**/*.mjs.map
-cli/**/*.d.mts
-cli/**/*.js.map
-cli/**/*.d.ts
-
+/cli/__tests__
 
 # A directory for mozilla-unified to live in as a repository with no patches.
-.cleanroom
+/cleanroom/mozilla-unified
+
+# A default integrations directory.
+/integrations
+/test/integrations
 
 # the default location to configure a project
-.motherhen-config.json
+/.motherhen-config.json

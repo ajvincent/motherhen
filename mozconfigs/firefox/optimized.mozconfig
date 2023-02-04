@@ -1,0 +1,7 @@
+#
+# See http://www.mozilla.org/build/ for build instructions.
+#
+
+# Options for client.mk.
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../builds/fx-opt
+ac_add_options --enable-bootstrap

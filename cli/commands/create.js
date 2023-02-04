@@ -1,6 +1,9 @@
+import path from "path";
 import { cloneVanillaHg, createIntegrationHg } from "./tools/mercurial.js";
-import fileExists from "./tools/fileExists.js";
+import fileExists from "#cli/utilities/fileExists.js";
+import projectRoot from "#cli/utilities/projectRoot.js";
 import whereIsMyProject from "./where.js";
+import installMozconfig from "./tools/mozconfigs.js";
 /**
  * @param config - the configuration to use.
  * @param settings - the user's command-line settings.
@@ -8,11 +11,12 @@ import whereIsMyProject from "./where.js";
 export default async function createProject(config, settings) {
     let didSomething = false;
     // Vanilla checkout
-    if (!(await fileExists(config.vanilla.path, true))) {
+    const vanillaPath = path.resolve(projectRoot, "cleanroom/mozilla-unified");
+    if (!(await fileExists(vanillaPath, true))) {
         console.log("Vanilla checkout not found... cloning");
         console.group();
         try {
-            await cloneVanillaHg(config.vanilla);
+            await cloneVanillaHg(vanillaPath, config.vanillaTag);
             didSomething = true;
         }
         finally {
@@ -20,22 +24,25 @@ export default async function createProject(config, settings) {
         }
     }
     // Assertion: we must have the directory now.
-    if (!(await fileExists(config.vanilla.path, true))) {
+    if (!(await fileExists(vanillaPath, true))) {
         throw new Error("The vanilla checkout must exist now!");
     }
+    const targetDirectory = path.normalize(path.resolve(projectRoot, settings.relativePathToConfig, "..", config.targetDirectory));
+    const integrationRepo = path.join(targetDirectory, "mozilla-unified");
     // Integration repository
-    if (!(await fileExists(config.integration.path))) {
+    if (!(await fileExists(integrationRepo, true))) {
         console.log("Integration repository not found...");
         console.group();
         try {
-            await createIntegrationHg(config);
+            await createIntegrationHg(vanillaPath, integrationRepo, config, settings);
             didSomething = true;
         }
         finally {
             console.groupEnd();
         }
     }
-    await whereIsMyProject(config);
+    await installMozconfig(targetDirectory, config);
+    await whereIsMyProject(config, settings);
     console.log("\n" + `
 Congratulations!  You should now have a working integration repository.
 
@@ -44,7 +51,7 @@ pointing to your configuration.  Please see ./typescript-cli/commands/tools/Conf
 for the configuration format.
 ${didSomething ?
         `
-I've updated your repository to the ${config.vanilla.tag} tag.
+I've updated your repository to the ${config.vanillaTag} tag.
 
 I've applied a few small patches, but I haven't committed them yet.  I think it's up to you to decide how
 to manage this for now.
@@ -52,7 +59,7 @@ to manage this for now.
         : ""}
 To run mach commands:
 
-./cli/motherhen.js mach --config=${settings.relativePathToConfig}${settings.project !== "default" ? ` --project=${settings.project}` : ""} (command)
+./cli/motherhen.js mach --config=${settings.relativePathToConfig}${settings.project !== "default" ? ` --${config.isFirefox ? "firefox" : "project"}=${settings.project}` : ""} (command)
 
 Good luck!!
 `.trim());
