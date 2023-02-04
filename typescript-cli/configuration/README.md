@@ -49,7 +49,7 @@ Motherhen relies on a somewhat convoluted JSON structure for its configuration. 
 So how does this work?  A project key defines:
 
 - an integration key, which in turn defines:
-  - the "vanilla" base tag or bookmark to use for the repository ("central", "beta", "release", "esr102", etc.)
+  - the "vanilla" base tag or bookmark to use for the repository ("central", "beta", "release", "esr102", etc. or [any valid mozilla-unified tag](https://hg.mozilla.org/mozilla-unified/tags))
   - source directories to copy as subdirectories of `mozilla/motherhen/`
   - patches to apply to `mozilla` so the code can compile
   - the target directory where the repository and all build artifacts will go, relative to the Motherhen configuration's location

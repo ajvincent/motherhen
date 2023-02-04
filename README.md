@@ -21,7 +21,7 @@ Motherhen supports, out of the box:
 - Configuring and creating an integration repository.
 - Invoking `mach` in the integration repository.
 - Multiple Mozilla source tags.
-  - You can test your project code against release, beta, ESR, or central as you see fit from the same Motherhen repository.
+  - You can test your project code against [any valid mozilla-unified tag](https://hg.mozilla.org/mozilla-unified/tags) (release, beta, ESR, or central for example) as you see fit from the same Motherhen repository.
   - This allows for checking for regressions between major Firefox releases!
 - Multiple project source directories, so you can build more than one application.
 - Multiple patch sets to apply to Mozilla's code.
